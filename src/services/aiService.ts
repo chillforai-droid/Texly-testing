@@ -1,28 +1,34 @@
-import sharp from 'sharp';
+const AI_API_URL = '/api/ai';
 
-// AI Service - Now using external cloud APIs for heavy processing
-// TensorFlow/TFJS logic has been removed as per architecture upgrade
-
-export async function faceSwap(sourceBuffer: Buffer, targetBuffer: Buffer): Promise<Buffer> {
-  // This function is now handled by the external FastAPI backend
-  // The frontend calls the FastAPI backend directly
-  throw new Error('Face swap is now handled by the external cloud API');
+interface AIResponse {
+  result?: string;
+  error?: string;
 }
 
-export async function removeBackground(imageBuffer: Buffer): Promise<Buffer> {
-  // This function is now handled by the external FastAPI backend
-  throw new Error('Background removal is now handled by the external cloud API');
-}
+export async function getAIResponse(prompt: string): Promise<string> {
+  try {
+    const response = await fetch(AI_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ prompt }),
+    });
 
-export async function enhanceImage(imageBuffer: Buffer): Promise<Buffer> {
-  return sharp(imageBuffer)
-    .modulate({ brightness: 1.05, saturation: 1.1 })
-    .sharpen()
-    .toBuffer();
-}
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'AI request failed');
+    }
 
-export async function compressImage(imageBuffer: Buffer, quality: number = 60): Promise<Buffer> {
-  return sharp(imageBuffer)
-    .jpeg({ quality })
-    .toBuffer();
+    const data: AIResponse = await response.json();
+
+    if (!data.result) {
+      throw new Error('No result from AI');
+    }
+
+    return data.result;
+  } catch (error) {
+    console.error('AI service error:', error);
+    throw error;
+  }
 }
