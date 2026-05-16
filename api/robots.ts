@@ -1,5 +1,8 @@
-export default function handler(req: any, res: any) {
-  const baseUrl = process.env.BASE_URL || "https://www.texlyonline.in";
-  res.setHeader("Content-Type", "text/plain");
-  res.status(200).send(`User-agent: *\nAllow: /\n\nSitemap: ${baseUrl}/sitemap.xml`.trim());
+import { VercelRequest, VercelResponse } from '@vercel/node';
+
+export default function handler(req: VercelRequest, res: VercelResponse) {
+  res.setHeader('Content-Type', 'text/plain');
+  res.send(`User-agent: *
+Allow: /
+Sitemap: https://yourdomain.com/sitemap.xml`);
 }
