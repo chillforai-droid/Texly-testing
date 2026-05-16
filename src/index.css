@@ -1,57 +1,37 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
-@import "tailwindcss";
-
-@theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #1f2937;
+  --muted: #f9fafb;
+  --muted-foreground: #6b7280;
+  --accent: #10b981;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #3b82f6;
+  --radius: 0.5rem;
 }
 
-@variant dark (&:where(.dark, .dark *));
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
 
-@layer base {
-  :root {
-    color-scheme: light;
-  }
-  
-  body {
-    @apply font-sans antialiased text-slate-900 bg-slate-50 overflow-x-hidden;
-  }
+/* Remove all dark mode classes and styles */
+.dark {
+  /* Not used */
+}
 
-  .prose h1 {
-    @apply text-4xl sm:text-5xl font-black text-slate-900 dark:text-white mb-8 tracking-tight;
-  }
-  .prose h2 {
-    @apply text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mt-16 mb-8 tracking-tight;
-  }
-  .prose h3 {
-    @apply text-xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4;
-  }
-  .prose p {
-    @apply text-slate-600 dark:text-slate-400 leading-relaxed mb-8 text-lg;
-  }
-  .prose ul, .prose ol {
-    @apply mb-10 ml-6 space-y-4;
-  }
-  .prose li {
-    @apply text-slate-600 dark:text-slate-400 text-lg leading-relaxed;
-  }
-  .prose strong {
-    @apply text-slate-900 dark:text-white font-bold;
-  }
-  .prose blockquote {
-    @apply border-l-4 border-blue-500 pl-6 italic text-slate-700 dark:text-slate-300 my-10;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-transparent;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-slate-200 dark:bg-slate-700 rounded-full;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-slate-300 dark:bg-slate-600;
-  }
+/* Ensure no dark mode overrides */
+* {
+  transition: background-color 0.1s, color 0.1s;
 }
