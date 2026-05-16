@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 
-type Theme = 'light' | 'dark';
+type Theme = 'light';
 
 interface ThemeContextType {
   theme: Theme;
@@ -9,33 +9,28 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const theme: Theme = 'light';
-
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    const root = window.document.documentElement;
-    root.classList.remove('dark');
+    // Always ensure the dark class is removed from the document element
+    document.documentElement.classList.remove('dark');
     localStorage.setItem('theme', 'light');
-    
-    // Force light color scheme
-    root.style.colorScheme = 'light';
   }, []);
 
   const toggleTheme = () => {
-    console.log('Theme toggle is disabled.');
+    // No-op: Dark mode is disabled
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme: 'light', toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
-};
+}
 
-export const useTheme = () => {
+export function useTheme() {
   const context = useContext(ThemeContext);
   if (context === undefined) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;
-};
+}
