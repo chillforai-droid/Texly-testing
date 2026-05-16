@@ -1,53 +1,45 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Language, translations, Translations } from '../data/translations';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { translations } from '../data/translations';
+
+type Language = 'en' | 'de';
 
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: Translations;
+  t: (key: string) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguageState] = useState<Language>('en');
+export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [language, setLanguage] = useState<Language>('en');
 
-  useEffect(() => {
-    // Check for saved preference
-    const savedLang = localStorage.getItem('texly_language') as Language;
-    if (savedLang && ['en', 'hi', 'hn'].includes(savedLang)) {
-      setLanguageState(savedLang);
-    } else {
-      // Automatic detection
-      const browserLang = navigator.language.toLowerCase();
-      if (browserLang.startsWith('hi')) {
-        setLanguageState('hi');
-      } else if (browserLang.includes('in')) {
-        // If from India, maybe default to Hinglish or Hindi
-        // But let's stick to browser language code for now
-        // Or just default to English but allow manual switch
-        setLanguageState('en');
-      }
+  const t = (key: string): string => {
+    const langData = translations[language];
+    if (langData && langData[key]) {
+      return langData[key];
     }
-  }, []);
-
-  const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
-    localStorage.setItem('texly_language', lang);
+    // Fallback to English if key missing or language not available
+    const enData = translations['en'];
+    if (enData && enData[key]) {
+      return enData[key];
+    }
+    console.warn(`Missing translation key: ${key}`);
+    return key;
   };
 
-  const t = translations[language];
+  const value: LanguageContextType = { language, setLanguage, t };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );
 };
 
-export const useLanguage = () => {
+export const useLanguage = (): LanguageContextType => {
   const context = useContext(LanguageContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useLanguage must be used within a LanguageProvider');
   }
   return context;
