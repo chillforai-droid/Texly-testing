@@ -1916,7 +1916,165 @@ export default function SiteGuardPage() {
             )}
           </div>
         </div>
+      </div>      
+
+         {/* Main content */}
+      <div className="max-w-6xl mx-auto px-4 py-8">
+
+        {/* Error banner */}
+        {error && (
+          <div className="flex items-center justify-between gap-3 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 rounded-2xl px-4 py-3 mb-6">
+            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+            <button onClick={() => setError('')} className="text-red-400 hover:text-red-600"><X className="w-4 h-4" /></button>
+          </div>
+        )}
+
+        {/* Settings view */}
+        {view === 'settings' && (
+          <SettingsPanel onSave={() => { setHasKeys(true); setView('dashboard'); fetchWebsites(); }} />
+        )}
+
+        {/* Fix view */}
+        {view === 'fix' && selectedScan && selectedWebsite && (
+          <AIFixPanel
+            scan={selectedScan}
+            website={selectedWebsite}
+            onBack={() => { setView('results'); }}
+          />
+        )}
+
+        {/* Editor view */}
+        {view === 'editor' && selectedWebsite && (
+          <AIFixPanel
+            scan={null}
+            website={selectedWebsite}
+            onBack={() => { setView('dashboard'); setSelectedWebsite(null); }}
+          />
+        )}
+
+        {/* Dashboard view */}
+        {view === 'dashboard' && (
+          <>
+            {/* Setup prompt */}
+            {!hasKeys && (
+              <div className="text-center py-16">
+                <div className="w-20 h-20 bg-blue-50 dark:bg-blue-900/20 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                  <ShieldCheck className="w-10 h-10 text-blue-600 dark:text-blue-400" />
+                </div>
+                <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-3">Set up SiteGuard AI</h2>
+                <p className="text-slate-500 dark:text-slate-400 mb-6 max-w-md mx-auto">
+                  Set your Monitor API key to start tracking websites for uptime, security, and code issues.
+                </p>
+                <button
+                  onClick={() => setView('settings')}
+                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-2xl transition-colors"
+                >
+                  Open Settings →
+                </button>
+              </div>
+            )}
+
+            {hasKeys && (
+              <>
+                {/* Stats */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                  {[
+                    { label: 'Total', value: stats.total, color: 'text-slate-900 dark:text-white', bg: 'bg-white dark:bg-slate-900' },
+                    { label: 'Healthy', value: stats.healthy, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
+                    { label: 'Issues', value: stats.issues, color: 'text-red-600 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-900/20' },
+                    { label: 'Pending', value: stats.pending, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20' },
+                  ].map(s => (
+                    <div key={s.label} className={`${s.bg} border border-slate-100 dark:border-slate-800 rounded-2xl p-5`}>
+                      <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{s.label}</div>
+                      <div className={`text-3xl font-black ${s.color}`}>{s.value}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Websites grid */}
+                {loading && (
+                  <div className="text-center py-16">
+                    <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-3" />
+                    <p className="text-slate-400">Loading websites...</p>
+                  </div>
+                )}
+
+                {!loading && websites.length === 0 && (
+                  <div className="text-center py-16">
+                    <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                      <Globe className="w-8 h-8 text-blue-500" />
+                    </div>
+                    <h3 className="text-xl font-black text-slate-900 dark:text-white mb-2">No websites yet</h3>
+                    <p className="text-slate-400 mb-5">Add your first website to start monitoring</p>
+                    <button
+                      onClick={() => setShowAddModal(true)}
+                      className="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-2xl transition-colors"
+                    >
+                      <Plus className="w-4 h-4 inline mr-2" /> Add Website
+                    </button>
+                  </div>
+                )}
+
+                {!loading && websites.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {websites.map(w => (
+                      <WebsiteCard
+                        key={w.id}
+                        website={w}
+                        scanning={scanningIds.has(w.id)}
+                        onSelect={site => { setSelectedWebsite(site); setView('results'); }}
+                        onScan={triggerScan}
+                        onDelete={deleteWebsite}
+                        onOpenEditor={(site) => { setSelectedWebsite(site); setView('editor'); }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </>
+        )}
+
+        {/* Scan Results view */}
+        {view === 'results' && selectedWebsite && (
+          <ScanResultsView
+            website={selectedWebsite}
+            onBack={() => { setView('dashboard'); setSelectedWebsite(null); }}
+            onOpenFix={(scan) => { setSelectedScan(scan); setView('fix'); }}
+            onOpenEditor={(w) => { setSelectedWebsite(w); setView('editor'); }}
+          />
+        )}
       </div>
 
-      {/* Main content */}
-      <div className="max-w-6xl mx-auto px-4></div>
+      {/* How it works — SEO section */}
+      {view === 'dashboard' && (
+        <section className="border-t border-slate-100 dark:border-slate-800 mt-12 py-12">
+          <div className="max-w-6xl mx-auto px-4">
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-8 text-center">How SiteGuard AI Works</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {[
+                { icon: <Plus className="w-6 h-6" />, title: '1. Add Your Website', desc: 'Enter your site URL and optional GitHub repo for code scanning.', color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' },
+                { icon: <Zap className="w-6 h-6" />, title: '2. AI Scans It', desc: 'AI checks uptime, security headers, broken links, and code issues.', color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' },
+                { icon: <ShieldCheck className="w-6 h-6" />, title: '3. Get Fix Suggestions', desc: 'Receive AI-powered recommendations and auto-fix options.', color: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' },
+              ].map(s => (
+                <div key={s.title} className="text-center p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800">
+                  <div className={`w-14 h-14 ${s.color} rounded-2xl flex items-center justify-center mx-auto mb-4`}>{s.icon}</div>
+                  <h3 className="font-black text-slate-900 dark:text-white mb-2">{s.title}</h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{s.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Add Website Modal */}
+      {showAddModal && (
+        <AddWebsiteModal
+          onClose={() => setShowAddModal(false)}
+          onAdded={fetchWebsites}
+        />
+      )}
+    </div>
+  );
+}
