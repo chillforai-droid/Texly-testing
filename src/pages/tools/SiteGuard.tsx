@@ -1919,4 +1919,4 @@ export default function SiteGuardPage() {
       </div>
 
       {/* Main content */}
-      <div className="max-w-6xl mx-auto px-4 
+      <div className="max-w-6xl mx-auto px-4></div>
