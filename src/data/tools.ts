@@ -1245,7 +1245,33 @@ export const PDF_TOOLS: Tool[] = [
   }
 ];
 
-const AI_TEXT_TOOLS: Tool[] = [];
+const AI_TEXT_TOOLS: Tool[] = [
+  {
+    id: 'invisible-text-suite',
+    name: 'Invisible Text Generator & Blank Message Tool — 5-in-1 Free ⚡',
+    slug: 'invisible-text-suite',
+    category: 'generator',
+    shortDescription: 'Generate invisible text, send blank WhatsApp messages, create Discord invisible names & fancy fonts — all free, 1-click copy.',
+    description: 'The ultimate 5-in-1 invisible text toolkit. Generate invisible Unicode characters, copy blank text, send blank WhatsApp messages, create invisible Discord names, and style text with fancy fonts. 100% free, no signup, instant copy.',
+    icon: 'EyeOff',
+    keywords: [
+      'invisible text generator',
+      'blank text copy',
+      'whatsapp blank message',
+      'discord invisible name',
+      'fancy font generator',
+      'invisible character copy paste',
+      'send blank message whatsapp',
+      'empty text generator',
+      'blank message sender',
+      'invisible text copy',
+    ],
+    primaryKeyword: 'invisible text generator',
+    secondaryKeywords: ['blank text copy', 'whatsapp blank message', 'discord invisible name', 'fancy font generator'],
+    isAI: false,
+    process: (s) => s,
+  },
+];
 
 
 export const ALL_TOOLS = [...TOOLS, ...additionalTools, ...AI_TEXT_TOOLS, ...PDF_TOOLS];

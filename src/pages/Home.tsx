@@ -35,7 +35,7 @@ const categoryIcons: Record<string, React.ReactNode> = {
   generator: <Layers className="w-4 h-4" />,
 };
 
-const VIRAL_IDS = ['whatsapp-text-formatter', 'number-to-words'];
+const VIRAL_IDS = ['invisible-text-suite', 'whatsapp-text-formatter', 'number-to-words'];
 
 const STATS = [
   { value: '100+', label: 'Free Tools' },
@@ -241,7 +241,7 @@ const HomePage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
             {viralTools.map((tool, idx) => (
-              <Link key={tool.id} to={`/tool/${tool.slug}`}
+              <Link key={tool.id} to={getToolPath(tool)}
                 className="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-red-300 dark:hover:border-red-800/60 hover:shadow-2xl hover:shadow-red-500/10 transition-all duration-300 hover:-translate-y-1">
                 {/* Top accent line */}
                 <div className="h-1 w-full bg-gradient-to-r from-red-500 to-orange-500" />

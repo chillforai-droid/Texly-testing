@@ -59,6 +59,22 @@ export default async function handler(req: any, res: any) {
       xml += `\n  <url>\n    <loc>${baseUrl}${p.path}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${p.changefreq}</changefreq>\n    <priority>${p.priority}</priority>\n  </url>`;
     });
 
+    // ── Special AI/Generator Tools — /tools/ path ─────────────────────────────
+    const specialToolSlugs = [
+      "invisible-text-suite",
+      "ai-text-suite",
+      "face-swap",
+      "bg-remover",
+      "enhancer",
+      "compressor",
+      "image-upscale",
+      "image-generator",
+      "snapchat-tag-generator",
+    ];
+    specialToolSlugs.forEach(slug => {
+      xml += `\n  <url>\n    <loc>${baseUrl}/tools/${slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>\n  </url>`;
+    });
+
     // Tools
     const toolsLastmod = "2025-12-01";
     toolSlugs.forEach(slug => {

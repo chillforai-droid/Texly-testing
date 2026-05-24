@@ -85,6 +85,7 @@ const SnapchatTagGenerator = lazy(
 );
 const AIToolPlaceholder = lazy(() => import('./pages/tools/AIToolPlaceholder'));
 const AITextSuite = lazy(() => import('./pages/tools/AITextSuite'));
+const InvisibleTextSuite = lazy(() => import('./pages/tools/InvisibleTextSuite'));
 const DevStudioPage = lazy(() => import('./components/DevStudio'));
 const AIAutomation = lazy(() => import('./pages/AIAutomation'));
 // AI SEO Automation Panel द्वारा push किए गए programmatic landing pages
@@ -494,6 +495,14 @@ function AppContent() {
               element={
                 <RouteErrorBoundary>
                   <SnapchatTagGenerator />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/tools/invisible-text-suite"
+              element={
+                <RouteErrorBoundary>
+                  <InvisibleTextSuite />
                 </RouteErrorBoundary>
               }
             />
