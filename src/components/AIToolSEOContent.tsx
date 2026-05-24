@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { 
   CheckCircle2, 
   HelpCircle, 
@@ -31,18 +30,15 @@ const AIToolSEOContent: React.FC<AIToolSEOContentProps> = ({ toolId }) => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {seoData.howToUse.map((step, index) => (
-              <motion.div 
+              <div 
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
                 className="relative p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 shadow-sm"
               >
                 <div className="absolute -top-4 -left-4 w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-black text-white shadow-lg shadow-blue-600/20">
                   {index + 1}
                 </div>
                 <p className="text-slate-700 dark:text-slate-300 font-medium leading-relaxed">{step}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </section>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { MessageSquare, Send, User, Trash2, Heart, AlertCircle, Loader2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -223,19 +222,16 @@ const CommentSection: React.FC<CommentSectionProps> = ({ targetId, targetType, t
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <AnimatePresence>
+          
             {showSuccess && (
-              <motion.span
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
+              <span
                 className="text-emerald-600 dark:text-emerald-400 text-xs sm:text-sm font-black flex items-center gap-2"
               >
                 <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
                 {t.comments.postedSuccess}
-              </motion.span>
+              </span>
             )}
-          </AnimatePresence>
+          
           
           <button
             type="submit"
@@ -264,14 +260,10 @@ const CommentSection: React.FC<CommentSectionProps> = ({ targetId, targetType, t
             <p className="text-slate-500 dark:text-slate-400 font-bold text-sm">{t.comments.loading}</p>
           </div>
         ) : (
-          <AnimatePresence initial={false}>
+          
             {comments.map((comment) => (
-              <motion.div
+              <div
                 key={comment.id}
-                layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
                 className="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-3xl border border-slate-100 dark:border-slate-800 group hover:border-slate-200 dark:hover:border-slate-700 transition-all"
               >
                 <div className="flex items-start justify-between gap-4 mb-4">
@@ -308,9 +300,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({ targetId, targetType, t
                     {comment.likes}
                   </button>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </AnimatePresence>
+          
         )}
 
         {!loading && comments.length === 0 && (

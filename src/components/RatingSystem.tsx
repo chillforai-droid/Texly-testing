@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Star } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 
 interface RatingSystemProps {
@@ -143,18 +142,15 @@ const RatingSystem: React.FC<RatingSystemProps> = ({ toolId, theme, onRatingLoad
         </div>
       </div>
 
-      <AnimatePresence>
+      
         {showThankYou && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+          <div
             className="mt-4 p-3 bg-emerald-50 text-emerald-700 text-center rounded-xl text-sm font-bold border border-emerald-100"
           >
             Thank you for your rating!
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      
       
       {hasRated && !showThankYou && (
         <p className="mt-4 text-center text-xs text-slate-400 font-medium italic">

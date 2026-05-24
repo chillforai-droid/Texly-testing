@@ -1,6 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { shouldReduceAnimations } from '../utils/browserCompat';
 import { Link } from 'react-router-dom';
 import { 
   Sparkles, 
@@ -72,11 +70,7 @@ const AITools = () => {
         <div className="hidden sm:block absolute -top-24 -left-24 w-96 h-96 bg-purple-600/5 dark:bg-purple-600/10 blur-[100px] rounded-full pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="texly-fade-in">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-black uppercase tracking-widest mb-8">
               <Sparkles className="w-4 h-4" />
               Next-Gen AI Platform
@@ -88,7 +82,7 @@ const AITools = () => {
             <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
               Experience professional-grade AI image processing tools running locally on our servers. No subscriptions, no hidden costs, just pure open-source power.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -97,12 +91,7 @@ const AITools = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {AI_TOOLS.map((tool, index) => (
-              <motion.div
-                key={tool.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.08, duration: 0.4 }}
-              >
+              <div key={tool.id} className="texly-fade-in">
                 <Link 
                   to={tool.path}
                   className="group relative block h-full p-8 rounded-[2.5rem] bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 hover:border-blue-500/50 transition-all duration-500 shadow-sm hover:shadow-xl dark:backdrop-blur-xl overflow-hidden"
@@ -134,7 +123,7 @@ const AITools = () => {
                     </div>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

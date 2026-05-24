@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useDropzone } from 'react-dropzone';
 import imageCompression from 'browser-image-compression';
 import { 
@@ -160,9 +159,7 @@ const ImageCompressor = () => {
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+          <div
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 dark:text-orange-400 text-sm font-bold mb-6">
               <Zap className="w-4 h-4" />
@@ -174,7 +171,7 @@ const ImageCompressor = () => {
             <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
               Reduce image file size instantly while maintaining professional quality. All processing happens in your browser for maximum privacy.
             </p>
-          </motion.div>
+          </div>
         </div>
 
         {/* Main Interface */}
@@ -286,12 +283,9 @@ const ImageCompressor = () => {
             </button>
 
             {/* Error Message */}
-            <AnimatePresence>
+            
               {error && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
+                <div
                   className="p-5 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-start gap-4"
                 >
                   <AlertCircle className="w-6 h-6 shrink-0" />
@@ -299,31 +293,26 @@ const ImageCompressor = () => {
                     <p className="font-black mb-1">Error</p>
                     <p className="text-sm opacity-80 leading-relaxed">{error}</p>
                   </div>
-                </motion.div>
+                </div>
               )}
-            </AnimatePresence>
+            
           </div>
 
           {/* Result Section */}
           <div className="relative">
             <div className="sticky top-32">
               <div className="aspect-video rounded-[3rem] bg-white dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800 overflow-hidden relative flex items-center justify-center backdrop-blur-sm shadow-xl">
-                <AnimatePresence mode="wait">
+                
                   {compressedImage ? (
-                    <motion.div
+                    <div
                       key="result"
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
                       className="w-full h-full relative group"
                     >
                       <img src={compressedImage} alt="Result" className="w-full h-full object-contain" />
-                    </motion.div>
+                    </div>
                   ) : loading ? (
-                    <motion.div
+                    <div
                       key="loading"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
                       className="flex flex-col items-center gap-8"
                     >
                       <div className="w-24 h-24 border-4 border-orange-500/20 border-t-orange-500 rounded-full animate-spin" />
@@ -331,7 +320,7 @@ const ImageCompressor = () => {
                         <p className="text-2xl font-black mb-2">Optimizing...</p>
                         <p className="text-slate-500">Reducing file size locally</p>
                       </div>
-                    </motion.div>
+                    </div>
                   ) : (
                     <div className="text-center p-12">
                       <div className="w-24 h-24 rounded-[2.5rem] bg-slate-100 dark:bg-slate-900 flex items-center justify-center mx-auto mb-8 border border-slate-200 dark:border-slate-800">
@@ -341,15 +330,13 @@ const ImageCompressor = () => {
                       <p className="text-slate-500 dark:text-slate-600 max-w-[240px] mx-auto">Upload an image and click compress to see the optimized result.</p>
                     </div>
                   )}
-                </AnimatePresence>
+                
               </div>
 
               {/* Success Badge & Actions */}
               {compressedImage && compressedFile && (
                 <div className="mt-6 flex flex-col gap-4">
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
+                  <div
                     className="px-6 py-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl flex flex-col gap-2 shadow-xl"
                   >
                     <div className="flex items-center justify-center gap-2 font-black text-sm">
@@ -360,7 +347,7 @@ const ImageCompressor = () => {
                       <span>New Size: {formatSize(compressedFile.size)}</span>
                       <span className="text-emerald-500">Saved: {compressionRatio}%</span>
                     </div>
-                  </motion.div>
+                  </div>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <button 

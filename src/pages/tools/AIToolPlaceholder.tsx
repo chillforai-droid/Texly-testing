@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Wrench, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -16,9 +15,7 @@ const AIToolPlaceholder = ({ name, description }: Props) => {
         <title>{name} - Texly AI</title>
       </Helmet>
       <div className="max-w-md w-full text-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+        <div
           className="p-12 rounded-[3rem] bg-slate-900/50 border border-slate-800 backdrop-blur-xl"
         >
           <div className="w-20 h-20 rounded-[2rem] bg-blue-500/10 flex items-center justify-center mx-auto mb-8">
@@ -35,7 +32,7 @@ const AIToolPlaceholder = ({ name, description }: Props) => {
             <ArrowLeft className="w-5 h-5" />
             Back to AI Hub
           </Link>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

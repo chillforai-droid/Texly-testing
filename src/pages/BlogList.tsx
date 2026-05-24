@@ -4,7 +4,6 @@ import { BlogPost } from '../data/blog';
 import { getBlogs } from '../utils/blogStorage';
 import { translateBlogs } from '../services/translationService';
 import { Calendar, User, Clock, ArrowRight, ChevronLeft, ChevronRight, Filter, Search, Mail, Sparkles } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
 
 const POSTS_PER_PAGE = 6;
@@ -134,10 +133,7 @@ const BlogList: React.FC = () => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+            <div
             >
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider mb-6">
                 <Sparkles className="w-3 h-3" />
@@ -149,7 +145,7 @@ const BlogList: React.FC = () => {
               <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
                 {t.blog.subtitle}
               </p>
-            </motion.div>
+            </div>
           </div>
 
           {/* Search & Filter Bar */}
@@ -229,9 +225,7 @@ const BlogList: React.FC = () => {
           <>
             {/* Featured Post */}
             {featuredPost && currentPage === 1 && (
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
+              <div
                 className="mb-24"
               >
                 <Link to={`/blog/${featuredPost.slug}`} className="group relative block bg-white dark:bg-slate-900 rounded-[40px] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-2xl shadow-slate-200/50 dark:shadow-slate-950/50 hover:shadow-blue-200/30 dark:hover:shadow-blue-900/20 transition-all duration-500">
@@ -269,19 +263,15 @@ const BlogList: React.FC = () => {
                     </div>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             )}
 
             {/* Blog Grid */}
             <div id="blog-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-              <AnimatePresence>
+              
                 {paginatedBlogs.map((post, index) => (
-                  <motion.article
+                  <article
                     key={post.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.4, delay: index * 0.05 }}
                     className="group flex flex-col bg-white dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 overflow-hidden hover:shadow-2xl hover:shadow-slate-200/50 dark:hover:shadow-slate-950/50 transition-all duration-500"
                   >
                     <Link to={`/blog/${post.slug}`} className="flex flex-col h-full">
@@ -325,9 +315,9 @@ const BlogList: React.FC = () => {
                         </div>
                       </div>
                     </Link>
-                  </motion.article>
+                  </article>
                 ))}
-              </AnimatePresence>
+              
             </div>
 
             {/* Pagination Controls */}
@@ -390,13 +380,11 @@ const BlogList: React.FC = () => {
           </p>
           
           {isSubscribed ? (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
+            <div
               className="bg-emerald-500/10 border border-emerald-500/20 p-6 rounded-[32px] text-emerald-400 font-bold"
             >
               Awesome! You're now subscribed to our newsletter.
-            </motion.div>
+            </div>
           ) : (
             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
               <input

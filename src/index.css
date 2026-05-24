@@ -350,3 +350,25 @@ nav[aria-label="Global Navigation"] {
 .dark .blog-html-content *[style*="color: #222"] {
   color: #cbd5e1 !important;
 }
+
+/* ── CSS Fade-in animations (framer-motion replacement) ── */
+@keyframes texly-fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.texly-fade-in {
+  animation: texly-fade-up 0.5s ease-out both;
+}
+
+/* Stagger children automatically */
+.texly-fade-in:nth-child(1) { animation-delay: 0.05s; }
+.texly-fade-in:nth-child(2) { animation-delay: 0.10s; }
+.texly-fade-in:nth-child(3) { animation-delay: 0.15s; }
+.texly-fade-in:nth-child(4) { animation-delay: 0.20s; }
+.texly-fade-in:nth-child(5) { animation-delay: 0.25s; }
+
+/* ── Respect reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .texly-fade-in { animation: none !important; }
+}

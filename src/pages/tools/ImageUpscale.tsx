@@ -1,5 +1,4 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useDropzone } from 'react-dropzone';
 import { 
   Upload, 
@@ -170,9 +169,7 @@ const ImageUpscale = () => {
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+          <div
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-sm font-bold mb-6">
               <Maximize className="w-4 h-4" />
@@ -184,7 +181,7 @@ const ImageUpscale = () => {
             <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
               Increase image resolution and enhance quality instantly. Our AI intelligently reconstructs details for crystal clear results.
             </p>
-          </motion.div>
+          </div>
         </div>
 
         {/* Main Interface */}
@@ -247,12 +244,9 @@ const ImageUpscale = () => {
             </button>
 
             {/* Error Message */}
-            <AnimatePresence>
+            
               {error && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
+                <div
                   className="p-5 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-start gap-4"
                 >
                   <AlertCircle className="w-6 h-6 shrink-0" />
@@ -260,9 +254,9 @@ const ImageUpscale = () => {
                     <p className="font-black mb-1">Processing Error</p>
                     <p className="text-sm opacity-80 leading-relaxed">{error}</p>
                   </div>
-                </motion.div>
+                </div>
               )}
-            </AnimatePresence>
+            
 
             {/* Info Card */}
             <div className="p-6 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 backdrop-blur-sm shadow-sm">
@@ -284,12 +278,10 @@ const ImageUpscale = () => {
           <div className="relative">
             <div className="sticky top-32">
               <div className="aspect-square rounded-[3rem] bg-white dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800 overflow-hidden relative flex items-center justify-center backdrop-blur-sm shadow-xl">
-                <AnimatePresence mode="wait">
+                
                   {resultImage ? (
-                    <motion.div
+                    <div
                       key="result"
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
                       className="w-full h-full relative group"
                     >
                       <BeforeAfterSlider 
@@ -297,13 +289,10 @@ const ImageUpscale = () => {
                         afterImage={resultImage} 
                         className="w-full h-full"
                       />
-                    </motion.div>
+                    </div>
                   ) : loading ? (
-                    <motion.div
+                    <div
                       key="loading"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
                       className="flex flex-col items-center gap-8"
                     >
                       <div className="relative">
@@ -317,12 +306,12 @@ const ImageUpscale = () => {
                         <p className="text-slate-500">Enhancing resolution via Neural Networks</p>
                       </div>
                       <div className="w-64 h-2 bg-slate-800 rounded-full overflow-hidden">
-                        <motion.div 
+                        <div 
                           className="h-full bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]"
                           animate={{ width: `${progress}%` }}
                         />
                       </div>
-                    </motion.div>
+                    </div>
                   ) : (
                     <div className="text-center p-12">
                       <div className="w-24 h-24 rounded-[2.5rem] bg-slate-100 dark:bg-slate-900 flex items-center justify-center mx-auto mb-8 border border-slate-200 dark:border-slate-800">
@@ -332,20 +321,18 @@ const ImageUpscale = () => {
                       <p className="text-slate-500 dark:text-slate-600 max-w-[240px] mx-auto">Upload an image and click upscale to see the high-resolution result.</p>
                     </div>
                   )}
-                </AnimatePresence>
+                
               </div>
 
               {/* Success Badge & Actions */}
               {resultImage && (
                 <div className="mt-6 flex flex-col gap-4">
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
+                  <div
                     className="px-6 py-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl font-black text-sm flex items-center justify-center gap-2 shadow-xl"
                   >
                     <CheckCircle2 className="w-5 h-5" />
                     IMAGE UPSCALED SUCCESSFULLY
-                  </motion.div>
+                  </div>
                   
                   {info && (
                     <div className="p-4 bg-slate-100 dark:bg-slate-900 rounded-2xl text-xs text-slate-500 font-mono">

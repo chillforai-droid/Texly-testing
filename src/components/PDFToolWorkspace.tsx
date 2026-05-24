@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, Reorder } from 'framer-motion';
 import { 
   Upload, FileText, Download, Loader2, AlertCircle, 
   CheckCircle2, Trash2, Lock, Type, RotateCw, 
@@ -521,37 +520,31 @@ export const PDFToolWorkspace: React.FC<PDFToolWorkspaceProps> = ({ toolId, tool
 
       {/* Password Protected Info Banner */}
       {isPasswordProtected && toolId === 'pdf-password-remover' && !error && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div
           className="p-6 bg-blue-50 border-2 border-blue-100 rounded-3xl flex items-center gap-4 text-blue-700"
         >
           <div className="p-2 bg-blue-100 rounded-xl">
             <Lock className="w-6 h-6" />
           </div>
           <p className="font-bold">🔒 Password-protected PDF detected. Enter the password above and click "Reload with Password" to preview, then click the Remove Password button to unlock.</p>
-        </motion.div>
+        </div>
       )}
 
       {/* Error Message */}
       {error && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div
           className="p-6 bg-rose-50 border-2 border-rose-100 rounded-3xl flex items-center gap-4 text-rose-600"
         >
           <div className="p-2 bg-rose-100 rounded-xl">
             <AlertCircle className="w-6 h-6" />
           </div>
           <p className="font-bold">{error}</p>
-        </motion.div>
+        </div>
       )}
 
       {/* Result Area */}
       {result && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
+        <div
           className="p-10 sm:p-20 bg-emerald-50 border-2 border-emerald-100 rounded-[3rem] text-center space-y-8 relative overflow-hidden"
         >
           <div className="w-24 h-24 rounded-[2rem] bg-emerald-600 flex items-center justify-center mx-auto shadow-2xl shadow-emerald-200 relative z-10">
@@ -587,7 +580,7 @@ export const PDFToolWorkspace: React.FC<PDFToolWorkspaceProps> = ({ toolId, tool
           {/* Decorative background elements */}
           <div className="hidden sm:block absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 blur-[120px] rounded-full -mr-48 -mt-48"></div>
           <div className="hidden sm:block absolute bottom-0 left-0 w-96 h-96 bg-teal-500/10 blur-[120px] rounded-full -ml-48 -mb-48"></div>
-        </motion.div>
+        </div>
       )}
     </div>
   );

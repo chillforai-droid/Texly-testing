@@ -30,7 +30,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
-import { MotionConfig } from 'framer-motion';
+
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -833,14 +833,10 @@ function App() {
       <HelmetProvider>
         <LanguageProvider>
           <ThemeProvider>
-            <MotionConfig
-              reducedMotion={reducedMotion ? 'always' : 'never'}
-            >
               <Router>
                 <ScrollToTop />
                 <AppContent />
               </Router>
-            </MotionConfig>
           </ThemeProvider>
         </LanguageProvider>
       </HelmetProvider>

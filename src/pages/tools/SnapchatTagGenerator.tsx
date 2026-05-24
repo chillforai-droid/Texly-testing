@@ -1,5 +1,4 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useDropzone } from 'react-dropzone';
 import { 
   Upload, 
@@ -185,14 +184,12 @@ const SnapchatTagGenerator = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+          <div
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-400/10 text-yellow-600 dark:text-yellow-400 text-sm font-bold mb-6 border border-yellow-400/20"
           >
             <Sparkles className="w-4 h-4" />
             <span>AUTHENTIC SNAPCHAT STYLE</span>
-          </motion.div>
+          </div>
           <h1 className="text-4xl sm:text-6xl font-black text-slate-900 dark:text-white mb-6 tracking-tight">
             Snapchat <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">Tag Generator</span>
           </h1>
@@ -328,12 +325,10 @@ const SnapchatTagGenerator = () => {
           {/* Result Area */}
           <div className="lg:col-span-8">
             <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none min-h-[500px] flex flex-col relative overflow-hidden">
-              <AnimatePresence mode="wait">
+              
                 {resultImage ? (
-                  <motion.div
+                  <div
                     key="result"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
                     className="flex-grow flex flex-col pt-8"
                   >
                     <div className="px-8 pb-8 flex-grow flex items-center justify-center bg-slate-50 dark:bg-slate-950/50">
@@ -375,13 +370,11 @@ const SnapchatTagGenerator = () => {
                         </button>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ) : (
                   <div {...getRootProps()} className="flex-grow flex cursor-pointer">
-                    <motion.div
+                    <div
                       key="empty"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
                       className="flex-grow flex flex-col items-center justify-center p-12 text-center"
                     >
                       <input {...getInputProps()} />
@@ -390,10 +383,10 @@ const SnapchatTagGenerator = () => {
                       </div>
                       <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4">Start by Uploading Image</h3>
                       <p className="text-slate-600 dark:text-slate-400 max-w-md">Drop your image here to add the "Restored from Snapchat" tag instantly.</p>
-                    </motion.div>
+                    </div>
                   </div>
                 )}
-              </AnimatePresence>
+              
             </div>
 
             {/* Rating & Share */}

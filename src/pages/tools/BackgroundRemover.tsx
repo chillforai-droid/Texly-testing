@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Upload, 
   Image as ImageIcon, 
@@ -160,9 +159,7 @@ const BackgroundRemover = () => {
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+          <div
           >
             <h1 className="text-4xl md:text-6xl font-black mb-6 bg-gradient-to-r from-blue-600 to-blue-400 dark:from-blue-400 dark:to-cyan-500 bg-clip-text text-transparent">
               AI Background Remover
@@ -170,7 +167,7 @@ const BackgroundRemover = () => {
             <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg">
               Remove backgrounds from any image instantly. 100% free, high precision, and processed on our secure servers.
             </p>
-          </motion.div>
+          </div>
         </div>
 
         {/* Main Interface */}
@@ -237,19 +234,16 @@ const BackgroundRemover = () => {
             </button>
 
             {/* Error Message */}
-            <AnimatePresence>
+            
               {error && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
+                <div
                   className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-center gap-3"
                 >
                   <AlertCircle className="w-5 h-5 shrink-0" />
                   <p className="text-sm font-bold">{error}</p>
-                </motion.div>
+                </div>
               )}
-            </AnimatePresence>
+            
 
             {/* Info Card */}
             <div className="p-6 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 backdrop-blur-sm shadow-sm">
@@ -271,12 +265,10 @@ const BackgroundRemover = () => {
           <div className="relative">
             <div className="sticky top-32">
               <div className="aspect-video rounded-[2.5rem] bg-white dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800 overflow-hidden relative flex items-center justify-center bg-[url('https://www.transparenttextures.com/patterns/checkerboard.png')] shadow-xl">
-                <AnimatePresence mode="wait">
+                
                   {resultImage ? (
-                    <motion.div
+                    <div
                       key="result"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
                       className="w-full h-full relative group"
                     >
                       <BeforeAfterSlider 
@@ -284,13 +276,10 @@ const BackgroundRemover = () => {
                         afterImage={resultImage} 
                         className="w-full h-full"
                       />
-                    </motion.div>
+                    </div>
                   ) : loading ? (
-                    <motion.div
+                    <div
                       key="loading"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
                       className="flex flex-col items-center gap-6"
                     >
                       <div className="relative">
@@ -302,12 +291,12 @@ const BackgroundRemover = () => {
                         <p className="text-slate-500 text-sm">Identifying subject and removing background</p>
                       </div>
                       <div className="w-48 h-2 bg-slate-800 rounded-full overflow-hidden">
-                        <motion.div 
+                        <div 
                           className="h-full bg-blue-500"
                           animate={{ width: `${progress}%` }}
                         />
                       </div>
-                    </motion.div>
+                    </div>
                   ) : (
                     <div className="text-center p-12">
                       <div className="w-20 h-20 rounded-[2rem] bg-slate-100 dark:bg-slate-900 flex items-center justify-center mx-auto mb-6 border border-slate-200 dark:border-slate-800">
@@ -317,20 +306,18 @@ const BackgroundRemover = () => {
                       <p className="text-slate-500 dark:text-slate-600 text-sm">Upload an image and click "Remove Background" to see the result.</p>
                     </div>
                   )}
-                </AnimatePresence>
+                
               </div>
 
               {/* Success Badge & Actions */}
               {resultImage && (
                 <div className="mt-6 flex flex-col gap-4">
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
+                  <div
                     className="px-6 py-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl font-black text-sm flex items-center justify-center gap-2 shadow-xl"
                   >
                     <CheckCircle2 className="w-5 h-5" />
                     BACKGROUND REMOVED SUCCESSFULLY
-                  </motion.div>
+                  </div>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <button 

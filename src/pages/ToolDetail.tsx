@@ -23,7 +23,6 @@ import {
   MessageCircle
 } from 'lucide-react';
 import DynamicIcon from '../components/LucideIcon';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import SEO from '../components/SEO';
 import { ALL_TOOLS } from '../data/tools';
@@ -403,14 +402,12 @@ const ToolPage: React.FC = () => {
           {/* blur-3xl decorations removed — mobile GPU paint → LCP delay fix */}
           
           <div className="text-center relative">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
+            <div
               className={`inline-flex items-center space-x-2 px-4 py-1.5 rounded-full ${theme.bg} ${theme.darkBg} ${theme.text} ${theme.darkSecondaryText} text-xs font-black uppercase tracking-widest mb-6 border ${theme.border} ${theme.darkBorder} shadow-sm`}
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span>{tool.hook || t.tool.defaultHook}</span>
-            </motion.div>
+            </div>
             
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-6 tracking-tight leading-[1.1]">
               {toolSEO?.h1 || tool.name}
@@ -430,17 +427,14 @@ const ToolPage: React.FC = () => {
                 { icon: ShieldCheck, text: t.tool.noSignup, color: 'text-emerald-500' },
                 { icon: Zap, text: t.tool.instantResult, color: 'text-amber-500' }
               ].map((item, i) => (
-                <motion.div 
+                <div 
                   key={i}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
                   className="flex items-center space-x-2 px-4 py-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow"
                   role="listitem"
                 >
                   <item.icon className={`w-4 h-4 ${item.color}`} aria-hidden="true" />
                   <span className="text-sm font-bold text-slate-700 dark:text-slate-300">{item.text}</span>
-                </motion.div>
+                </div>
               ))}
             </div>
 
@@ -940,12 +934,9 @@ const ToolPage: React.FC = () => {
                   </div>
 
                   {/* Output Section - Professional Look */}
-                  <AnimatePresence>
+                  
                     {(output || loading) && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 20 }}
+                      <div
                         className="space-y-6 pt-10 border-t border-slate-100 dark:border-slate-800 lg:pt-0 lg:border-t-0"
                       >
                         <div className="flex items-center justify-between">
@@ -1000,17 +991,14 @@ const ToolPage: React.FC = () => {
                             {output || t.tool.processing}
                           </pre>
                         </div>
-                      </motion.div>
+                      </div>
                     )}
-                  </AnimatePresence>
+                  
 
                   {/* Floating Copy Button — Mobile only, output आते ही नीचे दिखे */}
-                  <AnimatePresence>
+                  
                     {output && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 40 }}
+                      <div
                         className="lg:hidden fixed bottom-6 right-4 z-50"
                       >
                         <button
@@ -1028,9 +1016,9 @@ const ToolPage: React.FC = () => {
                             <><Copy className="w-4 h-4" aria-hidden="true" /><span>{t.tool.copy}</span></>
                           )}
                         </button>
-                      </motion.div>
+                      </div>
                     )}
-                  </AnimatePresence>
+                  
                 </div>
               )}
             </div>
