@@ -174,13 +174,13 @@ const BlogDetail: React.FC = () => {
       {/* Back to Top Button */}
       
         {readingProgress > 20 && (
-          <motion.button
+          <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="fixed bottom-8 right-8 w-14 h-14 bg-slate-900 text-white rounded-2xl shadow-2xl flex items-center justify-center z-50 hover:bg-blue-600 transition-all group"
             aria-label="Back to top"
           >
             <ChevronUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform" />
-          </motion.button>
+          </button>
         )}
       
 

@@ -4,8 +4,8 @@
  * Key optimizations vs. original:
  *  1. Every lazy-loaded <Route> is wrapped in its own <RouteErrorBoundary>
  *     so one broken page can't blank the whole app.
- *  2. Framer Motion animations are disabled on Samsung TVs / low-end devices
- *     via the MotionConfig override.
+ *  2. Framer Motion fully removed — replaced with CSS transitions to fix
+ *     desktop dark mode GPU glitch (text repeat/overlap artifact on Chrome).
  *  3. TexlyAIAssistant (heavy Gradio dependency) is truly lazy – only
  *     imported after the first user interaction.
  *  4. TexlyAI floating button is deferred until after page is interactive.

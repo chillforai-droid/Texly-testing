@@ -260,7 +260,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ targetId, targetType, t
             <p className="text-slate-500 dark:text-slate-400 font-bold text-sm">{t.comments.loading}</p>
           </div>
         ) : (
-          
+          <div className="space-y-4">
             {comments.map((comment) => (
               <div
                 key={comment.id}
@@ -302,7 +302,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ targetId, targetType, t
                 </div>
               </div>
             ))}
-          
+          </div>
         )}
 
         {!loading && comments.length === 0 && (
