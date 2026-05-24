@@ -77,14 +77,15 @@
   }
 
   /* ── Prevent horizontal overflow on mobile ── */
-  /* NOTE: Do NOT apply max-width:100% to pseudo-elements or blur-filter divs — breaks stacking context */
-  *:not(.blur-\[120px\]):not(.blur-\[100px\]):not(.blur-3xl):not(.blur-\[80px\]):not(.blur-\[60px\]):not(.blur-\[50px\]):not(.blur-\[30px\]):not(.blur-\[25px\]) {
-    max-width: 100%;
-  }
+  /* NOTE: Only apply to block-level media — NOT to divs/spans/pseudo-elements
+     Applying max-width:100% to gradient overlay divs (absolute positioned)
+     breaks their stacking context and causes GPU glitch lines in dark mode on Android Chrome */
   img, video, iframe, embed, object {
     max-width: 100%;
     height: auto;
   }
+  /* Prevent body-level overflow only */
+  body { overflow-x: hidden; }
 
   /* ── Samsung TV / Large screen baseline ── */
   /* NOTE: [class*="lg:hidden"] rule removed — it was hiding content on 1920px+ screens
@@ -162,6 +163,24 @@
   /* FIX: Sections with relative positioning need explicit stacking context on mobile */
   section.relative {
     isolation: isolate;
+  }
+
+  /* ── CRITICAL: Dark mode GPU glitch fix on Android Chrome ──
+     The main cause of horizontal static/noise lines in dark mode:
+     1. Absolute-positioned gradient overlay divs with near-zero opacity
+        create compositor layers that leak on scroll in Android WebKit.
+     2. Fix: force clean GPU layer with translateZ(0) + backface-visibility.
+     3. Also remove will-change from any absolute gradient overlays. */
+  .dark .absolute {
+    will-change: auto !important;
+  }
+  /* Gradient cards — clean compositing */
+  .dark .rounded-2xl,
+  .dark .rounded-3xl {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
 }
 

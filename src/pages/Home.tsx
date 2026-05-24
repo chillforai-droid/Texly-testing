@@ -184,8 +184,10 @@ const HomePage = () => {
         </section>
 
         {/* AI SECTION */}
-        <section className="mb-16 relative rounded-3xl overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-violet-950 p-8 sm:p-10">
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <section className="mb-16 rounded-3xl overflow-hidden" style={{background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #2e1065 100%)'}}>
+          <div className="relative p-8 sm:p-10">
+          {/* blur overlays — desktop only to prevent Android GPU glitch */}
+          <div className="hidden sm:block absolute inset-0 pointer-events-none overflow-hidden rounded-3xl">
             <div className="absolute -top-10 -right-10 w-64 h-64 bg-blue-500/15 rounded-full blur-[60px]" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-violet-500/15 rounded-full blur-[50px]" />
           </div>
@@ -214,6 +216,7 @@ const HomePage = () => {
               ))}
             </div>
           </div>
+          </div>
         </section>
 
         {/* CATEGORIES */}
@@ -232,7 +235,7 @@ const HomePage = () => {
                 return (
                   <button key={cat.id} onClick={() => setSelectedCategory(cat)}
                     className={`group relative overflow-hidden p-4 bg-white dark:bg-slate-900 border ${theme.border} rounded-2xl text-left hover:shadow-lg transition-all hover:-translate-y-1 cursor-pointer`}>
-                    <div className={`absolute top-0 right-0 w-16 h-16 bg-gradient-to-br ${theme.gradient} opacity-5 group-hover:opacity-10 rounded-bl-3xl transition-opacity`} />
+                    <div className={`hidden sm:block absolute top-0 right-0 w-16 h-16 bg-gradient-to-br ${theme.gradient} opacity-5 rounded-bl-3xl`} />
                     <div className={`w-9 h-9 ${theme.iconBg} rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
                       {categoryIcons[cat.id]}
                     </div>
@@ -273,7 +276,7 @@ const HomePage = () => {
               const isExternal = !!tool.externalUrl;
               const inner = (
                 <div className={`group relative flex flex-col h-full bg-white dark:bg-slate-900 border ${theme.border} rounded-2xl p-5 hover:shadow-xl hover:border-transparent transition-all overflow-hidden`}>
-                  <div className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${theme.gradient} opacity-[0.04] group-hover:opacity-[0.08] rounded-bl-[2rem] transition-opacity`} />
+                  <div className={`hidden sm:block absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${theme.gradient} opacity-[0.06] rounded-bl-[2rem]`} />
                   <span className={`absolute top-4 right-4 text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full ${theme.badge}`}>
                     {(t.categories as any)[tool.category]}
                   </span>
