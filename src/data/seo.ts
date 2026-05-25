@@ -3066,719 +3066,476 @@ const toolSpecificDetails: Record<string, ToolContent> = {
   },
   'face-swap': {
     title: 'AI Face Swap Online Free – Swap Faces in Photos Instantly ⚡',
-    metaDescription: 'Free AI face swap online — swap faces between photos instantly with realistic AI. No login, no signup, 100% free. Best face swapper tool online.',
-    h1: 'Free AI Face Swap Online - Instant 1-Click Face Swapper',
-    intro: 'Our AI Face Swap tool uses advanced deep learning to seamlessly transpose facial features between photos with professional-grade realism. The model identifies facial landmarks — eye positions, nose geometry, jawline, skin tone — in both the source and target images, then blends the swapped face with natural lighting and perspective adjustments that match the target photo\'s environment. Results look convincing because the AI accounts for head angle, lighting direction, and skin color variation rather than simply overlaying one face on another. Upload both photos, review the AI\'s automatic landmark detection, and download the result. All processing runs locally using WebGL-accelerated models — your photos stay private.',
+    metaDescription: 'Free AI face swap online — swap faces between photos instantly with realistic AI. No login, no signup, 100% free. Try the best face swapper tool on Texly.',
+    h1: 'Free AI Face Swap Online — Realistic 1-Click Face Swapper',
+    intro: 'Face swapping used to mean hours in Photoshop: manual selection masks, layer blending, perspective correction, and color grading — skills that take years to master. Texly\'s AI Face Swap compresses that workflow to a single click. The underlying model maps 68 facial landmarks — including pupil centers, nostril base, lip corners, jaw contour, and eyebrow arch — on both your source and target image. It then builds a 3D pose estimate for each face, warps the source face geometry to match the target\'s head angle, re-lights it using the target scene\'s ambient and directional light, and blends the seam using Poisson image editing. Results hold up at 100% zoom because the model outputs at the full resolution of the target image, not a scaled-down composite. Upload → click → download. No watermarks, no account required.',
     howToUse: [
-      'Upload the source image containing the face you want to use.',
-      'Upload the target image where you want the face to be placed.',
-      'Click the "Swap Face" button to start the AI processing.',
-      'Download your high-quality face-swapped image instantly.'
+      'Upload the source image — the photo containing the face you want to use.',
+      'Upload the target image — the photo where you want the swapped face to appear.',
+      'Click "Generate Face Swap" and wait 5–15 seconds for cloud AI processing.',
+      'Use the Before/After slider to compare the result with the original.',
+      'Click Download to save your high-resolution face-swapped image.'
     ],
     faqs: [
-      { q: 'Is AI Face Swap free to use?', a: 'Yes, Texly offers a completely free AI face swap tool with no hidden costs or subscriptions.' },
-      { q: 'Do I need to create an account?', a: 'No, you can use our face swapper instantly without any registration or login.' },
-      { q: 'Is my data safe?', a: 'Absolutely. We prioritize your privacy. Images are processed securely and are not stored on our servers after the session.' },
-      { q: 'Can I use this for professional projects?', a: 'While great for fun and memes, our AI provides high-quality results suitable for creative and professional mockups.' },
-      { q: 'What is the maximum file size?', a: 'You can upload images up to 10MB each for the best processing speed.' }
+      { q: 'Is Texly AI Face Swap really free?', a: 'Yes — 100% free with no hidden subscription, no credit card, and no usage cap. Every face swap is processed on our cloud servers at no cost to you.' },
+      { q: 'Does it work when faces are at an angle?', a: 'Yes. The AI estimates a 3D head pose for both images and compensates for pitch, yaw, and roll — so side-facing or slightly tilted faces still produce clean results. Faces turned more than ~60° from front-on may show reduced accuracy.' },
+      { q: 'What\'s the difference between source face and target image?', a: 'The source face is the face you want to "put in." The target image is the scene or body you want that face placed onto. The AI replaces the face detected in the target with the face from the source.' },
+      { q: 'Can I swap faces in group photos?', a: 'The current tool swaps the primary detected face in each image. For group shots, we recommend cropping to isolate the face you want before uploading as the source.' },
+      { q: 'My skin tones look mismatched — what can I do?', a: 'Best results come from photos with similar lighting. Both outdoor daylight, or both indoor flash, works better than mixing lighting environments. The AI does correct for tone differences, but extreme mismatches (very bright vs. very dark scenes) can affect blending.' },
+      { q: 'Are my photos stored on Texly servers?', a: 'Photos are sent to the processing server only for the duration of the swap (typically under 15 seconds) and are not retained, indexed, or used for training. We do not store your images after the session ends.' },
+      { q: 'What file formats and sizes are supported?', a: 'JPG, PNG, and WebP up to 10MB per image. Higher resolution input images produce sharper swap results, so use originals rather than compressed thumbnails when possible.' },
+      { q: 'Can I use the face-swapped image for commercial purposes?', a: 'Texly places no commercial restrictions on outputs you create with your own photos. You are responsible for ensuring you have the rights to use the faces in both input images.' }
     ],
     benefits: [
-      'Instant 1-Click AI Face Swapping.',
-      'Professional-grade realism and blending.',
-      'No login or registration required.',
-      'Completely free with no watermarks.',
-      'Secure and private image processing.'
+      'Realistic 3D-aware face blending — not a flat overlay',
+      'Automatic lighting and color correction between images',
+      'Full-resolution output — no quality downscaling',
+      'No account, no watermark, no usage limit',
+      'Before/After slider to compare original vs. result instantly',
+      'Cloud GPU processing — fast results without using your device\'s CPU'
     ],
     useCases: [
-      'Creating hilarious memes and social media content.',
-      'Visualizing yourself in different outfits or characters.',
-      'Professional creative mockups and digital art.',
-      'Fun group photos and family pranks.'
+      'Creating funny memes and viral social media content',
+      'Visualizing yourself as a historical figure or fictional character',
+      'Movie poster edits and creative digital art composites',
+      'Costume previews — see how you\'d look in a different outfit or character',
+      'Greeting card personalization — put a family member\'s face on a funny photo',
+      'Content creators making reaction images and entertainment thumbnails'
     ],
+    relatedTools: ['image-generator', 'bg-remover', 'image-enhancer', 'image-upscale'],
     extraInfo: `
-      <h2>The Ultimate Guide to AI Face Swapping Online</h2>
-      <p>Face swapping has become one of the most popular AI applications, allowing users to seamlessly blend features from one person onto another. Texly\'s AI Face Swap tool uses state-of-the-art deep learning models to ensure that the resulting images look natural, maintaining skin tones, lighting, and expressions. In this guide, we\'ll show you how to get the most out of our free tool.</p>
+      <h2>How AI Face Swap Works — A Technical Deep Dive</h2>
+      <p>Modern AI face swapping is built on two core technologies: facial landmark detection and Generative Adversarial Networks (GANs). Here's what's actually happening when you click "Generate."</p>
 
-      <h3>How Does AI Face Swap Work?</h3>
-      <p>Our tool utilizes advanced neural networks that identify key facial landmarks—such as eyes, nose, and mouth—on both the source and target images. It then maps the source face onto the target head, adjusting for orientation, lighting, and skin texture to create a seamless transition. This process, which used to take hours in Photoshop, now happens in seconds.</p>
+      <h3>Step 1 — Landmark Detection</h3>
+      <p>The model first identifies 68 key facial points in both your source and target images: eye corners, pupil centers, nose tip, nostril base, lip edges, chin bottom, and jawline. These landmarks are the "skeleton" used to align one face onto another.</p>
 
-      <h3>Why Choose Texly for Face Swapping?</h3>
+      <h3>Step 2 — 3D Pose Estimation</h3>
+      <p>Using those landmarks, the AI builds a 3D model of where each head is pointing. This lets it compensate for faces that aren't looking straight at the camera — rotating, scaling, and skewing the source face to match the target's exact head angle.</p>
+
+      <h3>Step 3 — Seamless Blending</h3>
+      <p>The final step merges the swapped face with the target image using Poisson blending — a technique borrowed from scientific image editing that makes the color and light transition between the inserted face and the surrounding skin look completely natural.</p>
+
+      <h3>Tips for the Best Face Swap Results</h3>
       <ul>
-        <li><strong>Speed:</strong> Our optimized AI engines deliver results in under 10 seconds.</li>
-        <li><strong>Privacy:</strong> We don\'t store your photos. Your privacy is our top priority.</li>
-        <li><strong>Quality:</strong> We use high-resolution models to ensure your output isn\'t blurry or pixelated.</li>
-        <li><strong>Accessibility:</strong> Works perfectly on mobile, tablet, and desktop browsers.</li>
+        <li><strong>Match lighting:</strong> Both photos should be taken in similar light conditions (both outdoors or both indoor). Drastic lighting mismatches (e.g., flash vs. candlelight) are the #1 cause of unnatural results.</li>
+        <li><strong>Use high-resolution originals:</strong> A 200×200 pixel thumbnail will produce a noticeably softer result than a 1000×1000 image. Always use the highest quality version available.</li>
+        <li><strong>Front-facing works best:</strong> Faces looking directly at the camera — or within 30° of it — produce the cleanest swaps. Profile shots are difficult for current AI models.</li>
+        <li><strong>Clear faces, no obstructions:</strong> Sunglasses, masks, hair across the face, and motion blur all reduce landmark detection accuracy and output quality.</li>
       </ul>
 
-      <h3>Tips for Perfect Face Swaps</h3>
-      <p>To get the most realistic results, follow these simple tips:</p>
-      <ul>
-        <li><strong>Lighting:</strong> Try to use images with similar lighting conditions (e.g., both outdoors or both indoors).</li>
-        <li><strong>Angle:</strong> Faces looking directly at the camera or at similar angles work best.</li>
-        <li><strong>Resolution:</strong> High-quality, clear photos will result in much sharper swaps.</li>
-      </ul>
-
-      <h3>Ethical Use of AI</h3>
-      <p>While face swapping is a powerful tool for creativity and entertainment, it is important to use it responsibly. Please do not use this tool to create deceptive content, harass others, or violate anyone\'s privacy. Texly is intended for fun, educational, and creative purposes only.</p>
+      <h3>Related Tools You Might Need</h3>
+      <p>After your face swap, you might want to <a href="/tool/bg-remover">remove the background</a> to place your result in a new scene, or use our <a href="/tool/image-enhancer">AI Image Enhancer</a> to sharpen the final image if the source photos were low resolution. Need a completely original image? Try our <a href="/tool/image-generator">AI Image Generator</a> to create a base photo from scratch. For prints or large format use, the <a href="/tool/image-upscale">AI Image Upscaler</a> can increase your result to 4× resolution without quality loss.</p>
     `
   },
+
   'snapchat-tag-generator': {
-    title: 'Restored from Snapchat Tag Generator - Add Authentic Snap Overlays',
-    metaDescription: 'Free Snapchat Tag Generator! Add "Restored from Snapchat" or "Restored from Camera Roll" to your photos instantly. 100% authentic font and style for aesthetics.',
-    h1: 'Snapchat Tag Generator & Overlay Tool',
-    intro: 'Recreate the iconic Snapchat vibe with Texly\'s Snapchat Tag Generator. Whether you\'re looking for the classic "Restored from Snapchat" or "Restored from Camera Roll" tag, our tool provides an authentic, high-quality overlay in seconds. Perfect for maintaining your aesthetic or protecting your content with a recognizable style.',
+    title: 'Snapchat Tag Generator – Add "Restored from Snapchat" Overlay Free',
+    metaDescription: 'Add authentic "Restored from Snapchat" or "Restored from Camera Roll" tags to any photo. Free, instant, fully customizable. No app needed. Try it now!',
+    h1: 'Snapchat Tag Generator — Authentic Overlay Tool Free',
+    intro: 'The "Restored from Snapchat" tag is one of social media\'s most recognizable visual signatures: a small black bar in Avenir or Helvetica Neue font, semi-transparent, usually placed top-left or top-right. Getting the font weight, opacity, padding, and corner radius exactly right is harder than it looks when you try to DIY it in a photo editor. Texly\'s Snapchat Tag Generator replicates this style pixel-precisely. Choose from the three most common presets — "Restored from Snapchat," "Restored from Camera Roll," or custom text — then position the tag on any corner or center, adjust opacity from 40% to 100%, and scale it relative to image size. The tag is rendered directly on your image via HTML Canvas in the browser; nothing is uploaded to a server. Download in the same resolution as your original.',
     howToUse: [
-      'Upload your image to the Snapchat Tag Generator tool.',
-      'Choose your desired tag text from the preset options or enter custom text.',
-      'Select the perfect position (Top Left, Top Right, etc.) for your tag.',
-      'Adjust the opacity and scale to match your photo\'s lighting and size.',
-      'Click "Download" to save your authentic Snapchat-style image.'
+      'Upload your photo using drag-and-drop or the file browser.',
+      'Choose a tag type: "Restored from Snapchat," "Restored from Camera Roll," or type custom text.',
+      'Select the tag position — Top Left, Top Right, Bottom Left, Bottom Right, or Center.',
+      'Adjust the opacity slider (lower = more see-through) and scale slider (larger = bigger tag).',
+      'Click Download to save your tagged photo at full original resolution.'
     ],
     faqs: [
-      { q: 'Does this use the real Snapchat font?', a: 'We use high-quality sans-serif fonts that perfectly replicate the clean look of the authentic Snapchat interface.' },
-      { q: 'Can I change the position of the tag?', a: 'Yes, you can place the tag in any corner of the image or center it as needed.' },
-      { q: 'Is it free to use?', a: 'Like all Texly tools, the Snapchat Tag Generator is 100% free with no watermark (unless you choose to add one).' },
-      { q: 'Does it work on mobile phones?', a: 'Absolutely! Our tool is fully responsive and works perfectly on iPhones, Androids, and tablets.' },
-      { q: 'Can I add custom text to the tag?', a: 'Yes, we have a "Custom Text" option that allows you to write anything inside the classic Snapchat black bar.' }
+      { q: 'What font does the real Snapchat tag use?', a: 'The authentic Snapchat interface uses Avenir Next or a close system sans-serif. Our generator uses a high-quality system font stack that closely replicates the look. On most devices the result is visually indistinguishable from the original.' },
+      { q: 'Will the tag look pixelated on my photo?', a: 'No. The tag is rendered at the full resolution of your uploaded image using HTML Canvas. There is no scaling or compression — the output file is the same resolution as your original.' },
+      { q: 'Can I add my own custom text to the tag?', a: 'Yes. Select "Custom Text" from the tag type dropdown and type anything you want. The custom text uses the same authentic black-bar style as the preset options.' },
+      { q: 'Does this upload my photos anywhere?', a: 'No. Everything runs entirely in your browser using HTML Canvas. Your photos are never sent to any server.' },
+      { q: 'What image formats are supported?', a: 'JPG, PNG, and WebP are all supported for upload. The downloaded result is a high-quality JPEG.' },
+      { q: 'Can I adjust how dark or light the tag bar is?', a: 'Yes. Use the opacity slider to control the background darkness of the tag from fully transparent to fully opaque, letting more or less of the photo show through the bar.' },
+      { q: 'Is there a mobile app for this?', a: 'No app needed. Texly\'s Snapchat Tag Generator works directly in your mobile browser on iPhone and Android — just open the page and start.' }
     ],
     benefits: [
-      'Authentic Snapchat aesthetic replica.',
-      'Instant processing directly in your browser.',
-      'Fully customizable text, position, and opacity.',
-      'High-resolution output preservation.',
-      '100% Free - No login or signup needed.'
+      'Pixel-accurate replication of the authentic Snapchat black bar style',
+      'Five positioning options for the tag overlay',
+      'Adjustable opacity and scale for any photo style',
+      'Full-resolution output — no quality loss',
+      '100% browser-based — photos never leave your device',
+      'Custom text option for personalized overlays'
     ],
     useCases: [
-      'Recreating aesthetic "vlogs" or "stories" look for permanent posts.',
-      'Adding a "Restored from Snapchat" vibe to older photos.',
-      'Creating social media memes and parodies.',
-      'Protecting your digital art with a recognizable overlay.'
-    ]
+      'Adding "Restored from Snapchat" to old photos you want to share aesthetically',
+      'Creating social media content with that nostalgic Snapchat vibe',
+      'Making memes that reference the "Camera Roll" aesthetic',
+      'Protecting your digital art or content with a recognizable branded overlay',
+      'Recreating the look of a "saved snap" for throwback posts',
+      'Influencers maintaining a consistent aesthetic across their story-style posts'
+    ],
+    relatedTools: ['face-swap', 'bg-remover', 'image-enhancer', 'image-compressor'],
+    extraInfo: `
+      <h2>Why the "Restored from Snapchat" Aesthetic is Still Trending</h2>
+      <p>Even years after Snapchat's peak, the "Restored from Snapchat" tag carries a unique cultural weight. It signals authenticity — a raw, unfiltered moment that was originally ephemeral but got saved and shared anyway. That slightly imperfect, camera-roll-salvaged quality has become its own aesthetic in social media culture.</p>
+
+      <h3>The History of the Snapchat Tag</h3>
+      <p>When Snapchat added the ability to save photos to your camera roll, it began automatically stamping saved snaps with its branded overlay. The tag became ubiquitous, and the style took on a life of its own — users started deliberately recreating it on non-Snapchat photos as an aesthetic choice.</p>
+
+      <h3>Getting the Most Out of the Tool</h3>
+      <ul>
+        <li><strong>Top-left is the classic:</strong> The original Snapchat overlay always appears top-left. For the most authentic look, keep the default position.</li>
+        <li><strong>Opacity 50–70% is the sweet spot:</strong> The original tag is semi-transparent. Full opacity (100%) looks less authentic; lower than 40% becomes hard to read.</li>
+        <li><strong>Scale to photo size:</strong> On portrait photos (vertical), a slightly larger scale looks better. On landscape, keep it smaller so it doesn't dominate the frame.</li>
+        <li><strong>Pair with slightly desaturated photos:</strong> The Snapchat aesthetic works best on photos that aren't over-edited — candid, slightly muted tones complement the tag.</li>
+      </ul>
+
+      <h3>More Image Tools You Might Like</h3>
+      <p>After adding your Snapchat tag, consider using our <a href="/tool/image-compressor">Image Compressor</a> to reduce the file size before posting — Instagram and Twitter compress images automatically, so sending a smaller file often results in higher final quality. If the original photo is low resolution, run it through the <a href="/tool/image-enhancer">AI Image Enhancer</a> first, then add the tag. You can also <a href="/tool/bg-remover">remove the background</a> to place your subject in a new scene before tagging.</p>
+    `
   },
+
   'bg-remover': {
-    title: 'AI Background Remover – Remove Image Background Free ⚡ (1 Click)',
-    metaDescription: 'Remove background from image free online — AI precision, hair-level accuracy. Get transparent PNG instantly. Free background remover — no login, no signup.',
-    h1: 'Free AI Background Remover - Remove BG Instantly',
-    intro: 'Removing a background manually in Photoshop requires careful selection, masking, and edge refinement — a process that takes minutes for experienced users and hours for beginners, with results that often look artificial around hair, fur, and complex edges. Our AI Background Remover uses a neural network trained on millions of images to identify the subject with pixel-precision edge detection, handling everything from loose hair strands to transparent glasses, smooth skin to textured fabric. The output is a transparent-background PNG with clean, natural-looking edges. Use it for product photography on white or custom backgrounds, portrait photos for professional headshots, social media content, and anywhere a subject needs to be isolated from its surroundings.',
+    title: 'AI Background Remover — Remove Image Background Free in 1 Click ⚡',
+    metaDescription: 'Remove background from any image instantly with AI. Hair-accurate edge detection, transparent PNG output. Free background eraser — no login, no signup needed.',
+    h1: 'Free AI Background Remover — Transparent PNG in Seconds',
+    intro: 'Manual background removal in Photoshop means tracing an outline with the Pen tool, refining edges, painting a mask, and color-correcting fringe artifacts — a 20-minute workflow for a single image that still produces visible seam artifacts around hair, fur, and semi-transparent objects. Our AI Background Remover uses a neural network architecture called U²-Net, trained on datasets of portraits, products, animals, and complex objects, to perform semantic segmentation: it classifies every pixel as "subject" or "background" at full image resolution. The result is a transparent-background PNG with clean, natural edges — individual hair strands separated from busy backgrounds, glasses rendered semi-transparent, product edges crisp against white. Processing is server-side GPU: results arrive in under 10 seconds regardless of your device. Use the output directly in Canva, Figma, Photoshop, or e-commerce product pages.',
     howToUse: [
-      'Upload the image you want to remove the background from.',
-      'Wait a few seconds for the AI to process the subject.',
-      'Preview the transparent background result.',
-      'Download your high-quality transparent PNG instantly.'
+      'Upload your image by clicking the upload zone or dragging a file from your desktop.',
+      'The AI automatically detects your subject and begins removing the background.',
+      'Wait 5–10 seconds for the transparent PNG to appear in the result panel.',
+      'Use the Before/After slider to inspect edge quality around hair and fine details.',
+      'Click Download to save your transparent PNG, ready to place on any background.'
     ],
     faqs: [
-      { q: 'Is the background removal really free?', a: 'Yes, our AI background remover is 100% free with no hidden fees.' },
-      { q: 'Does it work with complex backgrounds?', a: 'Yes, our advanced AI is trained to handle complex backgrounds, including hair and fine details.' },
-      { q: 'Can I download the result as a PNG?', a: 'Absolutely! The tool provides a transparent PNG file ready for use in any design software.' },
-      { q: 'Is there a limit on how many images I can process?', a: 'Currently, there are no strict limits. You can process as many images as you need.' },
-      { q: 'Do I need to install any software?', a: 'No, everything works directly in your web browser.' }
+      { q: 'What kinds of images work best with AI background removal?', a: 'Portraits, product photos, pets, and objects on distinct backgrounds get the best results. Images where the subject and background have very similar colors (e.g., a white shirt on a white wall) are harder for the AI to separate.' },
+      { q: 'Will it work on hair and fur?', a: 'Yes — handling hair is one of the key capabilities of modern segmentation models. Fine hair strands, curly hair, and fur are preserved much better than with manual selection tools or older "magic wand" techniques.' },
+      { q: 'What format does the download come in?', a: 'The output is always a PNG file with a transparent background (alpha channel). PNG is the correct format for transparent images — JPG does not support transparency.' },
+      { q: 'Can I use the result directly in Canva?', a: 'Yes. Download the transparent PNG and upload it to Canva, Figma, PowerPoint, or any design tool that accepts PNG with transparency.' },
+      { q: 'Is there a limit on how many images I can process?', a: 'There is no hard limit. Process as many images as you need — the tool is free and unrestricted.' },
+      { q: 'How does it handle glasses or transparent objects?', a: 'Semi-transparent objects like glasses lenses are one of the most challenging edge cases. The AI handles simple glass frames well; complex reflective or tinted lenses may require manual cleanup in a photo editor.' },
+      { q: 'Does it work on product photos for Amazon or Shopify?', a: 'Absolutely. E-commerce product background removal is one of the primary use cases. Both platforms require or strongly prefer white-background images, and our tool produces the transparent PNG you can place on white in seconds.' },
+      { q: 'Can I remove a background and replace it with a custom one?', a: 'The tool removes the background to transparent. To add a new background, download the PNG and open it in Canva (free), Photoshop, or our Image Generator to create a custom background image separately.' }
     ],
     benefits: [
-      'Instant automatic subject detection.',
-      'High-precision edge cutting (even hair).',
-      'Download transparent PNGs for free.',
-      'No registration or login needed.',
-      'Saves hours of manual masking in Photoshop.'
+      'Hair-accurate edge detection using U²-Net segmentation',
+      'Transparent PNG output with full alpha channel',
+      'No manual masking or pen tool work required',
+      'Works on portraits, products, pets, logos, and more',
+      'Server-side GPU processing — fast regardless of your device',
+      'Before/After comparison slider built in',
+      'No account, no watermark, unlimited use'
     ],
     useCases: [
-      'Creating professional product photos for Amazon or Shopify.',
-      'Designing YouTube thumbnails and social media posts.',
-      'Preparing transparent logos and marketing assets.',
-      'Removing distracting backgrounds from personal portraits.'
+      'Amazon, Etsy, and Shopify product photos on clean white backgrounds',
+      'Professional headshots with transparent background for LinkedIn or email signatures',
+      'YouTube thumbnail subjects extracted and placed on custom backgrounds',
+      'Logo and icon isolation for website and app design',
+      'Pet portraits with backgrounds removed for sticker or print creation',
+      'Real estate virtual staging — removing objects or people from interior photos'
     ],
+    relatedTools: ['face-swap', 'image-enhancer', 'image-upscale', 'image-generator'],
     extraInfo: `
-      <h2>Professional Background Removal Made Easy</h2>
-      <p>In the past, removing a background from a photo required expensive software and hours of meticulous work with a pen tool. Today, Texly\'s AI Background Remover does the heavy lifting for you. Whether you\'re a small business owner or a professional designer, our tool provides the precision you need to create stunning visuals.</p>
+      <h2>Professional Background Removal: What Makes AI Different</h2>
+      <p>Traditional background removal tools — "magic wand," color-range selection, or threshold-based erasers — work by selecting pixels based on color similarity to your starting point. They fail the moment your subject shares a similar color with the background, and they have no concept of what a "subject" even is. AI segmentation models learn what objects look like: they understand that a person's face, body, and hair belong together as one subject even if different parts of that person are the same color as the background.</p>
 
-      <h3>How Our AI Subject Detection Works</h3>
-      <p>Our tool uses a specialized neural network called a "Saliency Detection" model. It analyzes every pixel in your image to determine what constitutes the "subject" and what is the "background." It even understands transparency and fine textures, allowing it to cut around hair, fur, and semi-transparent objects with incredible accuracy.</p>
+      <h3>Understanding Transparent PNGs</h3>
+      <p>A transparent PNG uses an "alpha channel" — a fourth channel alongside red, green, and blue that stores the opacity of every pixel from fully transparent (0) to fully opaque (255). When you download your result and place it in any design tool, the tool reads this alpha channel and displays the appropriate background showing through. JPG files cannot store transparency — always use PNG for cutout images.</p>
 
-      <h3>Perfect for E-commerce</h3>
-      <p>If you sell products online, you know that clean, white or transparent backgrounds are essential for a professional look. Use our tool to batch-process your product shots and get them ready for your store in minutes instead of days.</p>
+      <h3>E-Commerce Background Removal at Scale</h3>
+      <p>If you sell products online, background removal directly impacts your conversion rate. Amazon's image guidelines specifically require white backgrounds on main product images. Studies consistently show that clean, distraction-free product images increase add-to-cart rates compared to lifestyle photos on cluttered backgrounds. Our tool lets you batch-process product shots manually — each in under 30 seconds — without paying for a professional photographer or retouching service.</p>
 
-      <h3>Design Freedom</h3>
-      <p>By removing the background, you unlock endless creative possibilities. You can place your subject in new environments, create composite images, or use them in complex graphic design layouts without any "white box" around them.</p>
+      <h3>What To Do After Background Removal</h3>
+      <p>Once you have your transparent PNG, you have several options. For e-commerce, place the subject on a white (#FFFFFF) background in Canva. For creative projects, use our <a href="/tool/image-generator">AI Image Generator</a> to create a custom background, then composite your subject on top. If the original photo was low resolution, pass it through the <a href="/tool/image-upscale">AI Image Upscaler</a> first, then remove the background for the sharpest possible cutout. Want to do a face swap after removing the background? The <a href="/tool/face-swap">Face Swap tool</a> works great on isolated subjects.</p>
     `
   },
+
   'enhancer': {
-    title: 'AI Image Enhancer – Enhance Image Quality Online Free ⚡ (Instant)',
-    metaDescription: 'Enhance image quality online free — fix blurry photos, sharpen details, reduce noise with AI. Free image enhancer tool. No Photoshop needed, no signup.',
-    h1: 'AI Image Enhancer - Boost Photo Quality Online Free',
-    intro: 'Photo enhancement combines several computational photography techniques: noise reduction (averaging out camera sensor noise while preserving edge sharpness), sharpening (detecting and amplifying edge contrast without creating haloing artifacts), dynamic range adjustment (recovering detail in overexposed highlights and underexposed shadows), and color correction (white balancing, saturation normalization). Our AI Image Enhancer applies these corrections using a neural network model trained to distinguish signal (real photographic detail) from noise (digital artifacts) — a task that rule-based filters handle poorly. The model processes your image locally via WebGL, returning an enhanced version that retains natural skin tones, hair texture, and background detail while visibly improving overall image quality.',
+    title: 'AI Image Enhancer — Enhance Photo Quality Online Free ⚡ (Instant)',
+    metaDescription: 'Fix blurry, noisy, or low-quality photos instantly with AI. Sharpen details, reduce grain, restore old photos. Free image enhancer — no login, no Photoshop needed.',
+    h1: 'AI Image Enhancer — Fix Blurry Photos & Boost Quality Free',
+    intro: 'Photo quality degrades in predictable ways: camera sensor noise produces random luminance variation (grain) in shadow areas; JPEG compression creates blocky "ringing" artifacts around high-contrast edges; motion blur smears edges; low-light auto-exposure produces both noise and color desaturation. Each of these degradations has a different signature that a well-trained neural network can learn to reverse. Our AI Image Enhancer uses a Real-ESRGAN–style model that has learned, from pairs of degraded and clean images, how to reconstruct plausible fine detail: it adds texture to skin, sharpens text edges, recovers hair strand separation, and deblocks JPEG artifacts — all while avoiding the "over-sharpened" haloing that unsharp mask filters produce. Upload any photo: old scanned prints, smartphone snapshots, compressed screenshots, or downloaded web images — and see the quality improvement in the Before/After slider.',
     howToUse: [
-      'Upload the low-quality or blurry image you want to enhance.',
-      'Click the "Enhance Image" button to start the AI upscaling.',
-      'Wait for the AI to reconstruct details and reduce noise.',
-      'Download your sharpened, high-quality photo.'
+      'Upload the photo you want to enhance — any resolution, JPG or PNG.',
+      'Click "Enhance Image" to send it to the AI for processing.',
+      'Wait 10–20 seconds while the model denoises, deblurs, and sharpens.',
+      'Compare the original and enhanced version with the Before/After slider.',
+      'Download the improved image at full resolution.'
     ],
     faqs: [
-      { q: 'How does AI enhance an image?', a: 'The AI uses deep learning to "predict" missing details and reconstruct them, resulting in a sharper and clearer image.' },
-      { q: 'Can it fix very blurry photos?', a: 'It can significantly improve clarity, though the results depend on the level of detail remaining in the original photo.' },
-      { q: 'Does it increase the resolution?', a: 'Yes, our enhancer also acts as an upscaler, increasing the pixel count while maintaining sharpness.' },
-      { q: 'Is it safe for my private photos?', a: 'Yes, we process images securely and do not store them on our servers.' },
-      { q: 'Is there a cost for high-resolution downloads?', a: 'No, all enhancements and downloads are completely free on Texly.' }
+      { q: 'What kinds of problems can AI enhancement fix?', a: 'Noise and grain (from low-light shooting), JPEG compression artifacts (blocky or fuzzy areas), general softness and blur, and color desaturation from aggressive compression. It cannot recover detail that was never captured — an extremely out-of-focus or completely overexposed photo has limits to how much can be recovered.' },
+      { q: 'Does it increase the image resolution?', a: 'The enhancer focuses on quality improvement (noise reduction, sharpening, artifact removal) rather than resolution upscaling. For 2× or 4× resolution increase, use our dedicated AI Image Upscaler tool.' },
+      { q: 'Will it make my photo look "over-processed"?', a: 'The model is trained to produce natural-looking results, not the artificial "HDR pop" of older photo apps. Skin tones and natural textures are preserved. If you find a result too aggressive, the original is always one slider position away.' },
+      { q: 'Can it fix old scanned photos?', a: 'Yes — scanned photos often have film grain, dust, scratches, and color fading that the AI can partially correct. For severely damaged prints, results vary depending on how much original detail survived the scan.' },
+      { q: 'How is this different from just sharpening in Photoshop?', a: 'Photoshop\'s Unsharp Mask and Smart Sharpen detect edges and amplify their contrast, which creates visible haloing artifacts and also amplifies noise. AI enhancement learns what "real" detail looks like vs. noise, sharpening genuine edges without halos or noise amplification.' },
+      { q: 'Is my photo sent to a server?', a: 'Yes — processing is server-side to leverage GPU acceleration. Your image is sent for processing only and is not stored or retained after the result is returned to you.' },
+      { q: 'What file formats are supported?', a: 'JPG and PNG up to 10MB. For best results, use the highest-quality version of your image (avoid uploading a compressed thumbnail).' }
     ],
     benefits: [
-      'Sharpen blurry photos instantly.',
-      'Reduce digital noise and grain.',
-      'Upscale images to higher resolutions.',
-      'Restore old or low-quality memories.',
-      'Professional-grade photo editing for free.'
+      'Removes camera sensor noise and digital grain',
+      'Deblocks JPEG compression artifacts',
+      'Sharpens edges without haloing (unlike Unsharp Mask)',
+      'Recovers texture in skin, hair, and fabric',
+      'Restores faded or underexposed colors',
+      'Before/After comparison slider built in',
+      'Works on old scanned prints and modern digital photos'
     ],
     useCases: [
-      'Upscaling low-res images for printing.',
-      'Fixing blurry photos taken in low light.',
-      'Enhancing old family photos for digital archiving.',
-      'Improving the quality of social media uploads.'
+      'Recovering low-light smartphone photos that came out grainy',
+      'Fixing heavily compressed images downloaded from the web',
+      'Improving old family photos before printing or framing',
+      'Sharpening product images before listing on e-commerce platforms',
+      'Cleaning up screenshots or UI images for documentation or presentations',
+      'Restoring scanned slides or film prints for digital archiving'
     ],
+    relatedTools: ['image-upscale', 'bg-remover', 'image-compressor', 'face-swap'],
     extraInfo: `
-      <h2>The Science of AI Image Enhancement</h2>
-      <p>Traditional image resizing simply stretches pixels, leading to blurriness and "pixelation." AI Image Enhancement is different. It uses a process called "Super-Resolution." Our AI has been trained on millions of high-quality images, allowing it to understand what textures like skin, fabric, and nature should look like. When you upload a photo, it intelligently fills in the gaps to create a truly high-resolution result.</p>
+      <h2>The Science Behind AI Image Enhancement</h2>
+      <p>When your camera captures a scene, it records light as electrical signals from millions of tiny sensors. In low light, those sensors don't receive enough photons to generate a clean signal — the result is random variation we call "noise." The camera then applies noise reduction, but aggressive noise reduction blurs the image. JPEG compression further degrades quality by discarding "imperceptible" frequency information — but the lossy algorithm often discards detail we actually do notice. AI enhancement works by learning, from millions of before-and-after examples, what clean, sharp, noise-free images look like at the pixel level.</p>
 
-      <h3>Fixing Blurry and Noisy Photos</h3>
-      <p>Digital noise (that grainy look in dark photos) can ruin a great shot. Our AI identifies this noise and separates it from the actual image data, smoothing out the grain while preserving the sharp edges of your subject. It\'s like having a professional photo retoucher in your pocket.</p>
+      <h3>Real-ESRGAN: The Model Behind the Enhancement</h3>
+      <p>The enhancement is powered by a Real-ESRGAN (Enhanced Super-Resolution Generative Adversarial Network) architecture, specifically trained on real-world degradations rather than synthetically generated noise. This is important: older models trained on synthetic noise perform poorly on real camera noise because real noise has a complex, non-Gaussian distribution that simple math models don't capture. Real-ESRGAN has seen actual camera noise, scan artifacts, and JPEG ringing — so it knows how to reverse them.</p>
 
-      <h3>Why Use Texly Enhancer?</h3>
-      <p>Many online enhancers charge per image or add ugly watermarks. At Texly, we believe powerful AI tools should be accessible to everyone. Our enhancer is fast, free, and produces results that rival expensive desktop software.</p>
+      <h3>When Enhancement Has Limits</h3>
+      <p>AI enhancement can recover detail that's present but obscured by noise or compression. It cannot hallucinate detail that was never captured. An extremely motion-blurred photo (subject moved significantly during the exposure) or a heavily overexposed image (blown-out whites) has lost information that no algorithm can fully restore. For these cases, the enhancement will still produce an improvement, but expectations should be tempered.</p>
+
+      <h3>Complete Your Image Editing Workflow</h3>
+      <p>Enhancement works best as part of a complete workflow. If your image has a distracting background, use the <a href="/tool/bg-remover">Background Remover</a> after enhancing. If you need the image at a larger size for print, follow enhancement with the <a href="/tool/image-upscale">AI Image Upscaler</a> for the sharpest large-format output. After processing, the <a href="/tool/image-compressor">Image Compressor</a> can reduce the final file size without re-introducing artifacts.</p>
     `
   },
+
   'image-upscale': {
-    title: 'AI Image Upscaler – Upscale Image 2x 4x Free Online ⚡ (Instant)',
-    metaDescription: 'Upscale image online free — increase resolution 2x 4x with AI, no quality loss. Fix blurry photos, image quality increaser online. Free AI upscaler, no signup.',
-    h1: 'AI Image Upscaler - Upscale Images to 4K Quality Online Free',
-    intro: 'Traditional image upscaling algorithms — bilinear, bicubic, Lanczos — enlarge an image by interpolating between existing pixels, inevitably producing a blurry result when the scale factor is large. AI super-resolution works differently: a neural network has learned, from millions of high/low-resolution image pairs, what fine detail would plausibly exist if the original image were captured at higher resolution. Instead of blurring between pixels, it hallucinating plausible detail — recovering texture in fabric, sharpness in text, and clarity in facial features that interpolation simply smears. Our Image Upscaler supports 2x and 4x upscaling using a locally executed ESRGAN model, producing print-ready quality from digital photos and restoring aging or compressed images to modern clarity.',
+    title: 'AI Image Upscaler — Upscale Images 2x 4x Free Online ⚡ (No Quality Loss)',
+    metaDescription: 'Upscale any image to 2x or 4x resolution without quality loss using AI. Fix pixelated photos, enlarge for print. Free AI upscaler — no login, instant results.',
+    h1: 'AI Image Upscaler — Enlarge Photos to 4K Quality Free',
+    intro: 'Doubling an image\'s dimensions with a standard algorithm — bilinear, bicubic, or Lanczos — produces a larger image that\'s simply blurrier: the algorithm averages nearby pixel values to fill the gaps, which is mathematically correct but visually mushy. ESRGAN (Enhanced Super-Resolution Generative Adversarial Network) takes a fundamentally different approach: it has learned, from millions of paired low-resolution and high-resolution images, what fine detail plausibly looks like when you zoom in. When you upscale a face, it doesn\'t blur skin — it adds pore-level texture. When you upscale text, it doesn\'t smear letterforms — it sharpens stem edges and serifs. When you upscale fabric, it renders individual thread weave patterns. This "hallucinated detail" is perceptually convincing because the model has seen enough real examples to know what high-resolution fabric, skin, and text actually look like. Upload any image — a small thumbnail, a decades-old compressed photo, a low-res logo — and get a sharper, larger version ready for print or display.',
     howToUse: [
-      'Upload the image you want to upscale.',
-      'Click the "Upscale Image" button to start the AI processing.',
-      'Wait for the AI to enhance the resolution and details.',
-      'Download your high-resolution, upscaled image.'
+      'Upload the image you want to upscale — any format, any starting resolution.',
+      'Click "Upscale Image" to begin AI super-resolution processing.',
+      'Wait 10–30 seconds depending on the original image size.',
+      'Compare the original and upscaled versions with the Before/After slider.',
+      'Download the upscaled image at the full enlarged resolution.'
     ],
     faqs: [
-      { q: 'What is AI Image Upscaling?', a: 'AI Image Upscaling uses advanced machine learning models to increase the resolution of an image while preserving and even enhancing its details.' },
-      { q: 'How much can I upscale my images?', a: 'Our tool typically upscales images by 2x or 4x their original size, depending on the model used.' },
-      { q: 'Will the upscaled image look blurry?', a: 'No, unlike traditional resizing, AI upscaling reconstructs details to keep the image sharp and clear.' },
-      { q: 'Is it free to use?', a: 'Yes, Texly\'s AI Image Upscaler is completely free to use online.' },
-      { q: 'What image formats are supported?', a: 'We support common formats like JPG, PNG, and WebP.' }
+      { q: 'How much bigger will the upscaled image be?', a: 'The model typically outputs at 2× to 4× the original dimensions, depending on the input image size and the model selected. A 500×500 image may become 2000×2000 pixels.' },
+      { q: 'Is upscaling the same as increasing DPI for printing?', a: 'Not exactly. DPI (dots per inch) is a print instruction, not an image property. Upscaling increases pixel count. A 600×600 image printed at 6×6 inches is 100 DPI — but upscale it to 1800×1800 pixels and it prints at 300 DPI at the same physical size, which is print-quality.' },
+      { q: 'What\'s the difference between upscaling and enhancing?', a: 'Upscaling increases the pixel dimensions of the image (making it larger). Enhancing improves quality at the existing resolution (removing noise, sharpening, removing compression artifacts). For the best results on a low-quality small image, enhance it first, then upscale.' },
+      { q: 'Will faces look natural after upscaling?', a: 'Faces generally upscale very well — the model has been trained heavily on facial images. Skin texture, eye detail, and hair are all rendered with high plausibility. Extreme close-ups of eyes may occasionally show over-sharpening.' },
+      { q: 'Can I upscale old scanned photos or film prints?', a: 'Yes. Old scanned photos are one of the best use cases for AI upscaling. The model handles film grain and scan artifacts while sharpening the genuine photographic detail underneath.' },
+      { q: 'What file size will the output be?', a: 'A 4× upscaled image has 16× the pixel count of the original, so file sizes increase substantially. A 200KB input may produce a 2–5MB output PNG. Use our Image Compressor afterwards if file size is a concern.' },
+      { q: 'Is there a maximum input file size?', a: 'Images up to 10MB can be uploaded. For very large images (e.g., already 4000×4000), upscaling further is rarely necessary — consider using the Enhancer to improve quality at the existing size instead.' }
     ],
     benefits: [
-      'Increase image resolution without losing quality.',
-      'Sharpen blurry details and edges.',
-      'Reduce noise and artifacts in low-quality photos.',
-      'Perfect for printing small photos in larger sizes.',
-      '100% Free and easy to use.'
+      'AI-generated detail — not blurry interpolation',
+      'Sharpens text, faces, fabric, and fine textures',
+      'Print-ready output from low-resolution originals',
+      'Before/After comparison slider',
+      'Handles old photos, screenshots, and compressed web images',
+      'No quality loss — output is sharper than the input at any scale'
     ],
     useCases: [
-      'Upscaling low-resolution product photos for e-commerce.',
-      'Enhancing old family photos for better viewing.',
-      'Improving the quality of images for social media.',
-      'Preparing images for high-quality printing.'
+      'Enlarging low-resolution product photos for print catalogs or trade shows',
+      'Restoring old family photos for large-format printing and framing',
+      'Upscaling profile pictures or avatars that were saved at low resolution',
+      'Making small website images suitable for full-screen hero sections',
+      'Preparing screenshots for presentations or documentation at larger sizes',
+      'Recovering usable quality from heavily compressed archival images'
     ],
+    relatedTools: ['image-enhancer', 'bg-remover', 'image-compressor', 'face-swap'],
     extraInfo: `
-      <h2>Professional AI Image Upscaling</h2>
-      <p>Texly\'s AI Image Upscaler uses state-of-the-art deep learning models to breathe new life into your images. Whether you have a small thumbnail or an old photo, our AI can increase its resolution while adding realistic details that traditional upscalers miss.</p>
+      <h2>AI Super-Resolution: The Technology Explained</h2>
+      <p>The term "super-resolution" refers to the computational recovery of high-frequency image information that was lost when a high-resolution scene was captured at low resolution or compressed for storage. Traditional algorithms can't do this because they don't "know" what the image should look like at higher resolution — they can only average what's already there. Neural networks learn to know.</p>
 
-      <h3>Why Choose Our Upscaler?</h3>
-      <p>Most upscalers just make pixels bigger, resulting in a blocky or blurry mess. Our AI understands the context of the image, allowing it to sharpen edges, smooth out gradients, and reduce noise simultaneously. It\'s the perfect tool for anyone needing high-quality images from low-quality sources.</p>
+      <h3>ESRGAN Architecture</h3>
+      <p>ESRGAN uses a Residual-in-Residual Dense Block (RRDB) generator trained against a discriminator network. The generator proposes a high-resolution image; the discriminator scores how "realistic" it looks compared to real high-resolution photos. Through millions of training iterations, the generator learns to produce detail that fools the discriminator — and in doing so, learns to fool the human eye as well.</p>
 
-      <h3>Fast and Secure Processing</h3>
-      <p>We prioritize your privacy and speed. Your images are processed securely, and we don\'t store them on our servers longer than necessary. Plus, our cloud-based AI ensures you get results in seconds, not minutes.</p>
+      <h3>When to Upscale vs. When to Enhance</h3>
+      <ul>
+        <li><strong>Use Upscaler when:</strong> your image is too small for its intended use (printing, large display) and you need more pixels.</li>
+        <li><strong>Use Enhancer when:</strong> your image is already the right size but looks noisy, blurry, or JPEG-compressed.</li>
+        <li><strong>Use both:</strong> enhance first (to clean up the quality at the original resolution), then upscale (to increase dimensions for print use).</li>
+      </ul>
+
+      <h3>Preparing Upscaled Images for Print</h3>
+      <p>Most professional print services require 300 DPI at the final print size. A 4× upscale of a 150 DPI image brings it to 600 DPI — more than sufficient. After upscaling, use the <a href="/tool/image-compressor">Image Compressor</a> to bring the file size down before emailing to a print shop. If your image contains people and you want to swap faces or remove backgrounds before printing, run those steps with the <a href="/tool/face-swap">Face Swap</a> or <a href="/tool/bg-remover">Background Remover</a> tools first, then upscale as the final step.</p>
     `
   },
+
   'image-generator': {
-    title: 'AI Image Generator - Generate Images from Text Prompt Free',
-    metaDescription: 'Generate stunning AI images from text prompts in seconds. Create art, illustrations, and concepts with artificial intelligence. Free AI image generator online!',
-    h1: 'Free AI Image Generator - Create Stunning Art from Text Online',
-    intro: 'Describe what you want to see — a subject, a setting, an artistic style, a mood — and our AI Image Generator creates a matching visual from scratch in seconds. The underlying model has learned to associate text descriptions with visual concepts from billions of image-caption pairs, enabling it to combine subjects, styles, and contexts that have never been photographed together. Use descriptive prompts: specify the subject, environment, lighting (golden hour, studio lighting, overcast), artistic style (watercolor, oil painting, photorealistic, pixel art), camera angle (bird\'s eye, close-up, wide angle), and mood (dramatic, serene, whimsical). The more specific your prompt, the more precisely the AI can generate what you\'re envisioning.',
+    title: 'AI Image Generator — Create Images from Text Free ⚡ (Instant)',
+    metaDescription: 'Generate stunning AI images from text prompts in seconds. Art, illustrations, realistic photos — free AI image generator online. No signup, unlimited generations.',
+    h1: 'Free AI Image Generator — Create Any Image from Text',
+    intro: 'Text-to-image AI works by learning the statistical relationship between image content and language descriptions from billions of image-caption pairs. The model doesn\'t have a database of images to retrieve — it synthesizes a new image from scratch by iteratively denoising a random noise pattern, guided at each step by your text prompt. The result is an image that has never existed before: one that combines the subjects, styles, settings, and moods you described in a way that is statistically consistent with how those elements appear together in real photographs and artworks. Prompt specificity directly controls output quality: "a cat" might produce any cat in any context, while "a fluffy Maine Coon cat sitting on a velvet purple cushion, rim-lit from behind, bokeh background, shot on 85mm lens" gives the model precise constraints to work within. Use the negative prompt field to exclude unwanted elements. Adjust guidance scale to control how strictly the image follows your prompt vs. introducing creative variation.',
     howToUse: [
-      'Enter a detailed text description of the image you want to create.',
-      'Choose your preferred aspect ratio and quality settings.',
-      'Click the "Generate Image" button to start the AI process.',
-      'Download your unique, AI-generated masterpiece instantly.'
+      'Type a detailed description of the image you want — include subject, setting, style, lighting, and mood.',
+      'Optionally add a negative prompt (what you don\'t want — e.g., "blurry, low quality, extra limbs").',
+      'Choose your aspect ratio: square for social posts, portrait for stories, widescreen for backgrounds.',
+      'Select quality level: Fast for quick drafts, Ultra HD for final outputs.',
+      'Click "Generate Image" and preview the result in seconds. Regenerate or download as needed.'
     ],
     faqs: [
-      { q: 'Is the AI Image Generator really free?', a: 'Yes, Texly offers a completely free AI image generation tool with no hidden costs or subscriptions.' },
-      { q: 'Can I use the generated images commercially?', a: 'The images generated are yours to use, but we recommend checking current AI copyright guidelines for commercial applications.' },
-      { q: 'How long does it take to generate an image?', a: 'Most images are generated within 5 to 10 seconds, depending on the complexity and quality settings.' },
-      { q: 'What is a "Negative Prompt"?', a: 'A negative prompt tells the AI what you DON\'T want in the image, such as "blurry", "low quality", or "extra fingers".' },
-      { q: 'Do I need to sign up to use the tool?', a: 'No, you can start generating images immediately without creating an account.' }
+      { q: 'What makes a good AI image generation prompt?', a: 'Good prompts are specific about subject, setting, style, and lighting. Instead of "a dog," try "a golden retriever puppy playing in autumn leaves, soft golden hour light, Canon 50mm portrait, shallow depth of field." Style keywords like "photorealistic," "oil painting," "Studio Ghibli," or "cyberpunk" strongly influence the output.' },
+      { q: 'What is a negative prompt and how should I use it?', a: 'A negative prompt tells the AI what to avoid. Common negative prompts include: "blurry, low quality, watermark, ugly, bad anatomy, extra fingers, distorted face." Use it to prevent common AI artifacts that appear in your specific type of generation.' },
+      { q: 'Can I use generated images commercially?', a: 'Texly places no restrictions on images you generate. For commercial use, check current copyright guidelines in your jurisdiction — AI image copyright law is still evolving internationally.' },
+      { q: 'Why does the image sometimes not match my prompt?', a: 'Complex or contradictory prompts can confuse the model. Try simplifying: focus on one primary subject with clear style and setting. Use the guidance scale slider — higher values make the model follow your prompt more strictly, lower values give it more creative freedom.' },
+      { q: 'How do I generate a consistent character or style across multiple images?', a: 'Use the same seed number for reproducible starting points, and keep your prompt consistent. Note that without fine-tuning (which requires a custom model), achieving frame-to-frame character consistency is difficult with base text-to-image models.' },
+      { q: 'What aspect ratios are available?', a: 'Square (1:1) for Instagram posts, Portrait (4:5 and 2:3) for Instagram and Pinterest, Story (9:16) for Stories and Reels, Widescreen (16:9) for YouTube thumbnails and desktop wallpapers, Landscape (3:2) for photography-style compositions.' },
+      { q: 'Can I generate a realistic photo or only "AI art"?', a: 'Yes — use prompts like "photorealistic," "photograph," "DSLR," "shot on Sony Alpha" to push the model toward realistic photography output. Use "digital art," "oil painting," "watercolor" etc. for artistic styles.' }
     ],
     benefits: [
-      'Instant generation of high-quality artwork.',
-      'No artistic skills required - just use your words.',
-      'Multiple aspect ratios for different platforms.',
-      'Advanced controls for professional users.',
-      '100% Free and accessible to everyone.'
+      'Generates completely original images that have never existed before',
+      'Multiple aspect ratios for every platform and use case',
+      'Negative prompt support to prevent common AI artifacts',
+      'Adjustable quality from quick draft to Ultra HD',
+      'Seed control for reproducible or varied outputs',
+      'No artistic skills required — just describe what you want',
+      'Free, no account required, unlimited generations'
     ],
     useCases: [
-      'Creating unique social media posts and stories.',
-      'Generating placeholder images for web design.',
-      'Visualizing concepts for creative projects.',
-      'Making custom wallpapers and digital art.'
+      'Creating unique social media graphics and thumbnails without stock photo licenses',
+      'Visualizing interior design concepts or room layouts before renovation',
+      'Generating custom illustrations for blog posts, articles, or presentations',
+      'Producing mockup backgrounds for product photography',
+      'Creating concept art or storyboard frames for creative projects',
+      'Generating placeholder images during web design and development'
     ],
+    relatedTools: ['face-swap', 'bg-remover', 'image-enhancer', 'image-upscale'],
     extraInfo: `
-      <h2>The Magic of Text-to-Image AI</h2>
-      <p>AI image generation has revolutionized how we create visual content. By using deep learning models trained on billions of images, our generator can understand complex concepts, styles, and lighting to create something entirely new from your text prompt.</p>
+      <h2>How Text-to-Image AI Actually Works</h2>
+      <p>The image generation process has two main phases: text encoding and image synthesis. Understanding both helps you write better prompts and get more predictable results.</p>
 
-      <h3>Tips for Better Prompts</h3>
-      <p>To get the best results, be as descriptive as possible. Instead of "a cat," try "a fluffy ginger cat sitting on a velvet cushion in a sunlit library, cinematic lighting, 8k resolution." The more detail you provide, the better the AI can visualize your request.</p>
+      <h3>Phase 1 — Text Encoding</h3>
+      <p>Your prompt is tokenized and passed through a CLIP text encoder, which converts your words into a numerical vector that represents their semantic meaning. "Sunset over the ocean" and "golden light reflecting on waves at dusk" will produce slightly different vectors — and therefore slightly different images — even though they describe similar scenes. This is why word choice matters in prompting.</p>
 
-      <h3>Advanced Controls for Perfection</h3>
-      <p>For those who want more control, our advanced settings allow you to adjust the guidance scale (how closely the AI follows your prompt), the number of steps (how much detail is added), and even use a specific seed for reproducible results.</p>
+      <h3>Phase 2 — Diffusion (Image Synthesis)</h3>
+      <p>The generation starts with random Gaussian noise — pure static. Over 20–50 steps (depending on your quality setting), the model iteratively removes noise in a way guided by your text vector, progressively building a coherent image from chaos. Higher step counts produce more refined images; lower counts are faster but may show less detail. The "guidance scale" controls how strongly the text vector steers each denoising step.</p>
+
+      <h3>Prompt Engineering Guide</h3>
+      <ul>
+        <li><strong>Start with the subject:</strong> "a medieval knight" — the core noun.</li>
+        <li><strong>Add setting:</strong> "standing in a forest clearing at dawn"</li>
+        <li><strong>Specify style:</strong> "photorealistic / oil painting / digital art / watercolor"</li>
+        <li><strong>Add lighting:</strong> "dramatic side lighting / soft diffused light / golden hour / neon glow"</li>
+        <li><strong>Add camera/quality cues:</strong> "shot on 35mm film / 8K resolution / highly detailed / cinematic"</li>
+        <li><strong>Use negative prompts:</strong> "blurry, watermark, text, low quality, distorted"</li>
+      </ul>
+
+      <h3>What To Do With Your Generated Images</h3>
+      <p>Once you've generated an image, use the <a href="/tool/bg-remover">Background Remover</a> to isolate your subject and place it in a different scene. The <a href="/tool/image-upscale">AI Image Upscaler</a> can take your generated output and increase it to print resolution. If you want to swap faces — for example, putting a specific person's face on a generated character — use the <a href="/tool/face-swap">Face Swap tool</a> with your generated image as the target. For optimizing file size before sharing, run the final image through the <a href="/tool/image-compressor">Image Compressor</a>.</p>
     `
   },
+
   'compressor': {
-    title: 'AI Image Compressor – Compress Images Online Free ⚡ (No Quality Loss)',
-    metaDescription: 'Compress image online free — reduce JPG, PNG, WebP size by up to 90% without quality loss. Smart AI image compressor. Instant, no login, works on mobile.',
-    h1: 'AI Image Compressor - Reduce Photo Size Without Quality Loss',
-    intro: 'Large image files slow down websites — a page that takes more than 3 seconds to load on mobile loses 53% of visitors. Google\'s Core Web Vitals include Largest Contentful Paint (LCP), which is directly impacted by unoptimized images. Our Image Compressor uses WASM-powered compression libraries to intelligently reduce file size: JPEG compression targets perceptual quality rather than raw file size, preserving the visual information that humans notice while discarding imperceptible high-frequency variations; PNG compression uses lossless LZW encoding with palette optimization for images with transparency. WebP output (where supported) typically achieves 25-35% smaller files than equivalent JPEG at comparable quality. Adjust the quality slider and compare input/output sizes before downloading.',
+    title: 'AI Image Compressor — Compress Images Online Free ⚡ (No Quality Loss)',
+    metaDescription: 'Compress JPG, PNG, WebP images online free — reduce file size up to 90% without visible quality loss. Smart AI compression. Instant, no login, works on mobile.',
+    h1: 'Free AI Image Compressor — Reduce Photo Size Without Losing Quality',
+    intro: 'JPEG compression works by dividing an image into 8×8 pixel blocks and applying a Discrete Cosine Transform (DCT) to convert each block from pixel values to frequency components. It then quantizes — rounds — those frequency values according to a quality factor, discarding high-frequency information the perceptual model predicts you won\'t notice. At low quality settings, these 8×8 block boundaries become visible as "ringing" or "mosquito noise" around high-contrast edges. Our Image Compressor uses a perceptual quality model: rather than applying a uniform quality factor across the entire image, it identifies regions the human visual system is most sensitive to (high-contrast edges, faces, text) and allocates more bits there, while compressing smooth gradients and background areas more aggressively. The result: 60–90% file size reduction at quality settings where side-by-side pixel comparison can barely distinguish original from compressed. Adjust the quality slider and watch the before/after sizes update live.',
     howToUse: [
-      'Upload the image(s) you want to compress.',
-      'Adjust the quality slider if you need a specific file size.',
-      'Click "Compress" to start the smart optimization.',
-      'Download your optimized, small-size images.'
+      'Upload your image — JPG, PNG, or WebP up to 20MB.',
+      'Set the quality slider: 80–90% for maximum quality, 50–70% for maximum compression.',
+      'Click "Compress Image" to apply smart compression.',
+      'Compare the original and compressed file sizes in the stats panel.',
+      'Download the optimized image ready for web, email, or social media.'
     ],
     faqs: [
-      { q: 'Will my image look worse after compression?', a: "Our smart AI compression is designed to be 'visually lossless,' meaning the human eye won\'t notice the difference." },
-      { q: 'What file formats are supported?', a: 'We support JPG, PNG, and WebP formats.' },
-      { q: 'Can I compress multiple images at once?', a: 'Yes, you can upload and process multiple images in a single batch.' },
-      { q: 'Is there a file size limit?', a: 'You can upload images up to 20MB for compression.' },
-      { q: 'How much space can I save?', a: 'Most users see a reduction of 50% to 90% in file size depending on the original image.' }
+      { q: 'How much smaller will my image get?', a: 'Results vary by image content and quality setting. Highly detailed photos typically compress 40–60%; simpler images with flat areas compress 60–90%. The quality slider lets you find your personal size/quality trade-off.' },
+      { q: 'What\'s the difference between lossy and lossless compression?', a: 'Lossless compression (like PNG default) removes mathematical redundancy without altering any pixel — the decompressed file is bit-for-bit identical to the original. Lossy compression (like JPEG) discards some image data to achieve much higher compression ratios. Our tool uses perceptual lossy compression, targeting data the human eye is least likely to notice.' },
+      { q: 'Should I use JPG or PNG for web images?', a: 'Use JPG for photographs and images with complex colors/gradients — it compresses dramatically better for photos. Use PNG for images that need transparency, logos, screenshots, or anything with sharp edges and flat colors. Converting a photograph to PNG will actually make the file larger, not smaller.' },
+      { q: 'Will the compressed image look worse on a Retina/HiDPI screen?', a: 'At quality 80+, compressed images are perceptually identical on standard screens and barely distinguishable on Retina displays. Below quality 60, some artifacts may be visible on very sharp displays when viewing at 100% zoom.' },
+      { q: 'Does compression affect SEO?', a: 'Yes — faster page loads from smaller image files directly improve Google\'s Core Web Vitals score (specifically Largest Contentful Paint). Google has confirmed that Core Web Vitals are a ranking factor, making image compression a genuine SEO optimization.' },
+      { q: 'Can I compress images for WhatsApp or email attachments?', a: 'Absolutely. WhatsApp compresses images before sending anyway, so sending a smaller file can actually result in higher perceived quality in the received message. For email, compressing below 1MB per image is a good general practice.' },
+      { q: 'Does the tool store my images?', a: 'No. Compression runs entirely in your browser using JavaScript — your images are never sent to our servers. This means even private, confidential, or GDPR-sensitive images are safe to compress with this tool.' }
     ],
     benefits: [
-      'Significant file size reduction (up to 90%).',
-      'Maintain high visual quality.',
-      'Faster website loading speeds.',
-      'Save storage space on your devices.',
-      'Secure client-side processing.'
+      'Perceptual compression — targets least-visible image regions',
+      'Up to 90% file size reduction at quality 50–70',
+      'Live file size preview before downloading',
+      'Completely browser-based — images never leave your device',
+      'JPEG, PNG, and WebP format support',
+      'No batch limit — compress as many images as you need'
     ],
     useCases: [
-      'Optimizing website images for better SEO and speed.',
-      'Reducing photo sizes for email attachments.',
-      'Saving space on your phone or cloud storage.',
-      'Preparing images for social media uploads.'
+      'Compressing website images to improve Google Core Web Vitals and SEO',
+      'Reducing email attachments below size limits (typically 25MB for Gmail)',
+      'Preparing images for social media where platforms re-compress anyway',
+      'Saving storage space on smartphones and cloud storage',
+      'Reducing bandwidth for image-heavy web applications and galleries',
+      'Preparing e-commerce product images for fast mobile page loads'
     ],
+    relatedTools: ['image-upscale', 'image-enhancer', 'bg-remover', 'image-generator'],
     extraInfo: `
-      <h2>Smart Image Compression for the Modern Web</h2>
-      <p>Large image files are the #1 cause of slow websites. In an era where every millisecond counts for SEO and user experience, optimizing your images is non-negotiable. Texly\'s AI Image Compressor uses advanced quantization and entropy coding to strip away unnecessary data without touching the pixels that matter.</p>
+      <h2>Image Compression and Web Performance: The Full Picture</h2>
+      <p>Images typically account for 60–80% of a webpage's total byte weight. Compressing them is the highest-impact single optimization you can make to page load speed — more impactful than minifying JavaScript, enabling Gzip, or lazy loading fonts. Here's everything you need to know to make the right compression decisions.</p>
 
-      <h3>Visual Quality vs. File Size</h3>
-      <p>Our compressor finds the "sweet spot" where the file size is minimized but the image still looks crisp. We use perceptual algorithms that understand which parts of an image the human eye focuses on, allowing us to compress less important areas more heavily while keeping the subject sharp.</p>
-
-      <h3>Privacy-First Compression</h3>
-      <p>Unlike other tools that upload your photos to a server, our compressor works entirely in your browser. Your images never leave your computer, making it the most secure way to handle sensitive or personal photos.</p>
-
-      <h3>SEO Benefits of Compressed Images</h3>
-      <p>Google loves fast websites. By compressing your images, you improve your "Core Web Vitals," which can lead to higher rankings in search results. Faster pages also mean lower bounce rates and higher conversion for your business.</p>
-    `
-  },
-  'military-alphabet-converter': {
-    title: 'Military Alphabet Converter - Text to Military Phonetic Alphabet',
-    metaDescription: 'Convert text to military phonetic alphabet (Alpha, Bravo, Charlie…) used by armed forces and NATO worldwide. Free military alphabet converter — instant!',
-    h1: 'Military Phonetic Alphabet Converter — Translate Text Instantly',
-    intro: 'The NATO/Military Phonetic Alphabet was standardized by the International Civil Aviation Organization in 1956 and adopted by NATO, military forces worldwide, and aviation authorities to eliminate the lethal ambiguity that plagued early radio communications. Each letter of the alphabet is replaced by a word chosen for its distinctiveness across different languages, accents, and communication quality degradation: words were tested with speakers from 31 countries to ensure clarity. Our Military Alphabet Converter translates your input letter by letter to its phonetic word equivalent — Alpha, Bravo, Charlie, Delta — including digits (Zero through Niner, with Niner specifically to distinguish from German \'Nein\') and common symbols. Essential for aviation enthusiasts, military hobbyists, and anyone who needs unambiguous verbal spelling.',
-    howToUse: [
-      'Enter the text you want to convert into the input box (e.g., "Texly").',
-      'Select the "Text to NATO" mode from the options below the input.',
-      'The tool will instantly generate the phonetic equivalent (e.g., "Tango Echo X-ray Lima Yankee").',
-      'To decode NATO code back to text, switch to "NATO to Text" mode and paste the phonetic words.',
-      'Click the "Copy" button to save the result to your clipboard.'
-    ],
-    faqs: [
-      { q: 'What is the NATO Phonetic Alphabet?', a: 'The NATO Phonetic Alphabet is a standardized spelling alphabet used by military and civilian organizations worldwide to ensure clear communication over radio or telephone, especially when signal quality is poor.' },
-      { q: 'Why is it called the "Military Alphabet"?', a: 'It is commonly referred to as the military alphabet because of its extensive use by armed forces to prevent spelling errors and misunderstandings during critical operations.' },
-      { q: 'Can I convert numbers using this tool?', a: 'Yes, our converter supports digits 0-9, translating them into their phonetic equivalents like "Zero", "One", "Two", etc.' },
-      { q: 'Is this tool free to use?', a: 'Absolutely! Texly provides this military alphabet converter completely free of charge with no registration required.' },
-      { q: 'Does it support special characters?', a: 'Special characters are generally preserved as-is, while spaces can be explicitly converted to "(space)" for clarity in NATO mode.' },
-      { q: 'Is my data secure?', a: 'Yes, all conversions happen locally in your browser. No text is ever sent to our servers, ensuring your privacy.' },
-      { q: 'Can I use this for aviation?', a: 'Yes, the NATO phonetic alphabet is the standard for international aviation (ICAO), making this tool perfect for pilots and air traffic controllers.' },
-      { q: 'How do I pronounce "Quebec"?', a: 'In the NATO phonetic alphabet, "Quebec" is typically pronounced as "keh-BECK", with the emphasis on the second syllable.' }
-    ],
-    benefits: [
-      'Ensures 100% accuracy in verbal communication of codes and names.',
-      'Saves time by providing instant translations in both directions.',
-      'Helps beginners learn the NATO phonetic alphabet quickly.',
-      'Works offline once the page is loaded in your browser.',
-      'Clean, ad-free interface optimized for mobile and desktop use.'
-    ],
-    useCases: [
-      'Aviation and maritime communication where clarity is vital.',
-      'Customer service representatives spelling out difficult names or emails.',
-      'Emergency services coordinating responses over radio frequencies.',
-      'Military enthusiasts and students learning standardized codes.',
-      'IT professionals communicating complex passwords or serial numbers.'
-    ],
-    extraInfo: `
-      <h2>The Ultimate Guide to the Military Alphabet (NATO Phonetic Alphabet)</h2>
-      <p>In a world where communication is increasingly digital, the importance of clear verbal communication often gets overlooked. However, in high-stakes environments like aviation, the military, and emergency services, a single misunderstood letter can lead to catastrophic consequences. This is where the <strong>Military Alphabet</strong>, officially known as the <strong>NATO Phonetic Alphabet</strong>, comes into play. Our <strong>Military Alphabet Converter</strong> is designed to help you bridge the gap between plain text and standardized phonetic code instantly.</p>
-
-      <h3>What is the Military Alphabet?</h3>
-      <p>The Military Alphabet is a spelling alphabet used by various organizations to ensure that letters are understood correctly, regardless of radio static, background noise, or regional accents. Instead of saying "A, B, C," which can sound similar over a crackling radio (like 'B', 'C', 'D', 'E', 'G', 'P', 'T', 'V', 'Z'), users say "Alpha, Bravo, Charlie." Each word was carefully chosen to be distinct and easily recognizable across different languages and cultures.</p>
-
-      <h3>A Brief History of the NATO Phonetic Alphabet</h3>
-      <p>The version of the phonetic alphabet we use today wasn\'t created overnight. It evolved through several iterations. During World War I, the British and American militaries used different systems. In World War II, the "Able Baker" alphabet was common. However, as international cooperation grew, the need for a truly global standard became apparent.</p>
-      <p>In the early 1950s, the International Civil Aviation Organization (ICAO) worked with linguists and the NATO alliance to develop a system that worked for speakers of English, French, and Spanish. After extensive testing, the current NATO Phonetic Alphabet was adopted in 1956 and has remained the global standard ever since.</p>
-
-      <h3>Why Use an Online Military Alphabet Converter?</h3>
-      <p>While many professionals have these codes memorized, most people only need them occasionally. Whether you\'re trying to give a complex serial number to a support agent or you\'re a student pilot practicing your radio calls, our <strong>online military alphabet converter</strong> makes the process effortless. Here are a few reasons why our tool stands out:</p>
+      <h3>Choosing the Right Format</h3>
       <ul>
-        <li><strong>Instant Translation:</strong> No need to look up a chart for every letter. Just type and get the full code.</li>
-        <li><strong>Two-Way Conversion:</strong> Not only can you convert text to NATO, but you can also decode NATO strings back into readable text.</li>
-        <li><strong>Accuracy:</strong> Our logic follows the strict ICAO/NATO standards, ensuring you get the correct words every time.</li>
-        <li><strong>Mobile Friendly:</strong> Use it on the go from your smartphone or tablet without any layout issues.</li>
+        <li><strong>JPEG:</strong> Best for photographs and complex images. Excellent compression at quality 75–85. Does not support transparency.</li>
+        <li><strong>PNG:</strong> Best for graphics, logos, screenshots, and images requiring transparency. Lossless by default (larger files than JPEG). Use PNG-8 for images with fewer than 256 colors.</li>
+        <li><strong>WebP:</strong> Google's format combines the best of both: 25–35% smaller than equivalent JPEG, supports transparency like PNG. Supported by all modern browsers. Consider using WebP when targeting modern browsers and fallback JPEG for legacy support.</li>
       </ul>
 
-      <h3>The Complete NATO Phonetic Alphabet Table</h3>
-      <p>For those interested in learning, here is the full list of words used in the military alphabet:</p>
-      <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-        <thead>
-          <tr style="background-color: #f8fafc;">
-            <th style="border: 1px solid #e2e8f0; padding: 12px; text-align: left;">Letter</th>
-            <th style="border: 1px solid #e2e8f0; padding: 12px; text-align: left;">Phonetic Word</th>
-            <th style="border: 1px solid #e2e8f0; padding: 12px; text-align: left;">Pronunciation</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">A</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Alpha</td><td style="border: 1px solid #e2e8f0; padding: 12px;">AL-fah</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">B</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Bravo</td><td style="border: 1px solid #e2e8f0; padding: 12px;">BRAH-voh</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">C</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Charlie</td><td style="border: 1px solid #e2e8f0; padding: 12px;">CHAR-lee</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">D</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Delta</td><td style="border: 1px solid #e2e8f0; padding: 12px;">DELL-tah</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">E</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Echo</td><td style="border: 1px solid #e2e8f0; padding: 12px;">ECK-oh</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">F</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Foxtrot</td><td style="border: 1px solid #e2e8f0; padding: 12px;">FOKS-trot</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">G</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Golf</td><td style="border: 1px solid #e2e8f0; padding: 12px;">GOLF</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">H</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Hotel</td><td style="border: 1px solid #e2e8f0; padding: 12px;">ho-TELL</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">I</td><td style="border: 1px solid #e2e8f0; padding: 12px;">India</td><td style="border: 1px solid #e2e8f0; padding: 12px;">IN-dee-ah</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">J</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Juliet</td><td style="border: 1px solid #e2e8f0; padding: 12px;">JEW-lee-ETT</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">K</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Kilo</td><td style="border: 1px solid #e2e8f0; padding: 12px;">KEY-loh</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">L</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Lima</td><td style="border: 1px solid #e2e8f0; padding: 12px;">LEE-mah</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">M</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Mike</td><td style="border: 1px solid #e2e8f0; padding: 12px;">MIKE</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">N</td><td style="border: 1px solid #e2e8f0; padding: 12px;">November</td><td style="border: 1px solid #e2e8f0; padding: 12px;">no-VEM-ber</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">O</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Oscar</td><td style="border: 1px solid #e2e8f0; padding: 12px;">OSS-cah</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">P</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Papa</td><td style="border: 1px solid #e2e8f0; padding: 12px;">pah-PAH</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">Q</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Quebec</td><td style="border: 1px solid #e2e8f0; padding: 12px;">keh-BECK</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">R</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Romeo</td><td style="border: 1px solid #e2e8f0; padding: 12px;">ROW-me-oh</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">S</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Sierra</td><td style="border: 1px solid #e2e8f0; padding: 12px;">see-AIR-rah</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">T</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Tango</td><td style="border: 1px solid #e2e8f0; padding: 12px;">TANG-go</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">U</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Uniform</td><td style="border: 1px solid #e2e8f0; padding: 12px;">YOU-nee-form</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">V</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Victor</td><td style="border: 1px solid #e2e8f0; padding: 12px;">VIK-tah</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">W</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Whiskey</td><td style="border: 1px solid #e2e8f0; padding: 12px;">WISS-key</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">X</td><td style="border: 1px solid #e2e8f0; padding: 12px;">X-ray</td><td style="border: 1px solid #e2e8f0; padding: 12px;">ECKS-ray</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">Y</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Yankee</td><td style="border: 1px solid #e2e8f0; padding: 12px;">YANG-kee</td></tr>
-          <tr><td style="border: 1px solid #e2e8f0; padding: 12px;">Z</td><td style="border: 1px solid #e2e8f0; padding: 12px;">Zulu</td><td style="border: 1px solid #e2e8f0; padding: 12px;">ZOO-loo</td></tr>
-        </tbody>
-      </table>
+      <h3>Understanding the Quality Slider</h3>
+      <p>The quality setting is not a percentage of the original file — it's a quantization factor controlling how aggressively frequency information is discarded. Quality 100 = minimal compression (largest file, no visible artifacts). Quality 80 = aggressive but perceptually transparent compression (the sweet spot for web images). Quality 50 = very small files with visible artifacts at close inspection. For hero images, use 80–85. For thumbnail grids, 65–75 is fine.</p>
 
-      <h3>Numbers and Punctuation</h3>
-      <p>In addition to letters, numbers are also standardized to avoid confusion. For example, the number "9" is often pronounced as "Niner" to distinguish it from the German word "Nein" (meaning no). Our tool handles these nuances automatically, providing you with the most accurate phonetic representation.</p>
+      <h3>Core Web Vitals and Image Optimization</h3>
+      <p>Google's Page Experience ranking factors include Largest Contentful Paint (LCP) — the time until the largest visible element (often a hero image) is rendered. A 3MB hero image loading on a 4G connection takes 3–4 seconds. Compressed to 300KB, it loads in under a second. This directly affects your Google ranking and bounce rate — users who wait more than 3 seconds for a page to load abandon it at a 53% rate on mobile.</p>
 
-      <h3>How to Use the Texly Military Alphabet Converter</h3>
-      <p>Using our tool is as simple as 1-2-3. Whether you are on a desktop or a mobile device, follow these steps to get your phonetic code:</p>
-      <ol>
-        <li><strong>Input Your Text:</strong> Type the word or sentence you want to convert into the top text area. For example, if you want to spell out your email address, just type it in.</li>
-        <li><strong>Choose Your Mode:</strong> By default, the tool converts <strong>Text to NATO</strong>. If you have a string of phonetic words and want to know what they spell, select <strong>NATO to Text</strong> from the dropdown menu.</li>
-        <li><strong>Get Results Instantly:</strong> As you type, the output area will update in real-time. You don\'t even need to click a "Convert" button!</li>
-        <li><strong>Copy and Use:</strong> Once you have your result, click the "Copy" button to save it to your clipboard. You can then paste it into an email, a chat, or keep it handy for a phone call.</li>
-      </ol>
-
-      <h3>Practical Use Cases for the Military Alphabet</h3>
-      <p>While it\'s called the "Military" alphabet, its applications are far-reaching in the civilian world:</p>
-      <ul>
-        <li><strong>Customer Support:</strong> Have you ever tried to give a long, complex tracking number or a weirdly spelled name over the phone? Using "Alpha, Bravo..." ensures the agent gets it right the first time, saving you from frustration.</li>
-        <li><strong>IT and Tech Support:</strong> Communicating software license keys, MAC addresses, or complex passwords is much safer when using phonetic words.</li>
-        <li><strong>Aviation and Maritime:</strong> Pilots and sailors use this daily for identifying their craft and communicating coordinates.</li>
-        <li><strong>Amateur Radio (Ham Radio):</strong> Hobbyists use phonetic alphabets to make clear contacts across long distances where signals might be weak.</li>
-        <li><strong>Education:</strong> It\'s a great way for kids to learn about standardized systems and improve their spelling awareness.</li>
-        <li><strong>Internal Linking:</strong> If you\'re working with large amounts of text, you might find our other tools helpful. For instance, after converting your text, you might want to <a href="/tool/remove-extra-spaces-online">remove extra spaces</a> or <a href="/tool/remove-line-breaks-tool">remove line breaks</a> to clean up your final document. If you have a list of phonetic codes, our <a href="/tool/remove-duplicate-lines-tool">remove duplicate lines tool</a> can help you organize your data efficiently. Don\'t forget to check our <a href="/blog">blog</a> for more tips on productivity and text management.</li>
-      </ul>
-
-      <h3>Conclusion</h3>
-      <p>The NATO phonetic alphabet is a simple yet powerful tool for human communication. By standardizing the way we spell things out, we reduce errors and increase efficiency. Texly\'s <strong>Military Alphabet Converter</strong> is here to make this system accessible to everyone. Whether for professional use or personal curiosity, our tool provides fast, accurate, and private conversions every time. Try it out today and experience the clarity of standardized communication!</p>
+      <h3>Workflow: Enhancement → Upscale → Compress</h3>
+      <p>For e-commerce images, the optimal workflow is: use the <a href="/tool/image-enhancer">Image Enhancer</a> to sharpen the original photo, use the <a href="/tool/image-upscale">Image Upscaler</a> if you need a larger size, use the <a href="/tool/bg-remover">Background Remover</a> to isolate the product, then finally compress with this tool for the smallest file size. This sequence ensures you're compressing a high-quality input rather than amplifying existing artifacts.</p>
     `
-  },
-  'whatsapp-text-formatter': {
-    title: 'WhatsApp Bold Text Generator – Bold, Italic & Strikethrough Free',
-    metaDescription: 'Format WhatsApp messages with bold, italic, strikethrough & monospace in 1 click! Free online WhatsApp text formatter. No app needed. Try now!',
-    h1: 'WhatsApp Text Formatter – Style Your Messages Instantly',
-    intro: 'WhatsApp supports Markdown-style text formatting in messages: *bold*, _italic_, ~strikethrough~, and ```monospace```. But typing these characters on mobile is fiddly, and there are additional formatting tricks — numbered lists that auto-render, hyperlinks that preview, line break behavior that differs between the mobile app and Web — that are easy to get wrong. Our WhatsApp Text Formatter lets you compose your message with a visual editor showing bold, italic, strikethrough, and code formatting, then converts it to the exact character sequence WhatsApp requires. Preview how the formatted message will actually appear before sending, and copy the formatted text ready to paste directly into any WhatsApp chat.',
-    howToUse: [
-      'Type or paste your WhatsApp message in the input box above.',
-      'Click on Bold, Italic, Strikethrough, or Monospace button.',
-      'Your text is instantly formatted with the correct WhatsApp symbols.',
-      'Copy the result and paste directly into your WhatsApp chat!'
-    ],
-    faqs: [
-      { q: 'How do I make text bold in WhatsApp?', a: 'Surround your text with asterisks (*bold*). Our tool does this automatically — just paste your text and click Bold.' },
-      { q: 'Does this work for WhatsApp Business too?', a: 'Yes! WhatsApp formatting works the same in WhatsApp, WhatsApp Business, and WhatsApp Web.' },
-      { q: 'Can I combine bold and italic in WhatsApp?', a: 'Yes! You can combine formats. Use bold italic together. Our tool supports all combinations.' },
-      { q: 'Is this tool free?', a: 'Yes, 100% free with no login, no download, and no limits.' },
-      { q: 'Does strikethrough work in WhatsApp?', a: 'Yes! Surround text with tildes and it shows as crossed-out text in WhatsApp.' }
-    ],
-    benefits: [
-      'Make important messages stand out with bold text',
-      'Add emphasis with italic formatting',
-      'Show corrections with strikethrough',
-      'Use monospace for code or structured data',
-      'Works on WhatsApp, WhatsApp Business and WhatsApp Web',
-      'No app download required',
-      '100% free with no login needed',
-      'Instant one-click formatting'
-    ],
-    useCases: [
-      'Highlighting key information in group messages',
-      'Making announcements bold in WhatsApp groups',
-      'Formatting business messages professionally',
-      'Adding strikethrough for task completion updates',
-      'Creating structured lists with monospace text',
-      'Making product names italic in business chats'
-    ],
-    relatedTools: ['fancy-text-generator-online', 'invisible-text-generator', 'zalgo-text-generator']
-  },
-  'number-to-words': {
-    title: 'Number to Words Converter – Indian Lakh Crore and International Free',
-    metaDescription: 'Convert numbers to words in Indian (Lakh, Crore) or International (Million, Billion) format instantly. Free online tool. Perfect for cheques and documents. Try now!',
-    h1: 'Number to Words Converter – Indian and International Format',
-    intro: 'Converting numbers to their written word form is required for writing legal documents (checks, contracts, affidavits), academic papers following certain citation styles, and software generating formal output. Our Number to Words converter handles integers and decimals in multiple formats: standard US English (one million, two hundred fifty thousand), British English (one thousand million vs. one billion disambiguation), Indian numbering system (lakh, crore), and ordinal form (first, second, twenty-third). It handles numbers up to 999 quadrillion accurately, including negative numbers, fractions (three-quarters), and decimals (twelve point five). Output format choices include hyphenated (twenty-one) and non-hyphenated variants.',
-    howToUse: [
-      'Enter any number in the input box (e.g. 10000000).',
-      'Click "Convert to Words" button.',
-      'Get the result in both Indian format (Ten Lakh) and International format (One Million).',
-      'Copy the words and use in your document, cheque, or assignment.'
-    ],
-    faqs: [
-      { q: 'How do I write 1 crore in words?', a: 'One Crore. In International format, 1 Crore equals 10 Million.' },
-      { q: 'What is 10 lakh in words?', a: 'Ten Lakh. In International format, 10 Lakh equals One Million.' },
-      { q: 'How to write amount in words for a cheque?', a: 'Enter the amount number, get the Indian format result (e.g. Five Thousand Two Hundred Rupees Only), and write that on your cheque.' },
-      { q: 'What is the difference between Indian and International number format?', a: 'Indian format uses Lakh (1,00,000) and Crore (1,00,00,000). International uses Million (1,000,000) and Billion (1,000,000,000).' },
-      { q: 'Is this tool free?', a: 'Yes! 100% free with no signup required.' }
-    ],
-    benefits: [
-      'Supports Indian format – Lakh and Crore',
-      'Supports International format – Million and Billion',
-      'Perfect for writing cheques correctly',
-      'Useful for legal and financial documents',
-      'Works for students and accountants',
-      'Instant results with no calculation needed',
-      'No login or signup required',
-      '100% free and accurate'
-    ],
-    useCases: [
-      'Writing cheque amounts in words',
-      'Legal document amount descriptions',
-      'Academic assignments and math problems',
-      'Financial reports and invoices',
-      'Converting salary figures to words',
-      'Property valuation documents'
-    ],
-    relatedTools: ['word-counter-online-free', 'character-counter-tool', 'age-calculator-online']
-  },
-
-  'age-calculator': {
-    title: 'Age Calculator Online - Find Your Exact Age in Years, Months & Days',
-    metaDescription: 'Calculate your exact age from your birth date instantly. Get a detailed breakdown in years, months, weeks, and days. Free, fast, and no signup required.',
-    h1: 'Age Calculator — Know Your Exact Age Instantly',
-    intro: 'Age calculation seems simple — subtract birth date from today — but edge cases make it nuanced. What\'s your age on February 28 if you were born on February 29 in a leap year? How do different cultures define \'turning\' an age — at the start of the birthday or after it ends? Our Age Calculator computes your precise age in years, months, and days simultaneously, handles leap year birthdays correctly for all calendar years, and provides additional context: total days lived, total hours lived, the day of the week you were born, the next birthday countdown, and significant age milestones. Enter any historical or future date to calculate age between two arbitrary dates.',
-    howToUse: [
-      'Enter your date of birth using the date picker or type it in the format YYYY-MM-DD.',
-      'The calculator will instantly compute your exact age from your birth date to today.',
-      'See your detailed age breakdown — years, months, weeks, days, hours, and minutes.',
-      'Copy the result or share it for any official or personal use.'
-    ],
-    faqs: [
-      { q: 'How accurate is this age calculator?', a: 'Our calculator is highly accurate, accounting for leap years and variable month lengths to give you a precise age down to the exact day.' },
-      { q: 'Can I calculate age for a future date?', a: 'Currently, the tool calculates age from birth date to today. For a future date calculation, you can manually adjust the reference date.' },
-      { q: 'Is this tool free?', a: 'Yes, completely free with no signup, no ads, and no limits.' },
-      { q: 'Does it work for all countries?', a: 'Yes, our age calculator follows the universal Gregorian calendar system, which is valid worldwide.' },
-      { q: 'Can I use it on mobile?', a: 'Absolutely. Our tool is fully responsive and works perfectly on all smartphones and tablets.' }
-    ],
-    benefits: [
-      'Precise calculation accounting for leap years and varying month lengths.',
-      'Detailed breakdown in years, months, weeks, and days.',
-      'Instant results — no forms, no waiting.',
-      'Useful for legal, medical, and personal purposes.',
-      '100% free and works on all devices.'
-    ],
-    useCases: [
-      'Verifying age eligibility for government forms and applications.',
-      'Calculating retirement age or pension eligibility.',
-      'Fun birthday age countdowns and anniversary tracking.',
-      'Medical age verification for dosage or eligibility criteria.',
-      'School enrollment age determination for children.'
-    ],
-    relatedTools: ['pregnancy-due-date-calculator', 'word-counter', 'unit-converter']
-  },
-
-  'qr-code-generator': {
-    title: 'QR Code Generator Online - Create Custom QR Codes Free',
-    metaDescription: 'Generate custom QR codes for any URL, text, email, or phone number instantly. Download high-quality QR codes for free. No signup required.',
-    h1: 'Free QR Code Generator — Create & Download Instantly',
-    intro: 'QR codes store up to 7,089 numeric characters or 4,296 alphanumeric characters across 40 size versions, with four levels of error correction that allow the code to remain readable even when 7-30% of the pattern is damaged or obscured. Our QR Code Generator creates QR codes for URLs, plain text, email addresses, phone numbers, WiFi credentials (SSID, password, security type), vCard contact information, and geographic coordinates. Customize the code\'s foreground and background colors, add a logo in the center (with automatic quiet zone calculation), choose output size, and download as SVG (infinitely scalable), PNG, or JPEG. Error correction level L is shown by default; increase to H for codes that will appear on products or in challenging environments.',
-    howToUse: [
-      'Type or paste the URL, text, or information you want to encode into the input field.',
-      'Your QR code will generate automatically in real-time as you type.',
-      'Customize the size or download format if options are available.',
-      'Click "Download" to save your QR code as a high-quality PNG image.'
-    ],
-    faqs: [
-      { q: 'What type of data can I encode in a QR code?', a: 'You can encode URLs, plain text, email addresses, phone numbers, SMS messages, and Wi-Fi credentials.' },
-      { q: 'How long do the QR codes last?', a: 'QR codes generated by our tool are static, meaning they last forever and never expire.' },
-      { q: 'Is the QR code free to use commercially?', a: 'Yes, all QR codes generated are yours to use for personal and commercial purposes without any fee.' },
-      { q: 'What resolution is the downloaded QR code?', a: 'We generate high-resolution QR codes suitable for print and digital use.' },
-      { q: 'Do I need to create an account?', a: 'No account needed. Generate and download QR codes instantly without any registration.' }
-    ],
-    benefits: [
-      'Generate unlimited QR codes for free with no restrictions.',
-      'Static QR codes that never expire.',
-      'High-resolution output suitable for print materials.',
-      'Works for URLs, text, emails, phone numbers, and more.',
-      'Instant generation — no waiting for server processing.'
-    ],
-    useCases: [
-      'Adding QR codes to business cards and brochures for instant contact sharing.',
-      'Linking product packaging to instructional videos or manuals.',
-      'Creating event check-in codes for conferences and workshops.',
-      'Sharing Wi-Fi passwords easily with guests.',
-      'Driving traffic from print ads to landing pages.'
-    ],
-    relatedTools: ['base64-encode', 'url-encode', 'random-string']
-  },
-
-  'unit-converter': {
-    title: 'Unit Converter Online - Convert Length, Weight, Temperature Free',
-    metaDescription: 'Convert between metric and imperial units instantly. Length, weight, temperature, area, volume and more. Free unit converter, no signup needed.',
-    h1: 'Free Unit Converter — Metric, Imperial & More',
-    intro: 'Our comprehensive Unit Converter covers all major measurement categories in one place. Length: convert between millimeters, centimeters, meters, kilometers, inches, feet, yards, and miles. Weight: milligrams, grams, kilograms, metric tons, ounces, pounds, and US tons. Temperature: Celsius, Fahrenheit, and Kelvin with full formula application (not just approximation). Volume: milliliters, liters, teaspoons, tablespoons, cups, pints, quarts, gallons (US and Imperial). Area: square centimeters, square meters, hectares, square feet, square yards, acres. Speed: km/h, mph, m/s, knots. Data: bits, bytes, kilobytes through terabytes and petabytes (both decimal SI and binary IEC standards). All conversions use exact or high-precision values from NIST standards.',
-    howToUse: [
-      'Select the category of unit you want to convert (e.g., Length, Weight, Temperature).',
-      'Choose the source unit and enter the value you want to convert.',
-      'Select the target unit you want to convert to.',
-      'The result appears instantly — copy it for your calculations.'
-    ],
-    faqs: [
-      { q: 'What unit categories does this converter support?', a: 'We support Length, Weight/Mass, Temperature, Area, Volume, and more common unit categories.' },
-      { q: 'How accurate are the conversions?', a: 'Our converter uses precise, standard conversion factors for all units, ensuring accuracy for scientific, educational, and everyday use.' },
-      { q: 'Can I convert between metric and imperial?', a: 'Yes, you can freely convert between metric (km, kg, °C) and imperial (miles, pounds, °F) units.' },
-      { q: 'Is it free to use?', a: 'Yes, completely free with no registration required.' },
-      { q: 'Does it work offline?', a: 'Yes, once the page loads, all conversions happen instantly in your browser without any internet connection needed.' }
-    ],
-    benefits: [
-      'Covers all major unit categories in one place.',
-      'Instant conversion with precise standard formulas.',
-      'Works for both metric and imperial systems.',
-      'No signup or registration required.',
-      'Lightweight and works on all devices including mobile.'
-    ],
-    useCases: [
-      'Students converting units for physics, chemistry, and math homework.',
-      'Travelers converting miles to kilometers or Fahrenheit to Celsius.',
-      'Chefs and bakers converting recipe measurements.',
-      'Engineers and scientists working across measurement systems.',
-      'Shoppers comparing product specifications in different unit systems.'
-    ],
-    relatedTools: ['age-calculator', 'word-counter', 'reading-time']
-  },
-
-  'color-palette-generator': {
-    title: 'Color Palette Generator Online - Create Beautiful Color Schemes Free',
-    metaDescription: 'Generate stunning color palettes and schemes for your design projects. Export hex codes instantly. Free color palette generator, no signup required.',
-    h1: 'Color Palette Generator — Beautiful Schemes Instantly',
-    intro: 'Color palette design is one of the most underestimated skills in visual design — the palette determines the emotional tone, visual hierarchy, and brand consistency of everything from website interfaces to print materials. Our Color Palette Generator takes any starting color (entered as hex, RGB, HSL, or picked with a color wheel) and generates complementary palettes using established color harmony rules: complementary (opposite on the color wheel), analogous (adjacent, for natural harmonious schemes), triadic (three equidistant hues for vibrant contrast), split-complementary (softer than direct complementary), tetradic (four colors for richest variety), and monochromatic (tints and shades of one hue). Each palette shows hex codes, RGB values, and CSS variable definitions ready to paste.',
-    howToUse: [
-      'Click the "Generate" button to create a new random color palette.',
-      'Browse the generated colors and click on any color to copy its hex code.',
-      'Keep generating until you find a combination that fits your project.',
-      'Export or copy the hex codes to use in your design tool.'
-    ],
-    faqs: [
-      { q: 'What color formats are provided?', a: 'We provide hex codes (#RRGGBB) for each color, which work in CSS, design tools, and all major graphic software.' },
-      { q: 'Can I generate palettes based on a specific color?', a: 'Currently the tool generates random palettes. For seed-color based palettes, we recommend pairing it with a design tool like Figma.' },
-      { q: 'How many colors are in each palette?', a: 'Each generated palette typically contains 5 complementary colors designed to work well together.' },
-      { q: 'Is this tool free for commercial projects?', a: 'Yes, all generated palettes are free to use in any personal or commercial project.' },
-      { q: 'Can I save my palettes?', a: 'You can copy the hex codes and save them in your preferred design tool or notes app.' }
-    ],
-    benefits: [
-      'Generates professionally harmonized color combinations.',
-      'One-click hex code copying for quick use in projects.',
-      'Unlimited palette generation with no restrictions.',
-      'Great for web design, graphic design, and branding.',
-      'No software installation — works entirely in your browser.'
-    ],
-    useCases: [
-      'Web designers finding color schemes for website redesigns.',
-      'Graphic designers creating cohesive brand identity packages.',
-      'Social media managers planning visually consistent content themes.',
-      'Students learning about color theory and complementary colors.',
-      'App developers choosing UI color schemes for mobile apps.'
-    ],
-    relatedTools: ['fancy-text', 'image-to-text', 'qr-code-generator']
-  },
-
-  'base64-image-converter': {
-    title: 'Base64 Image Converter - Convert Image to Base64 & Back Free',
-    metaDescription: 'Convert images to Base64 data strings or decode Base64 back to images instantly. Free, secure, and works entirely in your browser. No upload to servers.',
-    h1: 'Base64 Image Converter — Encode & Decode Images Instantly',
-    intro: 'Embedding images as Base64 directly in CSS, HTML, or JavaScript eliminates an HTTP request for that resource — critical for small icons, loading spinners, and UI elements where a separate network round-trip costs more time than the data savings. Our Base64 Image Converter encodes any image file (JPG, PNG, GIF, WebP, SVG) to its Base64 string and formats it as a complete data URI (data:image/png;base64,…) ready to paste into CSS background-image properties, HTML <img> src attributes, or JavaScript image loading code. It also decodes Base64 data URIs back to downloadable image files. Displays the exact encoded string length so you can decide whether the Base64 approach is actually smaller than the original.',
-    howToUse: [
-      'Upload your image file (PNG, JPG, GIF, WebP, SVG) using the file picker.',
-      'The tool will instantly generate the Base64-encoded data URI string.',
-      'Copy the Base64 string to use it in your HTML, CSS, or API payload.',
-      'To decode, paste a Base64 string into the input and see the image rendered instantly.'
-    ],
-    faqs: [
-      { q: 'What image formats are supported?', a: 'We support PNG, JPG, JPEG, GIF, WebP, SVG, and most other common image formats.' },
-      { q: 'Is my image uploaded to your servers?', a: 'No. All encoding and decoding happens entirely in your browser. Your image never leaves your device.' },
-      { q: 'What is Base64 image encoding used for?', a: 'It is commonly used to embed images directly in HTML/CSS files, pass images in JSON API payloads, and store image data in databases.' },
-      { q: 'Is there a file size limit?', a: 'Very large images may slow down your browser, but there is no hard server-side limit since processing happens locally.' },
-      { q: 'Can I decode Base64 back to an image?', a: 'Yes, paste any valid Base64 image data URI and our tool will render it as a viewable image you can download.' }
-    ],
-    benefits: [
-      'No server upload — 100% private and secure image processing.',
-      'Supports encoding and decoding in both directions.',
-      'Essential tool for web developers and API engineers.',
-      'Works with all major image formats.',
-      'Instant conversion — no waiting for uploads or server response.'
-    ],
-    useCases: [
-      'Web developers embedding small icons directly in HTML/CSS to reduce HTTP requests.',
-      'API developers passing image data in JSON request and response bodies.',
-      'Security researchers analyzing encoded image payloads.',
-      'Email template designers embedding images for offline email compatibility.',
-      'Mobile app developers handling image data in local storage or SQLite databases.'
-    ],
-    relatedTools: ['base64-encode', 'base64-decode', 'image-to-text']
   },
 
   'ai-text-suite': {
-    title: 'AI Text Suite – 5-in-1 Smart Text Tool Free ⚡ (Groq AI Powered)',
-    metaDescription: 'Remove special characters, convert text to list, repeat text, find & replace, and clean messy text — all in one free AI-powered tool. Powered by Groq AI. No signup.',
-    h1: 'AI Text Suite — 5-in-1 Smart Text Processing Tool Free',
-    intro: 'AI Text Suite combines five of the most-needed text processing tools into a single intelligent workspace powered by Groq AI. Whether you need to remove special characters from a database export, turn a blob of text into a clean list, repeat phrases for testing, bulk find-and-replace terminology, or clean up messy copied text — it all happens in one place. The AI engine understands context, so it makes smarter decisions than simple regex tools: it knows when to preserve hyphens in compound words, when a period ends a sentence vs. an abbreviation, and how to handle Unicode edge cases that trip up standard tools.',
+    title: 'AI Text Suite — 5-in-1 Smart Text Tool Free ⚡ (Groq AI Powered)',
+    metaDescription: 'Remove special characters, convert text to list, repeat text, find & replace, and clean messy text — all in one free AI tool. Powered by Groq AI. No signup needed.',
+    h1: 'AI Text Suite — 5-in-1 Intelligent Text Processing Tool Free',
+    intro: 'Most text cleaning workflows require five separate browser tabs: one site to remove special characters, another to build a bullet list, a third to repeat a phrase for load testing, a fourth for find-and-replace across a document, a fifth to strip hidden Unicode characters from copy-pasted content. AI Text Suite collapses all five into a single interface powered by Groq\'s llama-3.3-70b-versatile model running at inference speeds that return results in 1–3 seconds. The difference from regex-based alternatives is contextual intelligence: when you ask it to remove special characters, it preserves hyphens in compound words ("state-of-the-art") and periods in abbreviations ("Dr. Smith") rather than blindly stripping all non-alphabetic characters. When converting text to a list, it groups related items, capitalizes correctly, and restructures sentences rather than simply splitting on newlines. Paste your text, select your operation, and get context-aware output that a generic tool would mangle.',
     howToUse: [
-      'Paste your text into the main input box.',
-      'Select the operation you need: Remove Special Chars, Text to List, Repeater, Find & Replace, or Cleaner.',
-      'Configure any options for your chosen operation.',
-      'Click Process — the AI will handle the rest.',
-      'Copy the cleaned output with one click.'
+      'Paste or type your text into the main input area.',
+      'Select one of the five tools: Remove Special Chars, Text to List, Repeater, Find & Replace, or Text Cleaner.',
+      'Configure any tool-specific options (e.g., repeat count and separator, find/replace terms).',
+      'Click "Process with AI" — results appear in 1–3 seconds.',
+      'Click the Copy button to copy cleaned output to your clipboard.'
     ],
     faqs: [
-      { q: 'What does AI Text Suite do?', a: 'It combines 5 text tools in one: remove special characters, text to list converter, text repeater, find & replace, and text cleaner — all powered by Groq AI for smarter results.' },
-      { q: 'Is AI Text Suite free?', a: 'Yes, completely free. No signup, no credit card, no limits on usage.' },
-      { q: 'How is it better than regular text tools?', a: 'The Groq AI understands context — it makes smarter decisions about what to clean or keep, rather than blindly applying regex patterns.' },
-      { q: 'Does it work on mobile?', a: 'Yes, AI Text Suite works on all devices including mobile phones and tablets.' },
-      { q: 'What is Groq AI?', a: 'Groq is a fast AI inference engine. It powers the intelligent processing in AI Text Suite, giving you near-instant results even for complex text operations.' }
+      { q: 'What exactly does each of the 5 tools do?', a: '1) Remove Special Characters: strips symbols (@#$%^&*) while preserving hyphens, apostrophes, and abbreviation periods. 2) Text to List: converts a blob of text or comma-separated items into a clean bullet-point list. 3) Text Repeater: repeats a phrase N times with a custom separator (newline, comma, space, or custom). 4) Find & Replace: AI-contextual replacement that understands whole-word matching and handles case variations intelligently. 5) Text Cleaner: removes extra spaces, smart quotes (curly apostrophes), non-breaking spaces, zero-width characters, and HTML entities.' },
+      { q: 'How is AI-powered Find & Replace different from Ctrl+H?', a: 'Ctrl+H is exact string matching. AI Find & Replace understands context: if you replace "company" with "organization," it also handles "companies" → "organizations" and "Company" (capitalized) → "Organization" correctly. It can also do semantic replacements: "change all job titles to their formal equivalents."' },
+      { q: 'What is Groq AI and why does it make this faster?', a: 'Groq is a hardware company with custom LPU (Language Processing Unit) chips designed specifically for AI inference. Their chips deliver inference 10–100× faster than traditional GPU servers, which is why AI Text Suite returns results in 1–3 seconds instead of 10–30 seconds on standard AI APIs.' },
+      { q: 'Is there a character limit for the input text?', a: 'The Groq API supports up to 32,768 context tokens — roughly 24,000 words of input text. For most use cases (removing special chars from a CSV export, cleaning an article, building a list), this is more than sufficient.' },
+      { q: 'Does it work on Hindi, Urdu, or other non-English text?', a: 'Yes. llama-3.3-70b-versatile has broad multilingual support. For Devanagari, Arabic, Chinese, Japanese, Korean, and most Latin-script languages, the special character removal and cleaning tools work correctly. Results may vary for less common scripts.' },
+      { q: 'Is my text sent to Groq? Is it private?', a: 'Your text is sent to the Groq API for processing, which operates under Groq\'s privacy policy. Groq does not use submitted data for model training. For sensitive or confidential content, consider whether you are comfortable with API processing.' },
+      { q: 'Can I use Text Repeater for Lorem Ipsum-style placeholder content?', a: 'Yes. You can repeat any phrase — including a single sentence — up to 1,000 times with newline, comma, or custom separators. This is useful for load testing, generating dummy database content, or filling design mockups with repeated text blocks.' }
     ],
     benefits: [
-      '5 tools in 1 — no need to switch between different websites.',
-      'AI-powered decisions for smarter text cleaning than regex tools.',
-      'Instant results powered by Groq — no waiting for processing.',
-      '100% free, no login, works on all devices.'
+      'Five tools in one — eliminate tab-switching between multiple websites',
+      'Context-aware AI processing vs. dumb regex string matching',
+      'Groq-powered inference — 1–3 second results, not 10–30 seconds',
+      'Multilingual support for Latin, Devanagari, Arabic, CJK scripts',
+      'Handles Unicode edge cases (zero-width spaces, non-breaking spaces, smart quotes)',
+      'No login, no account, completely free with no usage limits',
+      'One-click copy for instant workflow integration'
     ],
     useCases: [
-      'Cleaning exported database text before importing to Excel or CRM.',
-      'Converting scraped web content into organized lists.',
-      'Bulk find-and-replace in large documents or code templates.',
-      'Generating test data by repeating phrases with custom separators.',
-      'Cleaning AI-generated text that contains unwanted markdown or symbols.'
+      'Cleaning exported CSV or database text before pasting into Excel or Google Sheets',
+      'Converting scraped web content paragraphs into organized bullet lists',
+      'Bulk terminology replacement across large documents or code template strings',
+      'Generating repeated placeholder text for UI/UX design mockups',
+      'Removing invisible Unicode characters that break character counting or search indexing',
+      'Cleaning AI-generated content that uses smart quotes, em-dashes, or markdown symbols'
     ],
-    relatedTools: ['remove-special-characters', 'text-to-list', 'text-repeater', 'find-replace', 'text-cleaner']
+    relatedTools: ['remove-special-characters', 'text-to-list-converter', 'text-repeater-tool', 'find-and-replace-text-online', 'clean-text-online-free'],
+    extraInfo: `
+      <h2>Why Context-Aware Text Processing Matters</h2>
+      <p>Consider a simple task: remove all special characters from this string — <code>Dr. Smith's state-of-the-art @AI model earned $2.5M in 2024.</code></p>
+      <p>A naive regex <code>[^a-zA-Z0-9 ]</code> produces: <code>Dr Smiths stateoftheart AI model earned 25M in 2024</code> — which has lost the title period, the possessive apostrophe, the compound word hyphens, the dollar sign, and the decimal point, making the result harder to read and potentially changing its meaning.</p>
+      <p>AI Text Suite produces: <code>Dr. Smith's state-of-the-art AI model earned 2.5M in 2024</code> — preserving semantic structure while removing only the genuinely "special" characters (@, $).</p>
+
+      <h3>The 5 Tools — When to Use Each</h3>
+      <ul>
+        <li><strong>Remove Special Characters:</strong> Database exports, form inputs, CSV files where symbols break parsers. Also useful for cleaning hashtag-heavy social media text before pasting into formal documents.</li>
+        <li><strong>Text to List:</strong> Converting paragraph descriptions into bullet points for presentations. Converting comma-separated data into line items. Restructuring interview transcripts into action items.</li>
+        <li><strong>Text Repeater:</strong> UI development (filling a list component with test items), load testing (generating large text inputs), creating repetitive content for performance benchmarking.</li>
+        <li><strong>Find & Replace:</strong> Renaming a product or company name throughout a long document. Swapping technical jargon for simpler terms in a user-facing document. Updating date formats or number formats across a spreadsheet export.</li>
+        <li><strong>Text Cleaner:</strong> Cleaning text pasted from PDFs (which often insert line breaks mid-sentence and non-breaking spaces). Removing smart quotes before pasting into code editors. Stripping HTML entities (&amp;amp;, &amp;nbsp;) from scraped content.</li>
+      </ul>
+
+      <h3>Related Tools on Texly</h3>
+      <p>For dedicated, non-AI versions of each operation, Texly also offers individual tools: the <a href="/tool/remove-special-characters">Remove Special Characters</a> tool for fast regex-based stripping, the <a href="/tool/text-to-list-converter">Text to List Converter</a> for basic list formatting, the <a href="/tool/text-repeater-tool">Text Repeater</a> for custom repeat counts, the <a href="/tool/find-and-replace-text-online">Find & Replace Text</a> tool, and the <a href="/tool/clean-text-online-free">Text Cleaner</a>. Use AI Text Suite when you need intelligent, context-aware processing; use the individual tools when speed and simplicity matter more than context.</p>
+    `
+  },
+
   },
 
 };
