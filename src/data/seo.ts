@@ -1093,36 +1093,45 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     ]
   },
   'remove-special-characters': {
-    title: 'Remove Special Characters Online – Free Instant Tool (No Signup)',
-    metaDescription: 'Remove special characters from text instantly — free. Strips @#$%! symbols, punctuation & all non-alphanumeric characters in 1 click. Works for Excel, Python, databases. No login.',
-    h1: 'Remove Special Characters Online — Clean Text in 1 Click',
-    intro: 'Paste any text and instantly strip out every special character — @, #, $, %, !, *, (, ), punctuation, and more — leaving only clean letters and numbers. Perfect for cleaning data before importing into Excel or a database, generating URL-friendly slugs, sanitizing user input for code, or fixing text copied from PDFs and web pages. Works entirely in your browser — nothing is sent to a server.',
+    title: 'Remove Special Characters Online — Free, Instant, No Signup | Texly',
+    metaDescription: 'Remove special characters from text in 1 click — free & instant. Strips @#$%! symbols, punctuation & non-alphanumeric chars. Works for Excel, SQL, Python, CSV, SEO & more. No login needed.',
+    h1: 'Remove Special Characters from Text Online — Free & Instant',
+    intro: 'Paste any text and instantly strip every special character — @, #, $, %, !, *, (, ), punctuation, emojis, and more — leaving only clean letters, numbers, and spaces. Whether you\'re cleaning data for Excel, sanitizing inputs for a database, generating URL-friendly slugs, or fixing corrupted text copied from PDFs, this tool does it in one click. Use quick presets (Plain Text, Database/SQL, Filename Safe, SEO Slug) or fine-tune with checkboxes. Everything runs in your browser — your text is never sent to a server. 100% free, no account required, works on mobile and desktop.',
     howToUse: [
-      'Paste your text (with symbols, @#$% etc.) into the input box above.',
-      'Click the "Clean My Text" button.',
-      'Your cleaned text — letters and numbers only — appears instantly.',
-      'Click "Copy" to grab the result in one tap.'
+      'Paste your text (with @#$% symbols, punctuation, etc.) into the input box.',
+      'Choose a preset — Plain Text, Database/SQL, Filename Safe, or SEO Slug — or use checkboxes to pick exactly which characters to remove.',
+      'Your cleaned text appears instantly in the output box.',
+      'Click "Copy" to copy the result in one tap, or "Download" to save as a .txt file.'
     ],
     faqs: [
-      { q: 'Which characters does this tool remove?', a: 'Everything except A–Z letters, a–z letters, and 0–9 digits. That includes @, #, $, %, &, *, (, ), !, ?, commas, periods, dashes, underscores, quotes, brackets, and all other symbols.' },
-      { q: 'How do I remove special characters in Excel?', a: 'Copy your Excel column text, paste it here, click Process, then paste the clean result back. This is faster than writing nested SUBSTITUTE formulas in Excel.' },
-      { q: 'How do I remove special characters in Python?', a: 'Use: import re; clean = re.sub(r"[^a-zA-Z0-9\\s]", "", text). Or paste into this tool for a quick one-off clean without writing any code.' },
-      { q: 'Does it remove spaces too?', a: 'No — spaces are kept by default so your words stay separated. Only non-alphanumeric symbols are removed.' },
-      { q: 'Is it free and safe to use?', a: 'Completely free, no signup required. Your text is processed in your browser and never sent to any server.' }
+      { q: 'Which characters does this tool remove?', a: 'By default, it removes everything except A–Z letters, a–z letters, 0–9 digits, and spaces. That includes @, #, $, %, &, *, (, ), !, ?, commas, periods, dashes, underscores, quotes, brackets, and all other symbols. Use the checkboxes to keep specific character types.' },
+      { q: 'How do I remove special characters in Excel?', a: 'Copy your Excel column text, paste it here, click Process, then paste the clean result back. This is faster than writing nested SUBSTITUTE formulas in Excel and handles all special characters at once.' },
+      { q: 'How do I remove special characters in Python?', a: 'In Python you can use: import re; clean = re.sub(r"[^a-zA-Z0-9\\s]", "", text). Or just paste into this tool for a quick one-off clean without writing any code — ideal for non-developers.' },
+      { q: 'Will it remove accents like é, ñ, ü?', a: 'This tool focuses on symbols and punctuation, not accented letters. If you need to strip accents (é → e, ñ → n), use the dedicated Remove Accents tool on Texly.' },
+      { q: 'How do I clean text for a database or SQL query?', a: 'Use the "Database / SQL" preset. It removes single quotes, double quotes, backslashes, and semicolons — characters that cause SQL injection risks — while preserving readable text.' },
+      { q: 'Is there a text size limit?', a: 'No hard limit. The tool runs locally in your browser. It has been tested with texts up to 500,000 characters without issues.' },
+      { q: 'Does it remove spaces too?', a: 'No — spaces are preserved by default so words stay separated. Enable the "Remove Spaces" checkbox only if you need a space-free output.' },
+      { q: 'Is it free and private?', a: 'Completely free, no signup required. All processing happens in your browser — your text is never sent to any server, never logged, never stored.' }
     ],
     benefits: [
-      'Instantly clean text for Excel imports, databases, and APIs — no formula writing needed.',
-      'Remove symbols from filenames, URLs, and slugs in one click.',
-      'Faster than Python regex for quick one-off jobs — no code required.',
-      'Works on any device — mobile, tablet, desktop — no app install needed.'
+      'Clean text for Excel, Google Sheets, and database imports without writing formulas or code.',
+      'Generate URL slugs, SEO-friendly filenames, and clean identifiers in one click.',
+      'Sanitize user input before storing in SQL or NoSQL databases — reduces injection risk.',
+      'Fix text copied from PDFs, Word documents, or web pages that carry hidden symbols.',
+      'Multiple presets (Plain Text, SQL, Filename, SEO Slug) handle the most common use cases automatically.',
+      'Works on any device — phone, tablet, or desktop — with no app install or account needed.'
     ],
     useCases: [
       'Cleaning scraped web data before importing into a spreadsheet or database.',
-      'Generating clean URL slugs and SEO-friendly filenames.',
-      'Sanitizing user-submitted text before storing in a database.',
-      'Stripping symbols from text copied out of PDFs or Word documents.',
-      'Preparing text for SMS or systems that reject special characters.'
-    ]
+      'Generating clean URL slugs and SEO-friendly page filenames.',
+      'Sanitizing user-submitted text before storing in a database or sending via API.',
+      'Stripping symbols from text copied out of PDFs or Microsoft Word documents.',
+      'Preparing text for SMS, push notifications, or systems that reject special characters.',
+      'Removing punctuation before running NLP or text analysis on a dataset.',
+      'Creating clean product names and SKUs for e-commerce catalogs.'
+    ],
+    extraInfo: 'This tool uses browser-side JavaScript regex to strip characters — there is zero server involvement, which means your data stays completely private. The "Database / SQL" preset is especially popular among developers who need to quickly sanitize strings before writing them to a database without setting up a full regex pipeline. The "SEO Slug" preset strips everything except lowercase letters, numbers, and hyphens, making it ideal for generating clean URL paths from page titles.',
+    relatedTools: ['text-to-list', 'remove-extra-spaces', 'find-replace', 'remove-html-tags', 'text-cleaner']
   },
   'remove-html-tags': {
     title: 'Remove HTML Tags Online - Strip HTML Instantly (Free)',
@@ -1571,29 +1580,46 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     ]
   },
   'text-to-list': {
-    title: 'Text to List Converter – Turn Text into List Free ⚡ (1 Click)',
-    metaDescription: 'Convert text to list online free. Turn any text into bullet list or numbered list instantly — paste, click, copy. No signup. Also works as text to list converter online.',
-    h1: 'Text to List Converter — Transform Text into Formatted Lists',
-    intro: 'Unformatted text becomes instantly more organized when converted to a structured list. Our Text to List Converter takes any newline-separated text and transforms it into properly formatted HTML unordered lists (<ul><li>), ordered lists (<ol><li>), Markdown bullet points (* item), Markdown numbered lists (1. item), or comma-separated values — your choice. It handles nested structure by interpreting indentation levels, so if your source text uses tabs or multiple spaces to indicate hierarchy, the output list reflects that hierarchy. Perfect for converting rough brainstorm notes to structured outlines, transforming plain to-do lists to HTML for a webpage, or building navigation menus from content lists.',
+    title: 'Text to List Converter — Convert Text to Bullet, Numbered & Comma List Free | Texly',
+    metaDescription: 'Convert any text into a clean list instantly — bullet list, numbered list, alphabetical, comma-separated, HTML list & more. Free, no signup, works in 1 click. Sort & deduplicate too.',
+    h1: 'Text to List Converter — Convert Text into Any List Format Free',
+    intro: 'Turn any block of text into a perfectly formatted list in seconds. Paste your lines and convert to bullet points (• item), numbered lists (1. item), alphabetical lists (a. item), comma-separated values, pipe-separated values, HTML unordered lists (&lt;ul&gt;&lt;li&gt;), HTML ordered lists, or a fully custom separator you define yourself. Bonus features: sort items A→Z, remove duplicates, skip blank lines, and add custom prefix or suffix to every item. Perfect for organizing grocery lists, to-do lists, brainstorm notes, CSV data, and HTML navigation menus. Everything runs in your browser — no data leaves your device, no login required.',
     howToUse: [
-      'Paste your text into the input field.',
-      'Choose the separator (e.g., comma, newline, space) to split the text into list items.',
-      'The tool will instantly generate a list based on your selection.'
+      'Paste your text into the input box — each item should be on its own line.',
+      'Choose your output format: Bullet List, Numbered List, Alphabetical, Comma-Separated, HTML &lt;ul&gt;/&lt;ol&gt;, or a custom separator.',
+      'Toggle optional settings: Sort A→Z, Remove Duplicates, Skip Blank Lines, or add a custom prefix/suffix.',
+      'Click "Convert" — your formatted list appears instantly.',
+      'Click "Copy" to copy or "Download" to save as a .txt file.'
     ],
     faqs: [
-      { q: 'Can I use a custom separator?', a: 'Yes, you can specify any character or sequence of characters as a separator.' },
-      { q: 'Does it handle empty items?', a: 'Yes, you can choose whether to include or exclude empty items from the list.' }
+      { q: 'What list formats can I convert text to?', a: 'You can convert to: bullet list (• item), numbered list (1. item), alphabetical list (a. item), comma-separated (item1, item2), pipe-separated (item1 | item2), HTML unordered list (<ul>), HTML ordered list (<ol>), or a custom separator you define yourself.' },
+      { q: 'How should I format my input text?', a: 'Each item should be on a separate line. If you have comma-separated text, use the Find & Replace tool first to replace commas with newlines, then convert here.' },
+      { q: 'Can I sort and deduplicate at the same time?', a: 'Yes — check both "Sort A→Z" and "Remove Duplicates" together. The tool removes duplicate entries first, then sorts the remaining unique items alphabetically.' },
+      { q: 'What is the HTML option for?', a: 'The HTML list format outputs <ul><li>item</li></ul> or <ol><li>item</li></ol> markup. This is ideal for pasting directly into a website, blog, or CMS editor that accepts HTML.' },
+      { q: 'Can it handle large lists?', a: 'Yes. The tool processes text in your browser and can comfortably handle hundreds or thousands of items without slowing down.' },
+      { q: 'Is my data private?', a: 'Completely. All processing happens in your browser. Nothing you type is ever sent to a server — Texly has zero access to your text.' },
+      { q: 'Does it work on mobile?', a: 'Yes, fully. Texly is responsive and works on any iPhone, Android, tablet, or desktop browser. No app download required.' },
+      { q: 'Can I add a custom prefix or suffix to each item?', a: 'Yes — use the Prefix and Suffix fields to add any text before or after every item in the list. Useful for creating quoted strings, SQL values, or Markdown task items (- [ ] ).' }
     ],
     benefits: [
-      'Quickly convert plain text into a structured list.',
-      'Prepare data for use in spreadsheets or databases.',
-      'Saves time on manual list creation.'
+      'Convert plain text to bullet, numbered, HTML, or custom-separated lists in one click — no manual reformatting.',
+      'Sort items alphabetically and remove duplicates simultaneously to clean up messy data.',
+      'Generate ready-to-paste HTML lists for websites, blogs, and CMS editors without writing code.',
+      'Create comma-separated or pipe-separated values from a plain list for CSV and spreadsheet use.',
+      'Add prefix and suffix to every item — ideal for coding arrays, SQL IN clauses, or Markdown checkboxes.',
+      'Works 100% in the browser — fast, private, and free on any device.'
     ],
     useCases: [
-      'Converting a comma-separated list into a newline-separated list.',
-      'Preparing data for a spreadsheet.',
-      'Formatting text for professional use.'
-    ]
+      'Converting rough brainstorm notes or meeting bullet points into a clean numbered list.',
+      'Turning a plain grocery list or to-do list into a formatted bullet or checkmark list.',
+      'Generating HTML <ul>/<ol> markup for a webpage, blog post, or email newsletter.',
+      'Creating comma-separated or pipe-separated data from a vertical list for spreadsheet imports.',
+      'Organizing scraped data or copy-pasted content into structured, sorted, deduplicated lines.',
+      'Building navigation menu items or FAQ lists for a website from plain content notes.',
+      'Preparing SQL IN clause values (\'item1\', \'item2\') using prefix/suffix with custom separator.'
+    ],
+    extraInfo: 'The Text to List Converter is one of the most versatile formatting tools on Texly. Unlike a simple bullet-point generator, it supports 8+ output formats plus Sort and Deduplicate — making it useful for developers building arrays, content writers organizing outlines, data analysts cleaning up exported rows, and anyone who frequently works with structured lists. The HTML output mode is especially popular with bloggers and web editors who want to paste directly into a WYSIWYG editor or raw HTML view without manually wrapping each line.',
+    relatedTools: ['remove-special-characters', 'find-replace', 'remove-extra-spaces', 'text-repeater', 'add-prefix']
   },
   'add-prefix': {
     title: 'Add Prefix & Suffix to Lines - Batch Text Editor Online Free',
