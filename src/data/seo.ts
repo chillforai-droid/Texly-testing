@@ -180,8 +180,8 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     relatedTools: ['remove-extra-spaces', 'text-cleaner', 'remove-duplicate-lines']
   },
   'upper-case': {
-    title: 'Uppercase Converter – Convert Text to UPPERCASE Free ⚡ (1 Click)',
-    metaDescription: 'Convert text to uppercase online free — CAPITALIZE ALL LETTERS instantly. Upper case converter: paste, click, copy. Also converts to lowercase. No signup.',
+    title: 'Uppercase Converter — Convert Text to UPPERCASE Instantly | Free Online Tool',
+    metaDescription: 'Convert any text to UPPERCASE in 1 click — free, instant, no login. Capitalize all letters for code constants, headings, or screaming text. Works on all devices!',
     h1: 'Instant Uppercase Text Converter',
     intro: 'UPPERCASE TEXT commands attention — it\'s the typographic choice for constants in code, warnings in technical documentation, acronyms, and display headlines that need to pop. Our Uppercase Converter handles every Latin character, including accented letters (é→É, ü→Ü), so international content converts correctly too. Numbers, symbols, and punctuation are left exactly as they are. Unlike pressing Caps Lock or using a word processor macro, this tool works on any device, in any language, with no chance of accidentally leaving one word in lowercase. Paste a single word or an entire chapter — conversion happens instantly, locally, and silently.',
     howToUse: [
@@ -312,9 +312,9 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     relatedTools: ['word-counter', 'reading-time', 'lorem-ipsum']
   },
   'text-cleaner': {
-    title: 'Text Cleaner Online Free – Clean & Format Text Instantly ⚡ (1 Click)',
-    metaDescription: 'Online text cleaner free — remove extra spaces, fix formatting, strip HTML, clean special chars in 1 click. Best free text cleaner tool. No signup required.',
-    h1: 'All-in-One Professional Text Cleaner',
+    title: 'Clean Text Online Free — Remove Spaces, Fix Formatting & Strip HTML | 1-Click Tool',
+    metaDescription: 'Clean messy text in 1 click — removes extra spaces, smart quotes, HTML tags, hidden chars & special characters. Free online text cleaner. No signup. Works instantly!',
+    h1: 'Clean Text Online Free — Remove Spaces, HTML & Hidden Characters',
     intro: 'Text copy-pasted from the web, PDFs, or Word documents arrives with hidden baggage: smart quotes that break code, non-breaking spaces that resist trimming, invisible Unicode control characters, double dashes, ellipses encoded as single characters, and stray HTML entities. Our Text Cleaner identifies and removes or normalizes over 40 types of formatting artifacts in a single pass. Smart quotes become straight quotes, em dashes become hyphens, non-breaking spaces become regular spaces, and every invisible or problematic Unicode character is either converted or stripped. What remains is genuinely clean plain text that behaves predictably in any editor, database, or code environment.',
     howToUse: [
       'Paste your messy text into the cleaner.',
@@ -859,9 +859,9 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     ]
   },
   'url-decode': {
-    title: 'URL Decoder - Decode URL Encoded Strings Online Free',
-    metaDescription: 'Decode percent-encoded URL strings (%20, %2F, etc.) to readable text instantly. Essential for web developers and SEO experts. Free URL decoder — no login!',
-    h1: 'URL Decoder — Convert Percent-Encoded URLs to Readable Text',
+    title: 'URL Decode Online — Convert %20 Encoded URLs to Readable Text | Free Tool',
+    metaDescription: 'Decode URL-encoded strings (%20, %2F, %3A) to human-readable text in 1 click. Free online URL decoder — no login, works instantly in browser. Perfect for devs & SEO!',
+    h1: 'URL Decode Online — Convert %20 Encoded URLs Instantly',
     intro: 'URLs can only contain a limited set of ASCII characters — everything else must be percent-encoded. So \'hello world\' becomes \'hello%20world\', and a Japanese character becomes a sequence like \'%E3%81%82\'. When you\'re debugging an API call, reading a redirect URL, or trying to understand what data a form submission actually contains, these encoded strings are opaque. Our URL Decoder instantly converts every percent-encoded sequence back to its human-readable character, handling both application/x-www-form-urlencoded format (where spaces are +) and standard RFC 3986 percent-encoding. Paste any encoded URL fragment and get instant clarity.',
     howToUse: [
       'Paste your percent-encoded URL or text into the input field.',
@@ -1159,8 +1159,8 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     ]
   },
   'text-repeater': {
-    title: 'Text Repeater – Repeat Text Multiple Times Online Free ⚡',
-    metaDescription: 'Repeat any text, word or phrase 1000+ times instantly. Free text repeater tool online — choose separator, generate in 1 click. No signup, works on mobile.',
+    title: 'Text Repeater — Repeat Any Text, Word or Phrase Online Free | Instant Tool',
+    metaDescription: 'Repeat any text, word, or phrase up to 1000x instantly. Choose separator, click generate — done! Free text repeater tool, no login needed. Works on mobile & desktop.',
     h1: 'Text Repeater — Repeat Words and Phrases Instantly Online',
     intro: 'Repetitive text is surprisingly useful: stress-testing text rendering systems requires large input volumes; generating placeholder content for load testing databases needs many rows of varied text; creating multi-line watermarks on documents requires repeating a phrase; and some musical or poetic forms intentionally repeat phrases with variation. Our Text Repeater multiplies any input text a specified number of times with configurable separator — newline, comma, space, or custom string — between each repetition. It handles inputs of any length, produces output in milliseconds, and works entirely in your browser so you can generate even millions of characters without a server call.',
     howToUse: [
@@ -1185,9 +1185,9 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     ]
   },
   'find-replace': {
-    title: 'Find and Replace Text Online – Bulk Replace Free ⚡ (Instant)',
-    metaDescription: 'Find and replace text online free. Bulk replace words or phrases in any text instantly. Supports multiple replacements at once. No login — text replace online tool.',
-    h1: 'Online Find & Replace Tool — Bulk Text Substitution in Seconds',
+    title: 'Find and Replace Text Online — Bulk Replace Words Instantly | Free Tool',
+    metaDescription: 'Find and replace any word or phrase in your text instantly — supports bulk replacements, case-sensitive search & regex. Free, no login, works in browser. Try now!',
+    h1: 'Find and Replace Text Online — Bulk Replace Words & Phrases Free',
     intro: 'Manual find-and-replace in a text editor works for one substitution at a time — but what if you need to replace 50 different abbreviations across a 10,000-word document, swap dozens of variable names in a code file, or normalize inconsistent terminology across a corporate document? Our Find & Replace tool accepts multiple find-replace pairs simultaneously, processes them in order, and applies them to your entire text in one pass. It supports case-sensitive and case-insensitive matching, whole-word-only matching, and — for power users — regular expression patterns. Results appear instantly, and you can undo any replacement before copying.',
     howToUse: [
       'Paste your text into the main input area.',

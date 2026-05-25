@@ -88,6 +88,7 @@ const AITextSuite = lazy(() => import('./pages/tools/AITextSuite'));
 const InvisibleTextSuite = lazy(() => import('./pages/tools/InvisibleTextSuite'));
 const TextToListConverter = lazy(() => import('./pages/tools/TextToListConverter'));
 const RemoveSpecialCharacters = lazy(() => import('./pages/tools/RemoveSpecialCharacters'));
+const TopToolsLanding = lazy(() => import('./pages/TopToolsLanding'));
 const DevStudioPage = lazy(() => import('./components/DevStudio'));
 const AIAutomation = lazy(() => import('./pages/AIAutomation'));
 // AI SEO Automation Panel द्वारा push किए गए programmatic landing pages
@@ -505,6 +506,14 @@ function AppContent() {
               element={
                 <RouteErrorBoundary>
                   <InvisibleTextSuite />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/best-free-text-tools-online"
+              element={
+                <RouteErrorBoundary>
+                  <TopToolsLanding />
                 </RouteErrorBoundary>
               }
             />
