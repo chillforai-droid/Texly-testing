@@ -3536,8 +3536,6 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     `
   },
 
-  },
-
 };
 
 export const getSEOData = (toolId: string): ToolContent | null => {
