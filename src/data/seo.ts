@@ -279,9 +279,9 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     relatedTools: ['upper-case', 'lower-case', 'sentence-case']
   },
   'character-counter': {
-    title: 'Character Counter Online Free – Count Letters, Words & Characters ⚡',
+    title: 'Character Counter Online Free — Word Counter & Letter Count Tool ⚡',
     metaDescription: 'Character counter online free — count characters, letters, words, sentences in real time. Best free character count tool. Perfect for SEO, social media, SMS. No login.',
-    h1: 'Real-Time Character & Word Counter',
+    h1: 'Character Counter, Word Counter & Letter Count Tool — Real-Time, Free',
     intro: 'Twitter posts have a 280-character ceiling. Google search titles cut off at roughly 60 characters. Meta descriptions display best between 150 and 160 characters. Instagram captions, SMS messages, LinkedIn headlines — every platform has a limit, and exceeding it means your content gets truncated at the worst moment. Our Character Counter tracks your input in real-time, showing total characters, characters without spaces, word count, sentence count, and paragraph count simultaneously. It updates with every keystroke, so you always know exactly where you stand before you hit publish, send, or submit.',
     howToUse: [
       'Type or paste your text into the counter area.',
@@ -309,7 +309,41 @@ const toolSpecificDetails: Record<string, ToolContent> = {
       'Meeting character limits for online forms and applications.',
       'Analyzing the length of academic papers or articles.'
     ],
-    relatedTools: ['word-counter', 'reading-time', 'lorem-ipsum']
+    relatedTools: ['word-counter', 'letter-counter', 'reading-time', 'lorem-ipsum']
+  },
+  'letter-counter': {
+    title: 'Letter Counter Online Free — Count Letters in Text Instantly ⚡',
+    metaDescription: 'Free letter counter online. Count only the letters (A–Z) in any text — excludes spaces, numbers, and punctuation. Instant, accurate, no login needed.',
+    h1: 'Letter Counter — Count Only Letters in Your Text, Free & Instant',
+    intro: 'A letter counter counts only alphabetic characters — every A to Z — and ignores spaces, punctuation, numbers, and symbols. This is different from a character counter, which counts everything, and a word counter, which counts space-separated groups. When you need the pure letter count for a crossword puzzle, a linguistic analysis, a Scrabble hand, a school exercise, or an NLP project, this is the right tool. Paste any text and see the total letter count, plus an optional per-letter frequency breakdown, update instantly.',
+    howToUse: [
+      'Type or paste your text into the input field.',
+      'The letter count updates in real time — only A–Z letters are counted.',
+      'See the total letter count and per-letter frequency breakdown.',
+      'Copy the result or clear the field and start again.'
+    ],
+    faqs: [
+      { q: 'What counts as a letter?', a: 'Any character from A to Z (uppercase or lowercase). Spaces, digits, punctuation, and special characters are excluded from the letter count.' },
+      { q: 'Does it count uppercase and lowercase separately?', a: 'No — A and a both count as one letter each. The total shows all letters regardless of case.' },
+      { q: 'How is a letter counter different from a character counter?', a: 'A character counter counts every character including spaces and punctuation. A letter counter counts only alphabetic letters, giving you a pure letter count.' },
+      { q: 'Can I see which letter appears most?', a: 'Yes, the tool shows a per-letter frequency breakdown so you can see how many times each letter appears.' },
+      { q: 'Is there a limit on text length?', a: 'No. You can count letters in anything from a single word to a full document.' }
+    ],
+    benefits: [
+      'Counts only letters — no spaces, no numbers, no punctuation.',
+      'Real-time updates with every keystroke.',
+      'Per-letter frequency breakdown for linguistic analysis.',
+      'Perfect for crosswords, Scrabble, word games, and NLP.',
+      'Free, private, no signup required.'
+    ],
+    useCases: [
+      'Counting letters for crossword puzzle answers.',
+      'Analyzing letter frequency in a text for linguistics or NLP.',
+      'Checking letter counts for word games like Scrabble or Wordle.',
+      'Educational exercises for learning the alphabet.',
+      'Verifying letter-only input length for form validation.'
+    ],
+    relatedTools: ['word-counter', 'character-counter', 'reading-time']
   },
   'text-cleaner': {
     title: 'Clean Text Online Free — Remove Spaces, Fix Formatting & Strip HTML | 1-Click Tool',
@@ -521,7 +555,7 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     ]
   },
   'alternating-case': {
-    title: 'Alternating Case Converter - aLtErNaTiNg TeXt Generator',
+    title: 'Alternating Case — Sarcastic Text Generator Online Free ⚡',
     metaDescription: 'Convert any text to AlTeRnAtInG cAsE instantly! Perfect for memes, sarcasm, and social media jokes. Free, fast, and works on any device. Try it now!',
     h1: 'Alternating Case Text Generator — For Memes & Sarcasm',
     intro: 'AlTeRnAtInG cAsE is the internet\'s favorite way to add sarcasm, humor, or a quirky aesthetic to any message. Our Alternating Case Converter applies the alternating pattern to your text instantly, making it perfect for memes, social media trolling, or just having a laugh. Works on any length of text, from a single word to an entire paragraph.',
@@ -1263,24 +1297,42 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     ]
   },
   'word-counter': {
-    title: 'Word Counter Online - Count Words & Characters Free',
-    metaDescription: 'Count words, characters, sentences and paragraphs instantly. Free online word counter. Perfect for essays, articles & social media limits. No signup!',
-    intro: 'Accurate word counting is essential for writers, editors, students, and content professionals working within strict limits. Our Word Counter tool goes beyond just words — it gives you character count, sentence count, paragraph count, estimated reading time, and average word length all at once. Whether you are checking an essay, a tweet, or an article against a word limit, our tool has every stat you need.',
+    title: 'Word Counter & Character Counter Online Free ⚡ — Letter Count, Word Count Tool',
+    metaDescription: 'Free word counter and character counter online. Count words, letters, characters (with & without spaces), sentences, and paragraphs in real time. No login. Works on any device.',
+    h1: 'Word Counter & Character Counter — Free Letter Count Tool Online',
+    intro: 'Whether you need a word counter, a character counter, or a letter counter, this is the one tool that does it all in real time. Writers use it to hit word limits for essays, articles, and novels. Marketers use it to optimize SEO meta titles (60 chars), meta descriptions (160 chars), and Twitter posts (280 chars). Students use it to check assignment word counts. SMS drafters use it to stay under 160 characters. Every count — words, characters with spaces, characters without spaces, letters only, sentences, paragraphs, and estimated reading time — updates instantly with every keystroke. No button to click. No page to reload. Just paste and see.',
     howToUse: [
-      'Type or paste your content into the word counter.',
-      'Watch the numbers update in real-time as you type.',
-      'Check word count, character count, and even sentence count.',
-      'Use the results to meet specific length requirements for assignments or posts.'
+      'Type or paste your text into the input area.',
+      'See word count, character count, and letter count update in real time.',
+      'Check characters with spaces vs. characters without spaces separately.',
+      'Use the sentence and paragraph count for document analysis.',
+      'Copy your text or clear the field with one click.'
     ],
     faqs: [
-      { q: 'Does it count spaces as characters?', a: 'Yes, we provide both "Characters with spaces" and "Characters without spaces" for complete accuracy.' },
-      { q: 'Is there a word limit?', a: 'No, you can paste entire chapters or long articles to get an accurate count.' }
+      { q: 'What is the difference between a character counter and a letter counter?', a: 'A character counter counts every character including spaces, punctuation, and numbers. A letter counter counts only alphabetic letters (A–Z). Both counts are shown here simultaneously.' },
+      { q: 'Does it count spaces as characters?', a: 'Yes — we show both "Characters with spaces" and "Characters without spaces" so you can use whichever is relevant to your platform.' },
+      { q: 'How accurate is the word counter?', a: 'Words are split on whitespace, matching the logic used by Google Docs, Microsoft Word, and most publishing platforms.' },
+      { q: 'Is there a text length limit?', a: 'No. You can paste anything from a single tweet to a full novel chapter and get accurate counts instantly.' },
+      { q: 'Can I use it for SEO?', a: 'Yes. Google typically displays meta titles up to 60 characters and meta descriptions up to 160 characters. This tool lets you measure both exactly.' },
+      { q: 'Does it work on mobile?', a: 'Yes, it is fully optimized for mobile. Type or paste on any smartphone or tablet.' }
     ],
     benefits: [
-      'Real-time updates as you type.',
-      'Detailed statistics including reading time.',
-      'Perfect for SEO meta descriptions and social media posts.'
-    ]
+      'All-in-one: word count + character count + letter count in one tool.',
+      'Real-time updates — no button clicks needed.',
+      'Works for SEO, social media, SMS, essays, and forms.',
+      'Counts with and without spaces for maximum flexibility.',
+      '100% private — text never leaves your browser.',
+      'Free, no login, no ads.'
+    ],
+    useCases: [
+      'Checking word count for essays, assignments, and articles.',
+      'Staying within Twitter (280), LinkedIn (700), or Instagram caption limits.',
+      'Optimizing SEO meta titles and descriptions by character count.',
+      'Drafting SMS messages under the 160-character limit.',
+      'Counting letters only for puzzles, educational tools, or word games.',
+      'Measuring reading time for blog posts and content.'
+    ],
+    relatedTools: ['character-counter', 'letter-counter', 'reading-time', 'lorem-ipsum']
   },
   'json-formatter': {
     title: 'JSON Formatter & Beautifier - Format & Validate JSON Online Free',

@@ -378,39 +378,74 @@ export const TOOLS: Tool[] = [
   // ANALYSIS
   {
     id: 'word-counter',
-    name: 'Word Counter Online: Get Instant Stats (100% Free ⚡)',
+    name: 'Word Counter & Character Counter Online Free ⚡',
     slug: 'word-counter-online-free',
     category: 'analysis',
-    shortDescription: 'Word counter online free. Count words, characters, and sentences in your text.',
-    description: 'Word counter online free. Count words in text and get accurate character statistics with our text word count tool. Perfect for writers, students, and content creators.',
+    shortDescription: 'Count words, characters, letters, and sentences in real time. Free word counter and character counter — all in one tool.',
+    description: 'All-in-one word counter and character counter online free. Count words, characters with and without spaces, letters only, sentences, paragraphs, and estimated reading time. Perfect for SEO meta tags, social media posts, essays, and SMS drafts. No login. Real-time updates.',
     icon: 'FileText',
-    keywords: ['word counter online free', 'count words in text', 'text word count tool', 'character counter online', 'text statistics generator'],
+    keywords: ['word counter online free', 'character counter online', 'letter counter', 'count words in text', 'character count tool', 'word count tool', 'letter count online', 'count letters in text free'],
     primaryKeyword: 'word counter online free',
-    secondaryKeywords: ['count words in text', 'text word count tool'],
-    example: 'This is a sample text for word counting.',
+    secondaryKeywords: ['character counter online', 'letter counter', 'count words in text'],
+    example: 'This is a sample text for word and character counting.',
     process: (input) => {
       const words = input.trim() ? input.trim().split(/\s+/).length : 0;
       const chars = input.length;
-      const lines = input.split(/\r?\n/).length;
-      return `Words: ${words}\nCharacters: ${chars}\nLines: ${lines}`;
+      const charsNoSpaces = input.replace(/\s/g, '').length;
+      const letters = (input.match(/[a-zA-Z]/g) || []).length;
+      const sentences = input.split(/[.!?]+/).filter(s => s.trim()).length;
+      const paragraphs = input.split(/\n\s*\n/).filter(p => p.trim()).length || (input.trim() ? 1 : 0);
+      const readingTime = Math.ceil(words / 200);
+      return `Words: ${words}\nCharacters (with spaces): ${chars}\nCharacters (without spaces): ${charsNoSpaces}\nLetters only: ${letters}\nSentences: ${sentences}\nParagraphs: ${paragraphs}\nReading time: ~${readingTime} min`;
     },
   },
   {
     id: 'character-counter',
-    name: 'Character Counter',
+    name: 'Character Counter Online Free — Word & Letter Count Tool ⚡',
     slug: 'character-counter-tool',
     category: 'analysis',
-    shortDescription: 'Character counter tool. Count characters with and without spaces.',
-    description: 'Character counter tool online for free. Get the exact character count of your text instantly. Useful for social media posts, Meta descriptions, and SMS limits.',
+    shortDescription: 'Count characters, words, and letters in real time. Free character counter with and without spaces.',
+    description: 'Character counter tool online for free. Count characters with spaces, characters without spaces, word count, letter count, sentences, and paragraphs instantly. Perfect for SEO meta descriptions, social media posts, SMS, and academic writing.',
     icon: 'Type',
-    keywords: ['character counter tool online', 'count characters in text', 'letter count tool', 'character count with spaces', 'text length checker'],
+    keywords: ['character counter tool online', 'count characters in text', 'letter count tool', 'character count with spaces', 'text length checker', 'character counter online free', 'word and character counter'],
     primaryKeyword: 'character counter tool online',
-    secondaryKeywords: ['count characters in text', 'letter count tool'],
+    secondaryKeywords: ['count characters in text', 'letter count tool', 'character counter online free'],
     example: 'How many characters are in this sentence?',
     process: (input) => {
       const withSpaces = input.length;
       const withoutSpaces = input.replace(/\s/g, '').length;
-      return `Characters (with spaces): ${withSpaces}\nCharacters (without spaces): ${withoutSpaces}`;
+      const words = input.trim() ? input.trim().split(/\s+/).length : 0;
+      const letters = (input.match(/[a-zA-Z]/g) || []).length;
+      return `Characters (with spaces): ${withSpaces}\nCharacters (without spaces): ${withoutSpaces}\nWords: ${words}\nLetters only: ${letters}`;
+    },
+  },
+
+  {
+    id: 'letter-counter',
+    name: 'Letter Counter Online Free — Count Letters in Text ⚡',
+    slug: 'letter-counter-online-free',
+    category: 'analysis',
+    shortDescription: 'Count only the letters (A–Z) in your text. Excludes spaces, numbers, and punctuation. Free and instant.',
+    description: 'Letter counter online free. Count only alphabetic letters in any text — ignoring spaces, digits, and punctuation. See per-letter frequency breakdown. Perfect for crosswords, word games, linguistics, and NLP. No login. Real-time.',
+    icon: 'AlignLeft',
+    keywords: ['letter counter online free', 'count letters in text', 'letter count tool', 'count letters online', 'alphabetic character counter', 'letter frequency counter'],
+    primaryKeyword: 'letter counter online free',
+    secondaryKeywords: ['count letters in text', 'letter count tool'],
+    example: 'Count the letters in this sentence!',
+    process: (input) => {
+      const letters = (input.match(/[a-zA-Z]/g) || []);
+      const count = letters.length;
+      const freq: Record<string, number> = {};
+      letters.forEach(l => {
+        const lower = l.toLowerCase();
+        freq[lower] = (freq[lower] || 0) + 1;
+      });
+      const freqStr = Object.entries(freq)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([l, n]) => `${l}: ${n}`)
+        .join(', ');
+      return `Total letters: ${count}\nTop letters: ${freqStr || 'none'}`;
     },
   },
   {
