@@ -49,6 +49,8 @@ export default async function handler(req: any, res: any) {
       { path: "/", priority: "1.0", changefreq: "daily" },
       { path: "/ai-automation", priority: "0.7", changefreq: "monthly" },
       { path: "/blog", priority: "0.8", changefreq: "daily" },
+      { path: "/remove-special-characters-online", priority: "0.95", changefreq: "weekly" },
+      { path: "/best-free-text-tools-online", priority: "0.85", changefreq: "monthly" },
       { path: "/about-us", priority: "0.5", changefreq: "monthly" },
       { path: "/privacy-policy", priority: "0.3", changefreq: "monthly" },
       { path: "/terms-and-conditions", priority: "0.3", changefreq: "monthly" },

@@ -89,6 +89,7 @@ const InvisibleTextSuite = lazy(() => import('./pages/tools/InvisibleTextSuite')
 const TextToListConverter = lazy(() => import('./pages/tools/TextToListConverter'));
 const RemoveSpecialCharacters = lazy(() => import('./pages/tools/RemoveSpecialCharacters'));
 const TopToolsLanding = lazy(() => import('./pages/TopToolsLanding'));
+const RemoveSpecialCharactersLanding = lazy(() => import('./pages/RemoveSpecialCharactersLanding'));
 const DevStudioPage = lazy(() => import('./components/DevStudio'));
 const AIAutomation = lazy(() => import('./pages/AIAutomation'));
 // AI SEO Automation Panel द्वारा push किए गए programmatic landing pages
@@ -514,6 +515,14 @@ function AppContent() {
               element={
                 <RouteErrorBoundary>
                   <TopToolsLanding />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/remove-special-characters-online"
+              element={
+                <RouteErrorBoundary>
+                  <RemoveSpecialCharactersLanding />
                 </RouteErrorBoundary>
               }
             />
