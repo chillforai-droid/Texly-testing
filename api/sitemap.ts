@@ -4,14 +4,13 @@ export default async function handler(req: any, res: any) {
     const today = new Date().toISOString().split('T')[0];
     
     const toolSlugs = [
-      "face-swap", "bg-remover", "enhancer", "compressor", 
-      "image-upscale", "image-generator", "snapchat-tag-generator", "ai-text-suite",
+      /* AI tools are listed in specialToolSlugs (/tools/ path) above — do not duplicate here */
       "remove-extra-spaces-online", 
       "remove-line-breaks-tool", "remove-duplicate-lines-tool", "remove-empty-lines-online", 
       "remove-numbers-from-text", "military-alphabet-converter", "remove-special-characters-online", 
       "remove-html-tags-online", "upper-case-converter", "lower-case-converter", "title-case-converter", 
       "slug-generator-online-free", "binary-to-text-converter", "text-to-binary-converter", 
-      "word-counter-online-free", "character-counter-tool", "clean-text-online-free", 
+      "word-counter-online-free", "letter-counter-online-free", "clean-text-online-free", 
       "reading-time-calculator-online", "text-reverser-online", "text-repeater-tool", 
       "lorem-ipsum-generator-online", "find-and-replace-text-online", "sort-lines-alphabetically", 
       "camel-case-converter", "snake-case-converter", "kebab-case-converter", "pascal-case-converter", 
@@ -78,7 +77,7 @@ export default async function handler(req: any, res: any) {
     });
 
     // Tools
-    const toolsLastmod = "2025-12-01";
+    const toolsLastmod = "2026-05-27";
     toolSlugs.forEach(slug => {
       xml += `\n  <url>\n    <loc>${baseUrl}/tool/${slug}</loc>\n    <lastmod>${toolsLastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>`;
     });

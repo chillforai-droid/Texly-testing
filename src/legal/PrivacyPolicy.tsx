@@ -87,7 +87,7 @@ const PrivacyPolicy = () => {
             <li><strong>Right to Object:</strong> Object to our processing of your personal data.</li>
             <li><strong>Do Not Sell (CCPA):</strong> We do not sell your personal information to any third party.</li>
           </ul>
-          <p>To exercise any of these rights, email us at <strong>support@texlyonline.in</strong>.</p>
+          <p>To exercise any of these rights, email us at <strong>texlyonline@gmail.com</strong>.</p>
         </section>
 
         <section>
@@ -104,7 +104,7 @@ const PrivacyPolicy = () => {
           <h2>10. Contact Us</h2>
           <p>If you have any questions about this Privacy Policy, please contact us:</p>
           <ul>
-            <li><strong>Email:</strong> support@texlyonline.in</li>
+            <li><strong>Email:</strong> texlyonline@gmail.com</li>
             <li><strong>Website:</strong> <a href="https://texlyonline.in/contact-us">texlyonline.in/contact-us</a></li>
           </ul>
         </section>

@@ -137,11 +137,11 @@ const ImageEnhancer = () => {
         <title>AI Image Enhancer Online - Upscale Photos for Free | Texly</title>
         <meta name="description" content="Professional AI Image Enhancer. Boost image quality, reduce noise, and sharpen details instantly. Upscale your low-res photos to HD for free." />
         <meta name="keywords" content="image enhancer, ai photo upscale, sharpen image, remove noise from photo, hd image converter, texly ai" />
-        <link rel="canonical" href="https://texly.online/tools/enhancer" />
+        <link rel="canonical" href="https://www.texlyonline.in/tools/enhancer" />
         <meta property="og:title" content="AI Image Enhancer Online - Upscale Photos for Free | Texly" />
         <meta property="og:description" content="Transform low-quality photos into high-definition masterpieces instantly using AI." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://texly.online/tools/enhancer" />
+        <meta property="og:url" content="https://www.texlyonline.in/tools/enhancer" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json">
           {JSON.stringify({
@@ -347,7 +347,7 @@ const ImageEnhancer = () => {
 
                   <div className="p-6 bg-blue-50 dark:bg-blue-900/10 rounded-3xl border border-blue-100 dark:border-blue-900/20">
                     <SocialShare 
-                      url="https://texly.online/tools/enhancer" 
+                      url="https://www.texlyonline.in/tools/enhancer" 
                       title="I just enhanced my photo quality instantly using Texly's Free AI Image Enhancer! ⚡" 
                     />
                   </div>

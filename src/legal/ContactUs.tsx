@@ -67,8 +67,8 @@ const ContactUs = () => {
                 <p className="text-slate-500 dark:text-slate-500 text-xs font-bold uppercase tracking-tighter">{t.legal.emailDesc}</p>
               </div>
             </div>
-            <a href="mailto:support@texly.online" className="text-2xl font-black text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors break-all">
-              support@texly.online
+            <a href="mailto:texlyonline@gmail.com" className="text-2xl font-black text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors break-all">
+              texlyonline@gmail.com
             </a>
           </div>
 

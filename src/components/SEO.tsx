@@ -27,11 +27,9 @@ const SEO: React.FC<SEOProps> = ({
   // Auto-generate canonical if not provided
   let path = canonical || location.pathname;
   
-  // Normalize path: lowercase, no trailing slash, ensure /tool/ instead of /tools/
+  // Normalize path: lowercase, no trailing slash
+  // NOTE: Do NOT rewrite /tools/ to /tool/ — AI tools legitimately live at /tools/
   let normalizedPath = path.toLowerCase().trim();
-  if (normalizedPath.startsWith('/tools/')) {
-    normalizedPath = normalizedPath.replace('/tools/', '/tool/');
-  }
   if (normalizedPath !== '/' && normalizedPath.endsWith('/')) {
     normalizedPath = normalizedPath.slice(0, -1);
   }

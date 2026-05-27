@@ -91,7 +91,7 @@ const TermsAndConditions = () => {
           <h2>12. Contact Us</h2>
           <p>If you have any questions about these Terms and Conditions, please contact us:</p>
           <ul>
-            <li><strong>Email:</strong> support@texlyonline.in</li>
+            <li><strong>Email:</strong> texlyonline@gmail.com</li>
             <li><strong>Website:</strong> <a href="/contact-us">texlyonline.in/contact-us</a></li>
           </ul>
         </section>

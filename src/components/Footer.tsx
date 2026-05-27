@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
                 <Github className="w-4 h-4" />
               </a>
               <a
-                href="mailto:support@texly.online"
+                href="mailto:texlyonline@gmail.com"
                 aria-label="Email"
                 className="w-9 h-9 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                 style={{ minHeight: 'unset', minWidth: 'unset' }}

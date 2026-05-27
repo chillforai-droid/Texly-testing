@@ -133,11 +133,11 @@ const ImageCompressor = () => {
         <title>Smart Image Compressor - Reduce Image Size Online | Texly</title>
         <meta name="description" content="Fast client-side image compressor. Reduce file size instantly without losing quality. 100% private processing in your browser." />
         <meta name="keywords" content="image compressor, reduce image size, compress photo online, optimize images, private image compression, texly ai" />
-        <link rel="canonical" href="https://texly.online/tools/compressor" />
+        <link rel="canonical" href="https://www.texlyonline.in/tools/compressor" />
         <meta property="og:title" content="Smart Image Compressor - Reduce Image Size Online | Texly" />
         <meta property="og:description" content="Reduce image file size instantly while maintaining professional quality. 100% private." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://texly.online/tools/compressor" />
+        <meta property="og:url" content="https://www.texlyonline.in/tools/compressor" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json">
           {JSON.stringify({
@@ -368,7 +368,7 @@ const ImageCompressor = () => {
 
                   <div className="p-6 bg-blue-50 dark:bg-blue-900/10 rounded-3xl border border-blue-100 dark:border-blue-900/20">
                     <SocialShare 
-                      url="https://texly.online/tools/compressor" 
+                      url="https://www.texlyonline.in/tools/compressor" 
                       title="I just compressed my images without losing quality using Texly's Free AI Image Compressor! ⚡" 
                     />
                   </div>

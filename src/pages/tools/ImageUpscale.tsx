@@ -143,11 +143,11 @@ const ImageUpscale = () => {
         <title>AI Image Upscaler Online - Increase Resolution for Free | Texly</title>
         <meta name="description" content="Professional AI Image Upscaler. Increase image resolution, sharpen details, and enhance quality instantly. Upscale your photos to 4K for free." />
         <meta name="keywords" content="image upscaler, ai photo upscale, increase resolution, enhance image quality, 4k image converter, texly ai" />
-        <link rel="canonical" href="https://texly.online/tools/image-upscale" />
+        <link rel="canonical" href="https://www.texlyonline.in/tools/image-upscale" />
         <meta property="og:title" content="AI Image Upscaler Online - Increase Resolution for Free | Texly" />
         <meta property="og:description" content="Transform low-resolution photos into high-definition masterpieces instantly using AI." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://texly.online/tools/image-upscale" />
+        <meta property="og:url" content="https://www.texlyonline.in/tools/image-upscale" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json">
           {JSON.stringify({
@@ -359,7 +359,7 @@ const ImageUpscale = () => {
 
                   <div className="p-6 bg-blue-50 dark:bg-blue-900/10 rounded-3xl border border-blue-100 dark:border-blue-900/20">
                     <SocialShare 
-                      url="https://texly.online/tools/image-upscale" 
+                      url="https://www.texlyonline.in/tools/image-upscale" 
                       title="I just upscaled my photo resolution instantly using Texly's Free AI Image Upscaler! ⚡" 
                     />
                   </div>

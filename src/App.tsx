@@ -90,6 +90,7 @@ const TextToListConverter = lazy(() => import('./pages/tools/TextToListConverter
 const RemoveSpecialCharacters = lazy(() => import('./pages/tools/RemoveSpecialCharacters'));
 const TopToolsLanding = lazy(() => import('./pages/TopToolsLanding'));
 const RemoveSpecialCharactersLanding = lazy(() => import('./pages/RemoveSpecialCharactersLanding'));
+const WordCounterPage = lazy(() => import('./pages/tools/WordCounterPage'));
 const DevStudioPage = lazy(() => import('./components/DevStudio'));
 const AIAutomation = lazy(() => import('./pages/AIAutomation'));
 // AI SEO Automation Panel द्वारा push किए गए programmatic landing pages
@@ -130,14 +131,8 @@ function NavigateWithParams() {
 }
 
 function ToolRouteWrapper() {
-  const { slug } = useParams();
-  const tool = useMemo(
-    () => ALL_TOOLS.find((t) => t.slug === slug),
-    [slug]
-  );
-  if (tool && (tool.category === 'ai' || tool.category === 'generator')) {
-    return <Navigate to={`/tools/${slug}`} replace />;
-  }
+  // No redirect — both /tool/:slug and /tools/:slug render ToolPage directly.
+  // Redirecting between the two paths was causing 90 "Page with redirect" GSC errors.
   return <ToolPage />;
 }
 
@@ -525,6 +520,18 @@ function AppContent() {
                   <RemoveSpecialCharactersLanding />
                 </RouteErrorBoundary>
               }
+            />
+            <Route
+              path="/tool/word-counter-online-free"
+              element={
+                <RouteErrorBoundary>
+                  <WordCounterPage />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/tool/character-counter-tool"
+              element={<Navigate to="/tool/word-counter-online-free" replace />}
             />
             <Route
               path="/tool/text-to-list-converter"

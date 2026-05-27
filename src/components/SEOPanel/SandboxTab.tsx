@@ -80,7 +80,7 @@ export default function SandboxTab() {
 
   const loadScrambledDemo = () => {
     setInputText(
-      "$$$ Texly Online! $$$ 🌟\n100% FREE Utility Tools 🛠️\nDouble   spaces   abound.\nDouble   spaces   abound.\nContact: support@texlyonline.in !!!"
+      "$$$ Texly Online! $$$ 🌟\n100% FREE Utility Tools 🛠️\nDouble   spaces   abound.\nDouble   spaces   abound.\nContact: texlyonline@gmail.com !!!"
     );
     setStripSymbols(true);
     setStripEmojis(true);

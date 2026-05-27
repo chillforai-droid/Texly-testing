@@ -177,11 +177,11 @@ const FaceSwap = () => {
         <title>AI Face Swap Online - Free Face Swapper Tool | Texly</title>
         <meta name="description" content="Professional AI Face Swap tool. Swap faces between two images instantly using our advanced cloud-based AI. 100% free, high quality, and fast processing." />
         <meta name="keywords" content="ai face swap, face swapper online, free face swap, swap faces in photos, deepfake photo tool, texly ai" />
-        <link rel="canonical" href="https://texly.online/tools/face-swap" />
+        <link rel="canonical" href="https://www.texlyonline.in/tools/face-swap" />
         <meta property="og:title" content="AI Face Swap Online - Free Face Swapper Tool | Texly" />
         <meta property="og:description" content="Swap faces between two images instantly using advanced AI. Professional results in seconds." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://texly.online/tools/face-swap" />
+        <meta property="og:url" content="https://www.texlyonline.in/tools/face-swap" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json">
           {JSON.stringify({
@@ -427,7 +427,7 @@ const FaceSwap = () => {
 
                   <div className="p-6 bg-blue-50 dark:bg-blue-900/10 rounded-3xl border border-blue-100 dark:border-blue-900/20">
                     <SocialShare 
-                      url="https://texly.online/tools/face-swap" 
+                      url="https://www.texlyonline.in/tools/face-swap" 
                       title="I just swapped faces using Texly's Free AI Face Swap! Check it out! ⚡" 
                     />
                   </div>

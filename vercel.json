@@ -119,11 +119,6 @@
       ],
       "destination": "https://www.texlyonline.in/:path*",
       "permanent": true
-    },
-    {
-      "source": "/tools/:path*",
-      "destination": "/tool/:path*",
-      "permanent": true
     }
   ],
   "headers": [

@@ -133,11 +133,11 @@ const BackgroundRemover = () => {
         <title>Free AI Background Remover Online - Transparent PNG | Texly</title>
         <meta name="description" content="Remove backgrounds from any image instantly with high precision. Create transparent PNGs for free using our advanced AI segmentation tool." />
         <meta name="keywords" content="remove background, bg remover, transparent background, ai background removal, free bg remover, texly ai" />
-        <link rel="canonical" href="https://texly.online/tools/bg-remover" />
+        <link rel="canonical" href="https://www.texlyonline.in/tools/bg-remover" />
         <meta property="og:title" content="Free AI Background Remover Online - Transparent PNG | Texly" />
         <meta property="og:description" content="Remove backgrounds from any image instantly with high precision. 100% free and secure." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://texly.online/tools/bg-remover" />
+        <meta property="og:url" content="https://www.texlyonline.in/tools/bg-remover" />
         <meta name="twitter:card" content="summary_large_image" />
         <script type="application/ld+json">
           {JSON.stringify({
@@ -338,7 +338,7 @@ const BackgroundRemover = () => {
 
                   <div className="p-6 bg-blue-50 dark:bg-blue-900/10 rounded-3xl border border-blue-100 dark:border-blue-900/20">
                     <SocialShare 
-                      url="https://texly.online/tools/bg-remover" 
+                      url="https://www.texlyonline.in/tools/bg-remover" 
                       title="I just removed an image background instantly using Texly's Free AI BG Remover! ⚡" 
                     />
                   </div>
