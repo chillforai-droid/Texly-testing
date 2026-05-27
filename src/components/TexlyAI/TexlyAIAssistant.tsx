@@ -151,8 +151,25 @@ export default function TexlyAIAssistant() {
   const inputRef = useRef<HTMLInputElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const [fabCollapsed, setFabCollapsed] = useState(false);
+  const lastScrollY = useRef(0);
 
   const toolSlug = useMemo(() => getToolSlugFromPath(location.pathname), [location.pathname]);
+
+  // ── FAB collapse on scroll down ──────────────────────────────────────────
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      if (currentY > lastScrollY.current && currentY > 100) {
+        setFabCollapsed(true);  // scroll down → icon only
+      } else {
+        setFabCollapsed(false); // scroll up → full button
+      }
+      lastScrollY.current = currentY;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Listen for programmatic messages (from useToolSuccess / useToolFailure hooks)
   // → Show as toast, also store in messages for when panel opens later
@@ -654,12 +671,13 @@ export default function TexlyAIAssistant() {
       {/* ── Floating Button ── */}
       {!isOpen && (
         <button
-          onClick={() => setIsOpen(true)}
-          className="texly-ai-fab"
+          onClick={() => { setIsOpen(true); setFabCollapsed(false); }}
+          className={`texly-ai-fab${fabCollapsed ? ' texly-ai-fab--collapsed' : ''}`}
           aria-label="Open Texly AI Assistant"
+          title="Ask AI"
         >
           <span className="texly-ai-fab-icon">🤖</span>
-          <span className="texly-ai-fab-label">Ask AI</span>
+          {!fabCollapsed && <span className="texly-ai-fab-label">Ask AI</span>}
           <span className="texly-ai-fab-pulse" />
         </button>
       )}
@@ -915,7 +933,7 @@ const STYLES = `
   font-weight: 600;
   letter-spacing: 0.3px;
   box-shadow: 0 4px 24px rgba(99,102,241,0.45), 0 2px 8px rgba(0,0,0,0.12);
-  transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease;
+  transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease, width 0.25s ease, padding 0.25s ease, border-radius 0.25s ease, opacity 0.2s ease;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -925,6 +943,22 @@ const STYLES = `
 }
 .texly-ai-fab:active {
   transform: scale(0.96);
+}
+/* ── Collapsed state (scroll down pe sirf icon dikhta hai) ── */
+.texly-ai-fab--collapsed {
+  padding: 13px;
+  border-radius: 50%;
+  min-width: unset;
+  width: 48px;
+  height: 48px;
+  justify-content: center;
+  opacity: 0.75;
+}
+.texly-ai-fab--collapsed:hover {
+  opacity: 1;
+  border-radius: 50px;
+  width: auto;
+  padding: 13px 20px;
 }
 .texly-ai-fab-icon { font-size: 18px; line-height: 1; }
 .texly-ai-fab-label { white-space: nowrap; }
@@ -1492,6 +1526,11 @@ const STYLES = `
     right: 16px;
     padding: 12px 16px;
     font-size: 13px;
+  }
+  .texly-ai-fab--collapsed {
+    padding: 12px;
+    width: 44px;
+    height: 44px;
   }
   .texly-ai-quick-actions {
     gap: 5px;
