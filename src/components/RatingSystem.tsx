@@ -106,11 +106,11 @@ const RatingSystem: React.FC<RatingSystemProps> = ({ toolId, theme, onRatingLoad
   };
 
   return (
-    <div id="rating-section" className={`p-6 bg-white rounded-3xl border border-${theme.border} shadow-sm mb-8`}>
+    <div id="rating-section" className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm mb-8 mt-8">
       <div className="flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="text-center md:text-left">
-          <h3 className="text-lg font-black text-slate-900 mb-1 uppercase tracking-tight">Rate this Tool</h3>
-          <p className="text-sm text-slate-500 font-medium">Help us improve by sharing your feedback</p>
+          <h3 className="text-lg font-black text-slate-900 dark:text-white mb-1 uppercase tracking-tight">Rate this Tool</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Help us improve by sharing your feedback</p>
         </div>
 
         <div className="flex flex-col items-center gap-2">
@@ -133,8 +133,8 @@ const RatingSystem: React.FC<RatingSystemProps> = ({ toolId, theme, onRatingLoad
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-2 text-sm font-bold text-slate-600">
-            <span className="text-xl text-slate-900">{averageRating}</span>
+          <div className="flex items-center gap-2 text-sm font-bold text-slate-600 dark:text-slate-300">
+            <span className="text-xl text-slate-900 dark:text-white">{averageRating}</span>
             <span className="text-slate-300">/</span>
             <span>5.0</span>
             <span className="ml-2 text-xs text-slate-400 font-medium">({totalRatings} ratings)</span>
@@ -145,7 +145,7 @@ const RatingSystem: React.FC<RatingSystemProps> = ({ toolId, theme, onRatingLoad
       
         {showThankYou && (
           <div
-            className="mt-4 p-3 bg-emerald-50 text-emerald-700 text-center rounded-xl text-sm font-bold border border-emerald-100"
+            className="mt-4 p-3 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-center rounded-xl text-sm font-bold border border-emerald-100 dark:border-emerald-800"
           >
             Thank you for your rating!
           </div>
@@ -153,7 +153,7 @@ const RatingSystem: React.FC<RatingSystemProps> = ({ toolId, theme, onRatingLoad
       
       
       {hasRated && !showThankYou && (
-        <p className="mt-4 text-center text-xs text-slate-400 font-medium italic">
+        <p className="mt-4 text-center text-xs text-slate-400 dark:text-slate-500 font-medium italic">
           You have already rated this tool. Thank you!
         </p>
       )}
