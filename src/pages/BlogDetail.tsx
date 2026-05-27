@@ -41,10 +41,27 @@ const BlogDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [readingProgress, setReadingProgress] = useState(0);
+  const [translating, setTranslating] = useState(false);
   const [toc, setToc] = useState<{id: string, text: string, level: number}[]>([]);
 
   useEffect(() => {
-    if (post && post.contentType !== 'html') {
+    if (!post) return;
+
+    if (post.contentType === 'html') {
+      // HTML blog: extract headings via regex from HTML content
+      const headingRegex = /<h([1-3])[^>]*(?:id="([^"]*)")?[^>]*>(.*?)<\/h[1-3]>/gi;
+      const tocItems: {id: string, text: string, level: number}[] = [];
+      let match: RegExpExecArray | null;
+      while ((match = headingRegex.exec(post.content)) !== null) {
+        const level = parseInt(match[1]);
+        // Strip any inner HTML tags to get plain text
+        const text = match[3].replace(/<[^>]+>/g, '').trim();
+        const id = match[2] || text.toLowerCase().replace(/[^\w\u0900-\u097F]+/g, '-');
+        if (text) tocItems.push({ id, text, level });
+      }
+      setToc(tocItems);
+    } else {
+      // Markdown blog: extract headings from markdown syntax
       const headings = post.content.match(/^#{1,3} .+/gm);
       if (headings) {
         const tocItems = headings.map(h => {
@@ -82,8 +99,13 @@ const BlogDetail: React.FC = () => {
         
         if (foundPost) {
           if (language !== 'en') {
-            const translated = await translateBlog(foundPost, language);
-            setPost(translated);
+            setTranslating(true);
+            try {
+              const translated = await translateBlog(foundPost, language);
+              setPost(translated);
+            } finally {
+              setTranslating(false);
+            }
           } else {
             setPost(foundPost);
           }
@@ -143,8 +165,20 @@ const BlogDetail: React.FC = () => {
     return <Navigate to="/blog" replace />;
   }
 
+  // Inject ids into HTML headings for TOC anchor links
+  const injectHeadingIds = (html: string): string => {
+    return html.replace(/<(h[1-3])([^>]*)>(.*?)<\/h[1-3]>/gi, (_, tag, attrs, inner) => {
+      if (/id=/.test(attrs)) return `<${tag}${attrs}>${inner}</${tag}>`; // already has id
+      const text = inner.replace(/<[^>]+>/g, '').trim();
+      const id = text.toLowerCase().replace(/[^\w\u0900-\u097F]+/g, '-');
+      return `<${tag}${attrs} id="${id}">${inner}</${tag}>`;
+    });
+  };
+
   // Inject internal links into the content
-  const processedContent = injectInternalLinks(post.content, ALL_TOOLS);
+  const processedContent = post.contentType === 'html'
+    ? injectHeadingIds(injectInternalLinks(post.content, ALL_TOOLS))
+    : injectInternalLinks(post.content, ALL_TOOLS);
 
   return (
     <main className="min-h-screen bg-white dark:bg-slate-950 py-24 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
@@ -290,6 +324,12 @@ const BlogDetail: React.FC = () => {
         </div>
 
         <article className="prose prose-slate dark:prose-invert prose-lg max-w-none prose-headings:font-black prose-headings:tracking-tight prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline prose-img:rounded-3xl prose-img:shadow-xl blog-html-content">
+          {translating && (
+            <div className="flex items-center gap-3 mb-6 px-4 py-3 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-800/40 text-sm text-blue-700 dark:text-blue-300 font-medium">
+              <div className="animate-spin w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full flex-shrink-0" />
+              Translating content...
+            </div>
+          )}
           {post.contentType === 'html' ? (
             <div dangerouslySetInnerHTML={{ __html: processedContent }} />
           ) : post.contentType === 'text' ? (
