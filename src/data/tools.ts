@@ -212,7 +212,7 @@ export const TOOLS: Tool[] = [
     hook: 'Instantly remove all numbers from your text.',
     buttonText: 'Remove Numbers',
     placeholder: 'Paste text with numbers here...',
-    process: (input) => input.replace(/[0-9]/g, ''),
+    process: (input) => input.replace(/[0-9]/g, '').replace(/[ \t]{2,}/g, ' ').trim(),
   },
   {
     id: 'military-alphabet-converter',
@@ -283,7 +283,12 @@ export const TOOLS: Tool[] = [
     hook: 'Strip all HTML tags and keep only the plain text.',
     buttonText: 'Clean My HTML',
     placeholder: 'Paste HTML code here...',
-    process: (input) => input.replace(/<[^>]*>/g, ''),
+    process: (input) => input
+      .replace(/<script[\s\S]*?<\/script>/gi, '')
+      .replace(/<style[\s\S]*?<\/style>/gi, '')
+      .replace(/<[^>]+>/g, '')
+      .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&nbsp;/g, ' ')
+      .replace(/\s{2,}/g, ' ').trim(),
   },
 
   // CONVERTERS
@@ -358,7 +363,15 @@ export const TOOLS: Tool[] = [
     primaryKeyword: 'binary to text converter online free',
     secondaryKeywords: ['decode binary to english tool', 'binary code translator'],
     example: '01001000 01100101 01101100 01101100 01101111',
-    process: (input) => input.split(' ').map(bin => String.fromCharCode(parseInt(bin, 2))).join(''),
+    process: (input) => {
+      const parts = input.trim().split(/\s+/);
+      const result = parts.map(bin => {
+        if (!/^[01]+$/.test(bin)) return bin;
+        const code = parseInt(bin, 2);
+        return isNaN(code) ? bin : String.fromCharCode(code);
+      }).join('');
+      return result;
+    },
   },
   {
     id: 'text-to-binary',
@@ -450,17 +463,30 @@ export const TOOLS: Tool[] = [
   },
   {
     id: 'text-cleaner',
-    name: 'Text Cleaner',
+    name: 'Text Cleaner - All-in-One Text Cleaning Tool ⚡',
     slug: 'clean-text-online-free',
     category: 'cleaning',
-    shortDescription: 'Clean text online free. Fix messy text formatting and remove unwanted characters.',
-    description: 'Clean text online for free. Our text cleaner tool removes unwanted formatting, extra spaces, and line breaks to give you perfectly polished text.',
+    shortDescription: 'All-in-one text cleaner. Remove extra spaces, line breaks, HTML tags, and special characters in one click.',
+    description: 'Clean text online for free with our all-in-one text cleaner. Remove extra spaces, line breaks, HTML tags, numbers, special characters, and more. Get perfectly polished, publish-ready text instantly.',
     icon: 'Eraser',
-    keywords: ['clean text online free', 'text formatting cleaner', 'remove formatting from text', 'fix text spacing online', 'clean up messy text tool'],
+    keywords: ['clean text online free', 'all in one text cleaner', 'text formatting cleaner', 'remove formatting from text', 'fix text spacing online', 'clean up messy text tool'],
     primaryKeyword: 'clean text online free',
-    secondaryKeywords: ['text formatting cleaner', 'remove formatting from text'],
-    example: '  This   text   has   too   many   spaces.  ',
-    process: (input) => input.replace(/\s+/g, ' ').trim(),
+    secondaryKeywords: ['all in one text cleaner', 'text formatting cleaner', 'remove formatting from text'],
+    example: '  This   text   has   <b>too</b>\n\nmany   spaces and HTML.  ',
+    hook: 'Deep-clean your text — remove spaces, HTML, breaks, and symbols all at once.',
+    buttonText: 'Deep Clean Text',
+    placeholder: 'Paste any messy text here — HTML, extra spaces, line breaks, symbols...',
+    process: (input, options) => {
+      let result = input;
+      const opts = options || {};
+      if (opts.removeHtml !== false) result = result.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').replace(/<[^>]+>/g, '').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&nbsp;/g,' ').replace(/&quot;/g, '"');
+      if (opts.removeExtraSpaces !== false) result = result.replace(/[ \t]+/g, ' ');
+      if (opts.removeEmptyLines !== false) result = result.split(/\r?\n/).filter(l => l.trim() !== '').join('\n');
+      if (opts.removeLineBreaks) result = result.replace(/[\r\n]+/g, ' ');
+      if (opts.removeNumbers) result = result.replace(/[0-9]/g, '');
+      if (opts.removePunctuation) result = result.replace(/[^\w\s]|_/g, '');
+      return result.trim();
+    },
   },
   {
     id: 'reading-time',
@@ -572,7 +598,14 @@ const additionalTools: Tool[] = [
   { id: 'inverse-case', name: 'Inverse Case Converter – Flip Text Case Free & Instant Online', slug: 'inverse-case-converter', category: 'converter', shortDescription: 'Invert the case of each character online.', description: 'Inverse case converter online for free. Flip uppercase to lowercase and vice-versa for every character in your text instantly. Great for fixing accidental caps lock usage.', icon: 'Type', keywords: ['inverse case converter online free', 'case flipper tool', 'invert text case online', 'swap case of characters', 'reverse text capitalization'], primaryKeyword: 'inverse case converter online free', secondaryKeywords: ['case flipper tool', 'invert text case online'], example: 'Hello World', process: (s) => s.split('').map(c => c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()).join('') },
   { id: 'sentence-case', name: 'Sentence Case Converter: Fix Text Formatting Instantly (Free ⚡)', slug: 'sentence-case-converter', category: 'converter', shortDescription: 'Messy text? Convert to Sentence case instantly. Our free tool fixes capitalization for you in 1 click. No signup, 100% free & fast!', description: 'Sentence case converter online for free. Automatically capitalize the first letter of every sentence in your text, making it grammatically correct and readable.', icon: 'Type', keywords: ['sentence case converter online free', 'capitalize sentences in text', 'proper sentence case tool', 'fix sentence capitalization online', 'sentence case formatter'], primaryKeyword: 'sentence case converter online free', secondaryKeywords: ['capitalize sentences in text', 'proper sentence case tool'], example: 'hello world. this is a test.', process: (s) => s.toLowerCase().replace(/(^\s*\w|[\.\!\?]\s*\w)/g, c => c.toUpperCase()) },
   { id: 'remove-accents', name: 'Remove Accents & Diacritics Online - Free Tool ⚡', slug: 'remove-accents-from-text', category: 'cleaning', shortDescription: 'Strip accents and diacritics from characters online.', description: 'Remove accents from text online for free. Convert accented characters like é, à, ö into their plain versions (e, a, o) instantly. Ideal for data normalization and search indexing.', icon: 'Type', keywords: ['remove accents from text online free', 'strip diacritics from characters', 'normalize accented text tool', 'remove special marks from letters', 'convert accented to plain text'], primaryKeyword: 'remove accents from text online free', secondaryKeywords: ['strip diacritics from characters', 'normalize accented text tool'], example: 'Crème brûlée', process: (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "") },
-  { id: 'remove-emojis', name: 'Remove Emojis from Text Online - Clean Text Free ⚡', slug: 'remove-emojis-online', category: 'cleaning', shortDescription: 'Strip all emojis and graphical symbols from text online.', description: 'Remove emojis online for free. Clean your text by removing all graphical emojis and symbols, leaving only plain text and numbers. Perfect for professional documents.', icon: 'Smile', keywords: ['remove emojis from text online free', 'strip emojis from string tool', 'text only without emojis generator', 'clean emojis from content', 'remove graphical symbols from text'], primaryKeyword: 'remove emojis from text online free', secondaryKeywords: ['strip emojis from string tool', 'text only without emojis generator'], example: 'Hello 🌍! How are you? 😊', process: (s) => s.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDDFF])/g, '') },
+  { id: 'remove-emojis', name: 'Remove Emojis from Text Online - Clean Text Free ⚡', slug: 'remove-emojis-online', category: 'cleaning', shortDescription: 'Strip all emojis and graphical symbols from text online.', description: 'Remove emojis online for free. Clean your text by removing all graphical emojis and symbols, leaving only plain text and numbers. Perfect for professional documents.', icon: 'Smile', keywords: ['remove emojis from text online free', 'strip emojis from string tool', 'text only without emojis generator', 'clean emojis from content', 'remove graphical symbols from text'], primaryKeyword: 'remove emojis from text online free', secondaryKeywords: ['strip emojis from string tool', 'text only without emojis generator'], example: 'Hello 🌍! How are you? 😊', process: (s) => {
+      // Remove all emoji using Unicode property escapes + comprehensive ranges
+      return s
+        .replace(/\p{Emoji}/gu, '')  // Modern JS Unicode emoji property
+        .replace(/[\u2600-\u27BF\u2B00-\u2BFF\u1F000-\u1FFFF\uFE00-\uFE0F\u200D\uFE0E]/gu, '')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+    } },
   { id: 'remove-punctuation', name: 'Remove Punctuation Online - Strip Symbols Free ⚡', slug: 'remove-punctuation-tool', category: 'cleaning', shortDescription: 'Strip all punctuation marks and symbols from text online.', description: 'Remove punctuation tool online for free. Strip commas, periods, exclamation marks, and other symbols from your text instantly. Great for text analysis and data cleaning.', icon: 'Type', keywords: ['remove punctuation from text online free', 'strip punctuation marks tool', 'text without symbols generator', 'clean punctuation from string', 'remove special characters from text'], primaryKeyword: 'remove punctuation from text online free', secondaryKeywords: ['strip punctuation marks tool', 'text without symbols generator'], example: 'Hello, world! (This is a test.)', process: (s) => s.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "") },
   { id: 'base64-encode', name: 'Base64 Encode', slug: 'base64-encode-online', category: 'converter', shortDescription: 'Encode text to Base64 format online.', description: 'Base64 encode online for free. Convert plain text into Base64 encoded strings instantly for secure data transmission and storage.', icon: 'Shield', keywords: ['base64 encode online free', 'convert text to base64 tool', 'base64 encoder online', 'string to base64 converter', 'encode data to base64'], primaryKeyword: 'base64 encode online free', secondaryKeywords: ['convert text to base64 tool', 'base64 encoder online'], example: 'Hello World', process: (s) => btoa(s) },
   { id: 'base64-decode', name: 'Base64 Decode', slug: 'base64-decode-online', category: 'converter', shortDescription: 'Decode Base64 strings to text online.', description: 'Base64 decode online for free. Convert Base64 encoded strings back into readable plain text instantly. Perfect for developers and data analysis.', icon: 'Shield', keywords: ['base64 decode online free', 'base64 to text converter', 'base64 decoder tool', 'decode base64 string online', 'base64 to plain text'], primaryKeyword: 'base64 decode online free', secondaryKeywords: ['base64 to text converter', 'base64 decoder tool'], example: 'SGVsbG8gV29ybGQ=', process: (s) => { try { return atob(s); } catch(e) { return "Invalid Base64"; } } },
@@ -583,9 +616,16 @@ const additionalTools: Tool[] = [
     const base = code <= 90 ? 65 : 97;
     return String.fromCharCode(((code - base + 13) % 26) + base);
   }) },
-  { id: 'morse-code', name: 'Morse Code Translator – Text to Morse & Morse to Text Free ⚡', slug: 'morse-code-translator', category: 'converter', shortDescription: 'Convert text to Morse code and Morse code to text instantly. Free, no signup.', description: 'Morse code translator online for free. Convert text to Morse code (dots & dashes) or decode Morse back to text instantly. Perfect for learning, ham radio, and fun. Works both ways — no signup required.', icon: 'Radio', keywords: ['morse code translator', 'text to morse code', 'morse code converter online free', 'morse code decoder', 'morse code encoder tool', 'learn morse code online', 'international morse code translator', 'morse to text converter'], primaryKeyword: 'morse code translator', secondaryKeywords: ['text to morse code', 'morse code decoder online'], example: 'Hello', process: (s) => {
+  { id: 'morse-code', name: 'Morse Code Translator – Text to Morse & Morse to Text Free ⚡', slug: 'morse-code-translator', category: 'converter', shortDescription: 'Convert text to Morse code and Morse code to text instantly. Free, no signup.', description: 'Morse code translator online for free. Convert text to Morse code (dots & dashes) or decode Morse back to text instantly. Perfect for learning, ham radio, and fun. Works both ways — no signup required.', icon: 'Radio', keywords: ['morse code translator', 'text to morse code', 'morse code converter online free', 'morse code decoder', 'morse code encoder tool', 'learn morse code online', 'international morse code translator', 'morse to text converter'], primaryKeyword: 'morse code translator', secondaryKeywords: ['text to morse code', 'morse code decoder online'], example: 'Hello', process: (s, opts) => {
     const map: any = { 'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-', 'Y': '-.--', 'Z': '--..', '1': '.----', '2': '..---', '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.', '0': '-----', ' ': '/' };
-    return s.toUpperCase().split('').map(c => map[c] || '').join(' ');
+    const mode = opts?.mode || 'text-to-morse';
+    if (mode === 'morse-to-text') {
+      const reverseMap: any = Object.fromEntries(Object.entries(map).map(([k, v]) => [v, k]));
+      return s.trim().split(' / ').map((word: string) =>
+        word.split(' ').map((code: string) => reverseMap[code] || '?').join('')
+      ).join(' ');
+    }
+    return s.toUpperCase().split('').map((c: string) => map[c] || '').filter(Boolean).join(' ');
   }},
   { id: 'upside-down', name: 'Upside Down Text', slug: 'upside-down-text-generator', category: 'utility', shortDescription: 'Flip your text upside down online.', description: 'Upside down text generator online for free. Create flipped and reversed text instantly for social media, fun messages, or unique profile names.', icon: 'RotateCw', keywords: ['upside down text generator online free', 'flip text online tool', 'inverted text creator', 'upside down letters generator', 'reverse text upside down'], primaryKeyword: 'upside down text generator online free', secondaryKeywords: ['flip text online tool', 'inverted text creator'], example: 'Hello World', process: (s) => {
     const map: any = { 'a': 'ɐ', 'b': 'q', 'c': 'ɔ', 'd': 'p', 'e': 'ǝ', 'f': 'ɟ', 'g': 'ƃ', 'h': 'ɥ', 'i': 'ᴉ', 'j': 'ɾ', 'k': 'ʞ', 'l': 'l', 'm': 'ɯ', 'n': 'u', 'o': 'o', 'p': 'd', 'q': 'b', 'r': 'ɹ', 's': 's', 't': 'ʇ', 'u': 'n', 'v': 'ʌ', 'w': 'ʍ', 'x': 'x', 'y': 'ʎ', 'z': 'z', 'A': '∀', 'B': 'B', 'C': 'Ɔ', 'D': 'D', 'E': 'Ǝ', 'F': 'Ⅎ', 'G': 'פ', 'H': 'H', 'I': 'I', 'J': 'ſ', 'K': 'ʞ', 'L': '˥', 'M': 'W', 'N': 'N', 'O': 'O', 'P': 'Ԁ', 'Q': 'Q', 'R': 'ᴚ', 'S': 'S', 'T': '┴', 'U': '∩', 'V': 'Λ', 'W': 'M', 'X': 'X', 'Y': '⅄', 'Z': 'Z', '1': 'Ɩ', '2': 'ᄅ', '3': 'Ɛ', '4': 'ㄣ', '5': 'ϛ', '6': '9', '7': 'ㄥ', '8': '8', '9': '6', '0': '0', '.': '˙', ',': "'", "'": ',', '"': '„', '?': '¿', '!': '¡', '(': ')', ')': '(', '[': ']', ']': '[', '{': '}', '}': '{', '<': '>', '>': '<', '&': '⅋', '_': '‾' };
@@ -735,7 +775,13 @@ const additionalTools: Tool[] = [
   { id: 'extract-emails', name: 'Extract Emails', slug: 'extract-emails-from-text', category: 'analysis', shortDescription: 'Pull all email addresses from text online.', description: 'Extract emails from text online for free. Find and list all email addresses from any content instantly. Great for lead generation and data mining.', icon: 'Mail', keywords: ['extract emails from text online', 'email extractor tool free', 'find emails in text online', 'bulk email finder', 'email address scraper'], primaryKeyword: 'extract emails from text online', secondaryKeywords: ['email extractor tool free', 'find emails in text online'], example: 'Contact us at support@texly.online or info@example.com', process: (s) => (s.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi) || []).join('\n') },
   { id: 'extract-urls', name: 'Extract URLs', slug: 'extract-urls-from-text', category: 'analysis', shortDescription: 'Pull all website links from text online.', description: 'Extract URLs from text online for free. Find and list all website links and URLs from any content instantly. Useful for SEO and research.', icon: 'Link', keywords: ['extract urls from text online', 'url extractor tool free', 'find links in text online', 'bulk url finder', 'website link scraper'], primaryKeyword: 'extract urls from text online', secondaryKeywords: ['url extractor tool free', 'find links in text online'], example: 'Visit https://texlyonline.in and http://google.com', process: (s) => (s.match(/https?:\/\/[^\s]+/g) || []).join('\n') },
   { id: 'hex-encode', name: 'Text to Hex Converter - Convert Text to HEX Free ⚡', slug: 'text-to-hex-converter', category: 'converter', shortDescription: 'Convert plain text into hexadecimal format online.', description: 'Text to hex converter online for free. Transform your text into its hexadecimal representation instantly. Useful for debugging and data encoding.', icon: 'Binary', keywords: ['text to hex converter online', 'hex encoder tool free', 'string to hex online', 'convert text to hexadecimal', 'hexadecimal text generator'], primaryKeyword: 'text to hex converter online', secondaryKeywords: ['hex encoder tool free', 'string to hex online'], example: 'Hello', process: (s) => s.split('').map(c => c.charCodeAt(0).toString(16)).join(' ') },
-  { id: 'hex-decode', name: 'Hex to Text Converter - Decode HEX to Text Free ⚡', slug: 'hex-to-text-converter', category: 'converter', shortDescription: 'Convert hexadecimal code back to text online.', description: 'Hex to text converter online for free. Decode hexadecimal strings back into readable plain text instantly. Perfect for developers and analysts.', icon: 'Binary', keywords: ['hex to text converter online', 'hex decoder tool free', 'hex to string online', 'decode hexadecimal text', 'hex to plain text converter'], primaryKeyword: 'hex to text converter online', secondaryKeywords: ['hex decoder tool free', 'hex to string online'], example: '48 65 6c 6c 6f', process: (s) => s.split(' ').map(h => String.fromCharCode(parseInt(h, 16))).join('') },
+  { id: 'hex-decode', name: 'Hex to Text Converter - Decode HEX to Text Free ⚡', slug: 'hex-to-text-converter', category: 'converter', shortDescription: 'Convert hexadecimal code back to text online.', description: 'Hex to text converter online for free. Decode hexadecimal strings back into readable plain text instantly. Perfect for developers and analysts.', icon: 'Binary', keywords: ['hex to text converter online', 'hex decoder tool free', 'hex to string online', 'decode hexadecimal text', 'hex to plain text converter'], primaryKeyword: 'hex to text converter online', secondaryKeywords: ['hex decoder tool free', 'hex to string online'], example: '48 65 6c 6c 6f', process: (s) => {
+    try {
+      const clean = s.replace(/\s+/g, ' ').trim();
+      const parts = clean.includes(' ') ? clean.split(' ') : clean.match(/.{1,2}/g) || [];
+      return parts.map(h => { const code = parseInt(h, 16); return isNaN(code) ? '' : String.fromCharCode(code); }).join('');
+    } catch { return 'Invalid hex input'; }
+  } },
   { id: 'html-encode', name: 'HTML Entity Encoder', slug: 'html-entity-encoder', category: 'converter', shortDescription: 'Encode special characters into HTML entities online.', description: 'HTML entity encoder online for free. Convert special characters like <, >, and & into their HTML entity equivalents instantly for safe web display.', icon: 'Code', keywords: ['html entity encoder online', 'html escape tool free', 'encode html characters', 'html entity generator', 'safe html text converter'], primaryKeyword: 'html entity encoder online', secondaryKeywords: ['html escape tool free', 'encode html characters'], example: 'Hello & World < >', process: (s) => s.replace(/[\u00A0-\u9999<>\&]/g, (i) => '&#' + i.charCodeAt(0) + ';') },
   { id: 'html-decode', name: 'HTML Entity Decoder', slug: 'html-entity-decoder', category: 'converter', shortDescription: 'Decode HTML entities back to characters online.', description: 'HTML entity decoder online for free. Convert HTML entities like &#38; back into their original characters instantly. Essential for web developers.', icon: 'Code', keywords: ['html entity decoder online', 'html unescape tool free', 'decode html entities', 'html entity to text', 'readable html converter'], primaryKeyword: 'html entity decoder online', secondaryKeywords: ['html unescape tool free', 'decode html entities'], example: 'Hello &#38; World &#60; &#62;', process: (s) => {
     if (typeof DOMParser !== 'undefined') {
@@ -1005,7 +1051,7 @@ const additionalTools: Tool[] = [
     example: 'Hello',
     process: (s) => {
       const map: any = {
-        'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑', 'f': '⠋', 'g': '⠛', 'h': '⠓', 'i': '⠊', 'j': '⠚', 'k': '⠇', 'l': '⠸', 'm': '⠵', 'n': '⠝', 'o': '⠕', 'p': '⠏', 'q': '⠟', 'r': '⠗', 's': '⠎', 't': '⠞', 'u': '⠥', 'v': '⠧', 'w': '⠺', 'x': '⠭', 'y': '⠽', 'z': '⠵',
+        'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑', 'f': '⠋', 'g': '⠛', 'h': '⠓', 'i': '⠊', 'j': '⠚', 'k': '⠅', 'l': '⠇', 'm': '⠍', 'n': '⠝', 'o': '⠕', 'p': '⠏', 'q': '⠟', 'r': '⠗', 's': '⠎', 't': '⠞', 'u': '⠥', 'v': '⠧', 'w': '⠺', 'x': '⠭', 'y': '⠽', 'z': '⠵',
         ' ': ' ', '1': '⠂', '2': '⠆', '3': '⠒', '4': '⠲', '5': '⠢', '6': '⠖', '7': '⠶', '8': '⠦', '9': '⠔', '0': '⠴'
       };
       return s.toLowerCase().split('').map(c => map[c] || c).join('');
@@ -1118,7 +1164,9 @@ const additionalTools: Tool[] = [
       if (m >= 1000) { intlResult += convertBelow1000(Math.floor(m / 1000)) + ' Thousand '; m %= 1000; }
       if (m > 0) { intlResult += convertBelow1000(m); }
 
-      return `🇮🇳 Indian: ${indianResult.trim()} Rupees Only\n🌍 International: ${intlResult.trim()} Only`;
+      const format = opts?.format || 'indian';
+      if (format === 'international') return intlResult.trim() + ' Only';
+      return indianResult.trim() + ' Only';
     }
   },
 ];

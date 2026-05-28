@@ -36,6 +36,9 @@ import Tesseract from 'tesseract.js';
 import { QRCodeCanvas } from 'qrcode.react';
 
 const PDFToolWorkspace = lazy(() => import('../components/PDFToolWorkspace').then(m => ({ default: m.PDFToolWorkspace })));
+const TextCleaningWorkspace = lazy(() => import('../components/TextCleaningWorkspace'));
+const TextConverterWorkspace = lazy(() => import('../components/TextConverterWorkspace'));
+const TextAnalysisWorkspace = lazy(() => import('../components/TextAnalysisWorkspace'));
 import AdPlaceholder from '../components/AdPlaceholder';
 import AIPanel from '../components/AIPanel';
 import RatingSystem from '../components/RatingSystem';
@@ -484,6 +487,36 @@ const ToolPage: React.FC = () => {
                 </div>
               ) : tool.category === 'pdf' ? (
                 <Suspense fallback={<div className="flex items-center justify-center p-20"><div className="w-10 h-10 border-4 border-blue-600/10 border-t-blue-600 rounded-full animate-spin"></div></div>}><PDFToolWorkspace toolId={tool.id} toolName={tool.name} /></Suspense>
+              ) : tool.category === 'cleaning' ? (
+                <Suspense fallback={<div className="flex items-center justify-center p-20"><div className="w-10 h-10 border-4 border-emerald-600/10 border-t-emerald-600 rounded-full animate-spin"></div></div>}>
+                  <TextCleaningWorkspace
+                    toolId={tool.id}
+                    process={tool.process as (input: string, options?: any) => string}
+                    example={tool.example}
+                    placeholder={tool.placeholder}
+                  />
+                </Suspense>
+              ) : tool.category === 'converter' ? (
+                <Suspense fallback={<div className="flex items-center justify-center p-20"><div className="w-10 h-10 border-4 border-blue-600/10 border-t-blue-600 rounded-full animate-spin"></div></div>}>
+                  <TextConverterWorkspace
+                    toolId={tool.id}
+                    process={tool.process as (input: string, options?: any) => string}
+                    example={tool.example}
+                    placeholder={tool.placeholder}
+                    toolName={tool.name}
+                  />
+                </Suspense>
+              ) : tool.category === 'analysis' ? (
+                <Suspense fallback={<div className="flex items-center justify-center p-20"><div className="w-10 h-10 border-4 border-amber-600/10 border-t-amber-500 rounded-full animate-spin"></div></div>}>
+                  <TextAnalysisWorkspace
+                    toolId={tool.id}
+                    process={tool.process as (input: string, options?: any) => string}
+                    example={tool.example}
+                    placeholder={tool.placeholder}
+                    toolName={tool.name}
+                    theme={theme}
+                  />
+                </Suspense>
               ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-10 gap-10 lg:items-start">
                   {/* Input Section */}
