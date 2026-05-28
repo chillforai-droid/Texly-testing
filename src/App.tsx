@@ -96,6 +96,13 @@ const AIAutomation = lazy(() => import('./pages/AIAutomation'));
 // AI SEO Automation Panel द्वारा push किए गए programmatic landing pages
 const SEOPage = lazy(() => import('./pages/SEOPage'));
 
+// ─── Dev Utility Tools (5 new) ────────────────────────────────────────────────
+const RobotsTxtTester         = lazy(() => import('./pages/tools/RobotsTxtTester'));
+const JsonPathFinder          = lazy(() => import('./pages/tools/JsonPathFinder'));
+const RegexExplainer          = lazy(() => import('./pages/tools/RegexExplainer'));
+const CronExpressionGenerator = lazy(() => import('./pages/tools/CronExpressionGenerator'));
+const RedirectChainChecker    = lazy(() => import('./pages/tools/RedirectChainChecker'));
+
 // ─── Loading spinner (pure CSS, zero JS deps) ─────────────────────────────────
 function PageLoader() {
   return (
@@ -554,6 +561,47 @@ function AppContent() {
               element={
                 <RouteErrorBoundary>
                   <AIAutomation />
+                </RouteErrorBoundary>
+              }
+            />
+            {/* ── Dev Utility Tools ── */}
+            <Route
+              path="/tools/robots-txt-tester"
+              element={
+                <RouteErrorBoundary>
+                  <RobotsTxtTester />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/tools/json-path-finder"
+              element={
+                <RouteErrorBoundary>
+                  <JsonPathFinder />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/tools/regex-explainer"
+              element={
+                <RouteErrorBoundary>
+                  <RegexExplainer />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/tools/cron-expression-generator"
+              element={
+                <RouteErrorBoundary>
+                  <CronExpressionGenerator />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/tools/redirect-chain-checker"
+              element={
+                <RouteErrorBoundary>
+                  <RedirectChainChecker />
                 </RouteErrorBoundary>
               }
             />

@@ -71,6 +71,12 @@ export default async function handler(req: any, res: any) {
       "image-upscale",
       "image-generator",
       "snapchat-tag-generator",
+      // ── Dev Utility Tools ──
+      "robots-txt-tester",
+      "json-path-finder",
+      "regex-explainer",
+      "cron-expression-generator",
+      "redirect-chain-checker",
     ];
     specialToolSlugs.forEach(slug => {
       xml += `\n  <url>\n    <loc>${baseUrl}/tools/${slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>\n  </url>`;

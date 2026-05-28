@@ -321,6 +321,134 @@ const HomePage = () => {
         </section>
 
         {/* ═══════════════════════════════════════════════════════
+            DEV & SEO UTILITY TOOLS
+        ═══════════════════════════════════════════════════════ */}
+        <section className="mb-20">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-xs font-black text-slate-400 uppercase tracking-widest">NEW</span>
+                <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+                  <Wrench className="w-3 h-3" /> Developer &amp; SEO Tools
+                </span>
+              </div>
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white leading-tight">
+                Dev <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600">Utility</span> Tools
+              </h2>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+            {/* Redirect Chain Checker */}
+            <Link to="/tools/redirect-chain-checker"
+              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 hover:border-blue-400 dark:hover:border-blue-600 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-start gap-4 mb-3">
+                <div className="w-11 h-11 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <ArrowRight className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-tight mb-1">Redirect Chain Checker</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Trace full redirect paths, detect loops &amp; check 301/302 status codes for SEO</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800">SEO</span>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">HTTP</span>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">Free</span>
+              </div>
+            </Link>
+
+            {/* Robots.txt Tester */}
+            <Link to="/tools/robots-txt-tester"
+              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 hover:border-teal-400 dark:hover:border-teal-600 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-start gap-4 mb-3">
+                <div className="w-11 h-11 rounded-xl bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <Search className="w-5 h-5 text-teal-600 dark:text-teal-400" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-tight mb-1">Robots.txt Tester</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Test URLs against robots.txt rules — see if Googlebot is allowed or blocked</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 border border-teal-200 dark:border-teal-800">Crawler</span>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">SEO</span>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">Free</span>
+              </div>
+            </Link>
+
+            {/* AI Regex Explainer */}
+            <Link to="/tools/regex-explainer"
+              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 hover:border-rose-400 dark:hover:border-rose-600 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-start gap-4 mb-3">
+                <div className="w-11 h-11 rounded-xl bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <Sparkles className="w-5 h-5 text-rose-600 dark:text-rose-400" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-tight mb-1">AI Regex Explainer</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Token-by-token regex breakdown in plain English + live match highlighting</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800">Regex</span>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">Dev</span>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">Free</span>
+              </div>
+            </Link>
+
+            {/* JSON Path Finder */}
+            <Link to="/tools/json-path-finder"
+              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 hover:border-indigo-400 dark:hover:border-indigo-600 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-start gap-4 mb-3">
+                <div className="w-11 h-11 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <FileText className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-tight mb-1">JSON Path Finder</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Interactive JSON tree viewer — click any value to copy its JSONPath instantly</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">JSON</span>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">API</span>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">Free</span>
+              </div>
+            </Link>
+
+            {/* Cron Expression Generator */}
+            <Link to="/tools/cron-expression-generator"
+              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 hover:border-emerald-400 dark:hover:border-emerald-600 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-start gap-4 mb-3">
+                <div className="w-11 h-11 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <Zap className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-tight mb-1">Cron Expression Generator</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Build cron schedules visually + human-readable explanations + 14 presets</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">Cron</span>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">Scheduler</span>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">Free</span>
+              </div>
+            </Link>
+
+            {/* Coming soon placeholder */}
+            <div className="rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 p-5 flex flex-col items-center justify-center text-center gap-3">
+              <div className="w-11 h-11 rounded-xl bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+                <Wrench className="w-5 h-5 text-slate-400 dark:text-slate-500" />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-slate-700 dark:text-slate-300">More Dev Tools Coming</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">JWT Decoder, SQL Formatter &amp; more</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════
             AI SECTION
         ═══════════════════════════════════════════════════════ */}
         <section className="mb-20 rounded-3xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #2e1065 100%)' }}>
