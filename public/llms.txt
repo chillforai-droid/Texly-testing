@@ -1,0 +1,30 @@
+# Texly — Free Online Text & AI Tools
+
+## About
+Texly (https://www.texlyonline.in/) is a free online platform offering 100+ text processing and AI tools. No signup required. All tools run instantly in your browser with complete privacy.
+
+## What We Offer
+- Text cleaning tools: remove special characters, extra spaces, duplicate lines, HTML tags
+- Text case converters: uppercase, lowercase, title case, sentence case
+- Text analysis: word count, character count, reading level
+- AI-powered tools: AI text suite, image enhancer, background remover, face swap
+- PDF tools: merge, split, compress PDF files
+- Developer tools: JSON formatter, URL encoder/decoder, Base64 tools
+- Generator tools: password generator, QR code generator
+
+## Key Pages
+- Homepage: https://www.texlyonline.in/
+- All Tools: https://www.texlyonline.in/tools
+- Blog: https://www.texlyonline.in/blog
+- About: https://www.texlyonline.in/about
+- Contact: https://www.texlyonline.in/contact
+
+## Technical
+- Framework: React + TypeScript
+- Deployment: Vercel
+- Language: English (en-US)
+
+## Contact
+- Website: https://www.texlyonline.in/
+- Twitter: https://twitter.com/texly_tools
+- GitHub: https://github.com/chillforai/Texly

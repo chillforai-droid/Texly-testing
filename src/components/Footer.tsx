@@ -167,10 +167,18 @@ const Footer: React.FC = () => {
             <Link to="/contact-us" className="text-xs text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
               {t.footer.contactUs}
             </Link>
+            <Link to="/about-us#editorial-policy" className="text-xs text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors">
+              Editorial Policy
+            </Link>
           </nav>
-          <p className="text-xs text-slate-400 dark:text-slate-500 italic shrink-0">
-            {t.footer.madeWith}
-          </p>
+          <div className="flex flex-col items-center sm:items-end gap-1">
+            <p className="text-xs text-slate-400 dark:text-slate-500 italic shrink-0">
+              {t.footer.madeWith}
+            </p>
+            <address className="text-[10px] text-slate-300 dark:text-slate-600 not-italic">
+              Texly · India · <a href="mailto:texlyonline@gmail.com" className="hover:text-slate-500 transition-colors">texlyonline@gmail.com</a>
+            </address>
+          </div>
         </div>
 
       </div>

@@ -118,6 +118,26 @@ const AboutUs = () => {
             </p>
           </section>
 
+          <section className="mb-10" id="editorial-policy">
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white">Editorial Policy</h2>
+            <p className="text-slate-600 dark:text-slate-300">
+              Our editorial process is built on accuracy, transparency, and user benefit. Every tool published on Texly is:
+            </p>
+            <ul className="list-disc list-inside mt-3 text-slate-600 dark:text-slate-300 space-y-1">
+              <li><strong>Manually tested</strong> by the Texly team before launch</li>
+              <li><strong>Regularly reviewed</strong> and updated for accuracy and performance</li>
+              <li><strong>User-privacy respecting</strong> — we never store the text you process</li>
+              <li><strong>Ad-free in function</strong> — tool outputs are never influenced by sponsors</li>
+            </ul>
+            <p className="text-slate-600 dark:text-slate-300 mt-4">
+              Content on Texly is created by our in-house team of developers and writers with expertise in text processing, AI tools, and web development. We do not accept paid tool placements or sponsored rankings.
+            </p>
+            <p className="text-slate-600 dark:text-slate-300 mt-2">
+              Last reviewed: May 2026. For editorial concerns, contact us at{' '}
+              <a href="mailto:texlyonline@gmail.com" className="text-blue-600 dark:text-blue-400 hover:underline">texlyonline@gmail.com</a>.
+            </p>
+          </section>
+
           <section className="mb-10">
             <h2 className="text-2xl font-black text-slate-900 dark:text-white">Get In Touch</h2>
             <p className="text-slate-600 dark:text-slate-300">

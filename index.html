@@ -23,6 +23,12 @@
     <!-- IE/Edge compat (no-op on modern but harmless) -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
     <!-- Preconnect to critical origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -43,12 +49,6 @@
       media="print"
       onload="this.media='all'"
     />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
-      />
-    </noscript>
 
     <!-- Supabase preconnect -->
     <link rel="preconnect" href="https://supabase.co" />
@@ -62,25 +62,23 @@
     <meta property="og:image" content="https://www.texlyonline.in/og-image.png" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.texlyonline.in/" />
-    <meta property="og:title" content="Texly — 100+ Free Text Tools Online | Instant, No Signup" />
-    <meta property="og:description" content="Remove special characters, clean text, convert case, decode URLs — 100+ free tools, no signup, runs in your browser." />
+    <meta property="og:title" content="Texly — 100+ Free Text Tools Online | No Signup" />
+    <meta property="og:description" content="Remove special characters, clean text, convert case — 100+ free tools, no signup, runs in your browser." />
     <meta property="og:site_name" content="Texly" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Texly — 100+ Free Online Text Tools | No Signup" />
-    <meta name="twitter:description" content="Remove special characters, clean & format text, decode URLs — 100+ free tools. No signup, 100% private." />
+    <meta name="twitter:description" content="Remove special characters, clean & format text — 100+ free tools. No signup, 100% private." />
     <meta name="twitter:image" content="https://www.texlyonline.in/og-image.png" />
-    <title>Texly — 100+ Free Text Tools Online | No Signup, Instant Results</title>
+    <title>Texly — Free Online Text & AI Tools | No Signup</title>
     <meta
       name="description"
-      content="100+ free online text tools — remove special characters, clean text, convert case, decode URLs, format JSON & more. No signup, no download, works on any device. 100% private."
+      content="100+ free online text tools — remove special characters, clean text, convert case, decode URLs & more. No signup, works on any device. 100% private."
     />
     <meta name="msvalidate.01" content="3A8F5E1C547B7E9EE0D64647DA94E9C9" />
     <meta name="google-site-verification" content="kiMSKVAk4odERvsYcj_9Fo3EXXSPUMEuBwKmuorcsnE" />
     <meta name="google-site-verification" content="qx2ReuXyDGhPkGB-v_-QBS8If5fH0k2N47TfryUJziU" />
 
-    <!-- AdSense: DISABLED until approval
-         Approval मिलने के बाद नीचे वाला comment हटाएं और script को uncomment करें
-    -->
+    <!-- AdSense: DISABLED until approval -->
     <!--
     <script
       async
@@ -90,133 +88,30 @@
     -->
 
     <!--
-      ═══════════════════════════════════════════════════════════════
-      CRITICAL: Inline loading indicator
-      Shows immediately while JS bundles download – prevents the
-      blank white screen that Samsung TV users see on slow networks.
-      Pure CSS, zero JS dependencies, removed by main.tsx on mount.
-      ═══════════════════════════════════════════════════════════════
-    -->
-    <!--
       CLS FIX: Inter Fallback font-face with size-adjust
-      Arial को Inter की exact metrics से match करता है ताकि font swap
-      होने पर कोई layout shift न हो (CLS 0.33 → ~0.0)
     -->
-    <style>
-      /* Inter v4 exact metrics — measured via fonttools/capsize */
-      @font-face {
-        font-family: 'Inter Fallback';
-        src: local('Arial');
-        ascent-override: 90.20%;
-        descent-override: 22.48%;
-        line-gap-override: 0%;
-        size-adjust: 107.40%;
-      }
-      @font-face {
-        font-family: 'Inter Fallback';
-        src: local('BlinkMacSystemFont'), local('.AppleSystemUIFont'), local('Helvetica Neue');
-        ascent-override: 90.20%;
-        descent-override: 22.48%;
-        line-gap-override: 0%;
-        size-adjust: 107.40%;
-      }
-    </style>
+    <style>@font-face{font-family:'Inter Fallback';src:local('Arial');ascent-override:90.20%;descent-override:22.48%;line-gap-override:0%;size-adjust:107.40%}@font-face{font-family:'Inter Fallback';src:local('BlinkMacSystemFont'),local('.AppleSystemUIFont'),local('Helvetica Neue');ascent-override:90.20%;descent-override:22.48%;line-gap-override:0%;size-adjust:107.40%}</style>
 
-    <style>
-      /* Ensure body is never invisible */
-      body { margin: 0; background: #f8fafc; font-family: system-ui, sans-serif; }
-
-      /* Loading overlay – shown until React mounts */
-      #texly-boot-loader {
-        position: fixed;
-        inset: 0;
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: #f8fafc;
-        transition: opacity 0.4s ease;
-      }
-      #texly-boot-loader.hide {
-        opacity: 0;
-        pointer-events: none;
-      }
-      .texly-spinner {
-        width: 48px;
-        height: 48px;
-        border: 4px solid rgba(37,99,235,0.15);
-        border-top-color: #2563eb;
-        border-radius: 50%;
-        animation: texly-boot-spin 0.8s linear infinite;
-      }
-      .texly-logo-text {
-        margin-top: 20px;
-        font-size: 24px;
-        font-weight: 800;
-        color: #2563eb;
-        letter-spacing: -0.5px;
-      }
-      .texly-tagline {
-        margin-top: 6px;
-        font-size: 13px;
-        color: #94a3b8;
-      }
-      @keyframes texly-boot-spin {
-        to { transform: rotate(360deg); }
-      }
-
-      /*
-        Samsung TV large-screen fixes:
-        - Prevent 100vh overflow bug in Tizen 4/5
-        - Ensure flex containers don't collapse
-      */
-      @media (min-width: 1280px) {
-        html, body { height: 100%; }
-        #root { min-height: 100%; display: flex; flex-direction: column; }
-      }
-
-      /*
-        TV cursor: Samsung remotes don't have a mouse – hide the cursor
-        so the "default arrow" doesn't float on screen.
-      */
-      @media (hover: none) and (pointer: coarse) {
-        * { cursor: default !important; }
-      }
-    </style>
+    <style>body{margin:0;background:#f8fafc;font-family:system-ui,sans-serif}#texly-boot-loader{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f8fafc;transition:opacity .4s ease}#texly-boot-loader.hide{opacity:0;pointer-events:none}.texly-spinner{width:48px;height:48px;border:4px solid rgba(37,99,235,.15);border-top-color:#2563eb;border-radius:50%;animation:texly-boot-spin .8s linear infinite}.texly-logo-text{margin-top:20px;font-size:24px;font-weight:800;color:#2563eb;letter-spacing:-.5px}.texly-tagline{margin-top:6px;font-size:13px;color:#94a3b8}@keyframes texly-boot-spin{to{transform:rotate(360deg)}}@media(min-width:1280px){html,body{height:100%}#root{min-height:100%;display:flex;flex-direction:column}}@media(hover:none) and (pointer:coarse){*{cursor:default!important}}</style>
 
     <!--
-      Deferred analytics – injected after page load to avoid blocking
-      the initial render on slow TV / mobile networks.
+      Deferred analytics – injected after page load to avoid blocking render
     -->
-    <script>
-      window.addEventListener('load', function () {
-        setTimeout(function () {
-          // Google Analytics
-          var gtm = document.createElement('script');
-          gtm.async = true;
-          gtm.src = 'https://www.googletagmanager.com/gtag/js?id=G-60WQBHB35M';
-          document.head.appendChild(gtm);
-          window.dataLayer = window.dataLayer || [];
-          function gtag() { dataLayer.push(arguments); }
-          gtag('js', new Date());
-          gtag('config', 'G-60WQBHB35M');
-
-          // Microsoft Clarity
-          (function (c, l, a, r, i, t, y) {
-            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
-            t = l.createElement(r); t.async = 1;
-            t.src = 'https://www.clarity.ms/tag/' + i;
-            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-          })(window, document, 'clarity', 'script', 'w4sr7isiid');
-        }, 2000);
-      });
-    </script>
+    <script>window.addEventListener('load',function(){setTimeout(function(){var gtm=document.createElement('script');gtm.async=true;gtm.src='https://www.googletagmanager.com/gtag/js?id=G-60WQBHB35M';document.head.appendChild(gtm);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-60WQBHB35M');(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,'clarity','script','w4sr7isiid')},2000)});</script>
   </head>
   <body>
+    <!-- Skip navigation for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-blue-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-semibold">Skip to main content</a>
+
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      />
+    </noscript>
+
     <!--
       Boot loader – pure HTML/CSS, visible immediately.
-      Removed by the JS snippet below once React has mounted.
     -->
     <div id="texly-boot-loader" aria-label="Loading Texly" role="status">
       <div class="texly-spinner"></div>
@@ -227,31 +122,7 @@
     <div id="root"></div>
 
     <!-- Remove boot loader once React has rendered -->
-    <script>
-      (function () {
-        function hideLoader() {
-          var loader = document.getElementById('texly-boot-loader');
-          if (!loader) return;
-          loader.classList.add('hide');
-          setTimeout(function () {
-            if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
-          }, 450);
-        }
-        var observer = new MutationObserver(function () {
-          var r = document.getElementById('root');
-          if (r && r.firstElementChild) { observer.disconnect(); hideLoader(); }
-        });
-        observer.observe(document.getElementById('root') || document.body, { childList: true, subtree: true });
-        // Desktop (≥1024px) gets a shorter failsafe (2s) — fast hardware/network.
-        // Mobile keeps 5s for slow networks. Previous value was 5000ms for all.
-        var isDesktop = window.innerWidth >= 1024;
-        var failsafe = setTimeout(function () { observer.disconnect(); hideLoader(); }, isDesktop ? 2000 : 5000);
-        window.addEventListener('load', function () {
-          var r = document.getElementById('root');
-          if (r && r.firstElementChild) { clearTimeout(failsafe); observer.disconnect(); hideLoader(); }
-        });
-      })();
-    </script>
+    <script>(function(){function hideLoader(){var loader=document.getElementById('texly-boot-loader');if(!loader)return;loader.classList.add('hide');setTimeout(function(){if(loader&&loader.parentNode)loader.parentNode.removeChild(loader)},450)}var observer=new MutationObserver(function(){var r=document.getElementById('root');if(r&&r.firstElementChild){observer.disconnect();hideLoader()}});observer.observe(document.getElementById('root')||document.body,{childList:true,subtree:true});var isDesktop=window.innerWidth>=1024;var failsafe=setTimeout(function(){observer.disconnect();hideLoader()},isDesktop?2000:5000);window.addEventListener('load',function(){var r=document.getElementById('root');if(r&&r.firstElementChild){clearTimeout(failsafe);observer.disconnect();hideLoader()}})})();</script>
 
     <!-- Main app entry (Vite injects both modern + legacy scripts) -->
     <script type="module" src="/src/main.tsx"></script>
