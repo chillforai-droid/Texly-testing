@@ -4,7 +4,8 @@ import {
   Search, ArrowRight, Zap, Sparkles, Star,
   FileText, RefreshCw, Trash2, BarChart3, Wrench,
   Code2, Github, TrendingUp, Layers, Cpu, ArrowUpRight,
-  Shield, Bolt
+  Shield, Bolt, Mail, User, BookOpen, CheckCircle2,
+  Globe, LightbulbIcon, Clock, MousePointerClick
 } from 'lucide-react';
 import { ALL_TOOLS, CATEGORIES } from '../data/tools';
 import { Helmet } from 'react-helmet-async';
@@ -14,6 +15,9 @@ import { BASE_URL } from '../config';
 import CategoryModal from '../components/CategoryModal';
 import DynamicIcon from '../components/LucideIcon';
 import { useDesktopPerf } from '../hooks/useDesktopPerf';
+import { BlogPost } from '../data/blog';
+import { getBlogs } from '../utils/blogStorage';
+import { Calendar, Clock, User } from 'lucide-react';
 
 const categoryThemes: Record<string, { gradient: string; iconBg: string; border: string; badge: string; glow: string }> = {
   cleaning:  { gradient: 'from-emerald-500 to-teal-500',   iconBg: 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400', border: 'border-emerald-200 dark:border-emerald-800/40', badge: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300', glow: 'shadow-emerald-500/20' },
@@ -50,6 +54,15 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
   const [displayCount, setDisplayCount] = useState(initialToolCount);
+  const [recentBlogs, setRecentBlogs] = useState<BlogPost[]>([]);
+  const [blogsLoading, setBlogsLoading] = useState(true);
+
+  useEffect(() => {
+    getBlogs()
+      .then(data => setRecentBlogs(data.slice(0, 4)))
+      .catch(() => setRecentBlogs([]))
+      .finally(() => setBlogsLoading(false));
+  }, []);
 
   const filteredTools = useMemo(() => {
     if (!searchQuery.trim()) return ALL_TOOLS;
@@ -337,14 +350,14 @@ const HomePage = () => {
               </h2>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
 
             {/* Redirect Chain Checker */}
             <Link to="/tools/redirect-chain-checker"
-              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 hover:border-blue-400 dark:hover:border-blue-600 hover:shadow-lg transition-all duration-200">
-              <div className="flex items-start gap-4 mb-3">
-                <div className="w-11 h-11 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                  <ArrowRight className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-5 hover:border-blue-400 dark:hover:border-blue-600 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-start gap-3 sm:gap-4 mb-3">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-tight mb-1">Redirect Chain Checker</h3>
@@ -360,10 +373,10 @@ const HomePage = () => {
 
             {/* Robots.txt Tester */}
             <Link to="/tools/robots-txt-tester"
-              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 hover:border-teal-400 dark:hover:border-teal-600 hover:shadow-lg transition-all duration-200">
-              <div className="flex items-start gap-4 mb-3">
-                <div className="w-11 h-11 rounded-xl bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                  <Search className="w-5 h-5 text-teal-600 dark:text-teal-400" />
+              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-5 hover:border-teal-400 dark:hover:border-teal-600 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-start gap-3 sm:gap-4 mb-3">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <Search className="w-4 h-4 sm:w-5 sm:h-5 text-teal-600 dark:text-teal-400" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-tight mb-1">Robots.txt Tester</h3>
@@ -379,10 +392,10 @@ const HomePage = () => {
 
             {/* AI Regex Explainer */}
             <Link to="/tools/regex-explainer"
-              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 hover:border-rose-400 dark:hover:border-rose-600 hover:shadow-lg transition-all duration-200">
-              <div className="flex items-start gap-4 mb-3">
-                <div className="w-11 h-11 rounded-xl bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                  <Sparkles className="w-5 h-5 text-rose-600 dark:text-rose-400" />
+              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-5 hover:border-rose-400 dark:hover:border-rose-600 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-start gap-3 sm:gap-4 mb-3">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-rose-600 dark:text-rose-400" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-tight mb-1">AI Regex Explainer</h3>
@@ -398,10 +411,10 @@ const HomePage = () => {
 
             {/* JSON Path Finder */}
             <Link to="/tools/json-path-finder"
-              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 hover:border-indigo-400 dark:hover:border-indigo-600 hover:shadow-lg transition-all duration-200">
-              <div className="flex items-start gap-4 mb-3">
-                <div className="w-11 h-11 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                  <FileText className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-5 hover:border-indigo-400 dark:hover:border-indigo-600 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-start gap-3 sm:gap-4 mb-3">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600 dark:text-indigo-400" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-tight mb-1">JSON Path Finder</h3>
@@ -417,10 +430,10 @@ const HomePage = () => {
 
             {/* Cron Expression Generator */}
             <Link to="/tools/cron-expression-generator"
-              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 hover:border-emerald-400 dark:hover:border-emerald-600 hover:shadow-lg transition-all duration-200">
-              <div className="flex items-start gap-4 mb-3">
-                <div className="w-11 h-11 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                  <Zap className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-5 hover:border-emerald-400 dark:hover:border-emerald-600 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-start gap-3 sm:gap-4 mb-3">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-tight mb-1">Cron Expression Generator</h3>
@@ -434,16 +447,23 @@ const HomePage = () => {
               </div>
             </Link>
 
-            {/* Coming soon placeholder */}
-            <div className="rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 p-5 flex flex-col items-center justify-center text-center gap-3">
-              <div className="w-11 h-11 rounded-xl bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
-                <Wrench className="w-5 h-5 text-slate-400 dark:text-slate-500" />
+            {/* Snapchat Tag Generator */}
+            <Link to="/tools/snapchat-tag-generator"
+              className="group relative overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 sm:p-5 hover:border-yellow-400 dark:hover:border-yellow-600 hover:shadow-lg transition-all duration-200">
+              <div className="flex items-start gap-3 sm:gap-4 mb-3">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-yellow-100 dark:bg-yellow-900/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 dark:text-yellow-400" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-tight mb-1">Snapchat Tag Generator</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Generate trending Snapchat-style hashtags and tags for maximum reach &amp; engagement</p>
+                </div>
               </div>
-              <div>
-                <p className="text-sm font-bold text-slate-700 dark:text-slate-300">More Dev Tools Coming</p>
-                <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">JWT Decoder, SQL Formatter &amp; more</p>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-yellow-50 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800">Social</span>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">Free</span>
               </div>
-            </div>
+            </Link>
 
           </div>
         </section>
@@ -631,6 +651,426 @@ const HomePage = () => {
               </div>
             ))}
           </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════
+            HOW TO USE — Content section for AdSense quality
+        ═══════════════════════════════════════════════════════ */}
+        <section className="mb-20 pt-10 border-t border-slate-100 dark:border-slate-800/60">
+          <div className="text-center mb-10">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-black uppercase tracking-widest mb-4">
+              <BookOpen className="w-3.5 h-3.5" /> Guide
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mb-3">How to Use Texly Tools</h2>
+            <p className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto text-sm leading-relaxed">
+              Texly tools are designed to be simple, fast, and intuitive. Here's how you can get the most out of our platform in just a few clicks.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              {
+                step: '01',
+                icon: <Search className="w-5 h-5" />,
+                color: 'blue',
+                title: 'Search or Browse',
+                desc: 'Use the search bar to find any tool instantly, or browse by category — Text, PDF, Image, AI, Dev, or Generator tools.',
+              },
+              {
+                step: '02',
+                icon: <MousePointerClick className="w-5 h-5" />,
+                color: 'violet',
+                title: 'Click & Open',
+                desc: 'Click on any tool card to open it. All tools load instantly in your browser — no installation, no downloads, no waiting.',
+              },
+              {
+                step: '03',
+                icon: <FileText className="w-5 h-5" />,
+                color: 'emerald',
+                title: 'Paste Your Content',
+                desc: 'Enter or paste your text, upload your image or PDF, and let the tool process it — everything happens privately on your device.',
+              },
+              {
+                step: '04',
+                icon: <ArrowUpRight className="w-5 h-5" />,
+                color: 'amber',
+                title: 'Copy & Use',
+                desc: 'Copy the result with one click or download it directly. All outputs are clean, ready-to-use, and completely free with no watermarks.',
+              },
+            ].map((item) => (
+              <div key={item.step} className="relative flex flex-col bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-6 shadow-sm hover:shadow-md transition-shadow">
+                <span className={`text-5xl font-black text-${item.color}-100 dark:text-${item.color}-900/50 absolute top-4 right-5 select-none`}>{item.step}</span>
+                <div className={`w-11 h-11 bg-${item.color}-100 dark:bg-${item.color}-900/40 text-${item.color}-600 dark:text-${item.color}-400 rounded-xl flex items-center justify-center mb-4`}>
+                  {item.icon}
+                </div>
+                <h3 className="text-base font-black text-slate-900 dark:text-white mb-2">{item.title}</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════
+            USE CASES — Who is Texly for?
+        ═══════════════════════════════════════════════════════ */}
+        <section className="mb-20">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mb-3">Who Uses Texly?</h2>
+            <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto text-sm">
+              From students to senior developers — Texly is built for anyone who works with text, code, images, or content online.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              {
+                emoji: '✍️',
+                title: 'Content Creators & Bloggers',
+                desc: 'Writers use Texly to clean up copied text, remove duplicate lines, fix formatting, count words, convert case, and create fancy font styles for social media. Our AI tools also help rewrite and humanize content instantly.',
+                tags: ['Word Counter', 'Case Converter', 'AI Rewriter'],
+              },
+              {
+                emoji: '💻',
+                title: 'Developers & Programmers',
+                desc: 'Developers rely on Texly for JSON formatting, regex explainer, Base64 encoding, redirect chain checking, cron expression generation, robots.txt testing, and JSON path finding — all in one place without needing any external tools.',
+                tags: ['JSON Formatter', 'Regex Explainer', 'Cron Generator'],
+              },
+              {
+                emoji: '🎓',
+                title: 'Students & Researchers',
+                desc: 'Students use Texly to remove special characters from copied research content, clean whitespace from PDFs, count words in essays, convert numbers to words, and create formatted lists — saving hours of manual editing.',
+                tags: ['Special Char Remover', 'Word Counter', 'PDF Tools'],
+              },
+              {
+                emoji: '📈',
+                title: 'Digital Marketers & SEO Pros',
+                desc: 'SEO professionals use our Redirect Chain Checker, Robots.txt Tester, and JSON-LD Schema Generator to audit and fix technical SEO issues. Our text tools help create meta descriptions, social snippets, and ad copy quickly.',
+                tags: ['Redirect Checker', 'Robots.txt Tester', 'Schema Generator'],
+              },
+              {
+                emoji: '🎨',
+                title: 'Designers & Social Media Managers',
+                desc: 'Designers use Texly\'s image compressor, background remover, AI image enhancer, and upscaler to prepare visuals for web and social. Our fancy text and invisible text tools add flair to social media profiles and bios.',
+                tags: ['Background Remover', 'Image Compressor', 'Fancy Text'],
+              },
+              {
+                emoji: '🏢',
+                title: 'Business Professionals',
+                desc: 'Professionals use Texly to merge and split PDFs for reports, convert text formats for emails, generate QR codes for presentations, and use our invisible text tool for creative document formatting and branding tasks.',
+                tags: ['PDF Merger', 'QR Code Generator', 'Invisible Text'],
+              },
+            ].map((item) => (
+              <div key={item.title} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-6 hover:shadow-lg transition-shadow">
+                <span className="text-3xl mb-4 block">{item.emoji}</span>
+                <h3 className="text-base font-black text-slate-900 dark:text-white mb-2">{item.title}</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">{item.desc}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {item.tags.map(tag => (
+                    <span key={tag} className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════
+            FAQ — Common Questions
+        ═══════════════════════════════════════════════════════ */}
+        <section className="mb-20 pt-10 border-t border-slate-100 dark:border-slate-800/60">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mb-3">Frequently Asked Questions</h2>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">Everything you need to know about Texly tools.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-4xl mx-auto">
+            {[
+              {
+                q: 'Are all Texly tools completely free?',
+                a: 'Yes, 100%. Every single tool on Texly is free to use — no hidden charges, no premium plans, and no trial limits. We sustain the platform through minimal, non-intrusive Google AdSense ads.',
+              },
+              {
+                q: 'Do I need to create an account?',
+                a: 'No account is required. You can use every tool on Texly without signing up, logging in, or sharing any personal information. Just open a tool and start using it immediately.',
+              },
+              {
+                q: 'Is my data safe when I use Texly?',
+                a: 'Absolutely. Most Texly tools process text and files entirely in your browser — your content never leaves your device. For AI tools that require server processing, we do not store or log your input data.',
+              },
+              {
+                q: 'Does Texly work on mobile phones?',
+                a: 'Yes! Texly is fully optimized for mobile, tablet, and desktop. All tools are responsive and work smoothly on Android and iOS browsers. No app download is needed.',
+              },
+              {
+                q: 'How many tools does Texly offer?',
+                a: 'Texly currently offers 100+ free tools across 7 categories — Text, PDF, Image, AI, Developer, SEO, and Generator tools. We add new tools regularly based on user feedback and trending needs.',
+              },
+              {
+                q: 'Can I suggest a new tool?',
+                a: 'Definitely! We love user suggestions. Reach out to us at texlyonline@gmail.com with your idea. Many of the tools we\'ve built came directly from user requests.',
+              },
+            ].map((item) => (
+              <div key={item.q} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-6">
+                <div className="flex items-start gap-3">
+                  <div className="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-xs font-black">Q</span>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-black text-slate-900 dark:text-white mb-2">{item.q}</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{item.a}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════
+            AUTHOR / MEET THE CREATOR
+        ═══════════════════════════════════════════════════════ */}
+        <section className="mb-20">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-950 to-violet-950 p-8 sm:p-10">
+            {/* Background glow */}
+            <div className="hidden sm:block absolute -top-10 -right-10 w-64 h-64 bg-blue-500/10 rounded-full blur-[60px] pointer-events-none" />
+            <div className="hidden sm:block absolute bottom-0 left-0 w-48 h-48 bg-violet-500/10 rounded-full blur-[50px] pointer-events-none" />
+
+            <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-8">
+              {/* Avatar */}
+              <div className="flex-shrink-0">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center text-white text-3xl font-black shadow-2xl shadow-blue-500/30">
+                  MM
+                </div>
+                <div className="flex items-center gap-1.5 mt-3">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Active</span>
+                </div>
+              </div>
+
+              {/* Info */}
+              <div className="flex-1">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-300 text-[10px] font-black uppercase tracking-widest mb-3">
+                  <User className="w-3 h-3" /> Meet the Creator
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-black text-white mb-2">Mahendra Mirdha</h2>
+                <p className="text-slate-400 text-sm leading-relaxed mb-5 max-w-xl">
+                  Hi! I'm Mahendra, the founder and developer behind Texly. I built this platform because I was tired of jumping between dozens of websites for basic text, image, and developer tasks. My goal is simple — give everyone access to powerful, free tools that just work, without any signup, paywall, or nonsense.
+                </p>
+                <p className="text-slate-400 text-sm leading-relaxed mb-6 max-w-xl">
+                  I'm passionate about web development, SEO, and building tools that make people's lives easier. Texly is a solo passion project, and every feature is handcrafted with love. If you have feedback, suggestions, or just want to say hi — I personally read every email!
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href="mailto:texlyonline@gmail.com"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl font-bold text-sm transition-all backdrop-blur-sm"
+                  >
+                    <Mail className="w-4 h-4" />
+                    texlyonline@gmail.com
+                  </a>
+                  <Link
+                    to="/about-us"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 rounded-xl font-bold text-sm transition-all"
+                  >
+                    <Globe className="w-4 h-4" />
+                    About Texly
+                  </Link>
+                </div>
+              </div>
+
+              {/* Credentials column */}
+              <div className="hidden lg:flex flex-col gap-3 flex-shrink-0">
+                {[
+                  { icon: <CheckCircle2 className="w-3.5 h-3.5" />, text: 'Indie Developer' },
+                  { icon: <CheckCircle2 className="w-3.5 h-3.5" />, text: 'SEO Enthusiast' },
+                  { icon: <CheckCircle2 className="w-3.5 h-3.5" />, text: '100+ Tools Built' },
+                  { icon: <CheckCircle2 className="w-3.5 h-3.5" />, text: 'Privacy Advocate' },
+                ].map((item) => (
+                  <div key={item.text} className="flex items-center gap-2 text-emerald-400 text-xs font-bold">
+                    {item.icon}
+                    <span>{item.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════
+            TRUST SIGNALS / ABOUT THE SITE
+        ═══════════════════════════════════════════════════════ */}
+        <section className="mb-20 pt-10 border-t border-slate-100 dark:border-slate-800/60">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-3">Why Texly is Trusted by 50,000+ Users Daily</h2>
+            <p className="text-slate-500 dark:text-slate-400 text-sm max-w-xl mx-auto">
+              Texly was built on a foundation of trust, transparency, and performance. Here's what sets us apart from other online tool platforms.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { icon: <Shield className="w-5 h-5" />, color: 'emerald', title: 'No Data Collection', desc: 'Text you enter into tools is never stored, shared, or logged. Your privacy is protected by design, not just policy.' },
+              { icon: <Zap className="w-5 h-5" />, color: 'blue', title: 'Browser-Powered Speed', desc: 'Most tools run entirely client-side in your browser, meaning instant results with zero server wait time — even offline.' },
+              { icon: <Clock className="w-5 h-5" />, color: 'amber', title: 'Always Available', desc: 'Texly has 99.9% uptime with no maintenance windows. Tools are available 24/7 — on mobile, tablet, and desktop, anytime.' },
+              { icon: <LightbulbIcon className="w-5 h-5" />, color: 'violet', title: 'Constantly Improving', desc: 'New tools are added every month based on user feedback. We\'re always listening and building what our community actually needs.' },
+            ].map((item) => (
+              <div key={item.title} className="flex flex-col bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-6 hover:shadow-md transition-shadow">
+                <div className={`w-10 h-10 bg-${item.color}-100 dark:bg-${item.color}-900/40 text-${item.color}-600 dark:text-${item.color}-400 rounded-xl flex items-center justify-center mb-4`}>
+                  {item.icon}
+                </div>
+                <h3 className="text-sm font-black text-slate-900 dark:text-white mb-2">{item.title}</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════
+            LATEST BLOG POSTS — Supabase से fetch
+        ═══════════════════════════════════════════════════════ */}
+        <section className="mb-20 pt-10 border-t border-slate-100 dark:border-slate-800/60">
+          {/* Section header */}
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-violet-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-500"></span>
+                </span>
+                <span className="text-xs font-black text-violet-600 dark:text-violet-400 uppercase tracking-widest">Latest Articles</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white leading-tight">
+                From the <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 to-fuchsia-500">Blog</span>
+              </h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Tips, guides and tutorials to get more out of Texly tools</p>
+            </div>
+            <Link
+              to="/blog"
+              className="flex-shrink-0 flex items-center gap-1.5 text-xs font-black text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 transition-colors uppercase tracking-wide group"
+            >
+              All Posts
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </div>
+
+          {/* Loading skeleton */}
+          {blogsLoading && (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {[1, 2, 3, 4].map(i => (
+                <div key={i} className="rounded-2xl bg-slate-100 dark:bg-slate-800/60 animate-pulse overflow-hidden">
+                  <div className="h-40 bg-slate-200 dark:bg-slate-700" />
+                  <div className="p-4 space-y-2">
+                    <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded-full w-1/3" />
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded-full w-full" />
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded-full w-4/5" />
+                    <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded-full w-1/2 mt-3" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Blog Cards — 2 on mobile, 4 on desktop */}
+          {!blogsLoading && recentBlogs.length > 0 && (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              {recentBlogs.map((blog, idx) => (
+                <Link
+                  key={blog.id}
+                  to={`/blog/${blog.slug}`}
+                  className="group flex flex-col bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden hover:border-violet-300 dark:hover:border-violet-800/60 hover:shadow-xl hover:shadow-violet-500/10 transition-all duration-300 hover:-translate-y-0.5"
+                >
+                  {/* Thumbnail */}
+                  <div className="relative overflow-hidden bg-slate-100 dark:bg-slate-800 aspect-[16/9] flex-shrink-0">
+                    {blog.image ? (
+                      <img
+                        src={blog.image}
+                        alt={blog.title}
+                        loading={idx < 2 ? 'eager' : 'lazy'}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${blog.id}/400/225`;
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-violet-100 to-fuchsia-100 dark:from-violet-900/40 dark:to-fuchsia-900/40 flex items-center justify-center">
+                        <BookOpen className="w-8 h-8 text-violet-400" />
+                      </div>
+                    )}
+                    {/* Category badge over image */}
+                    {blog.category && (
+                      <span className="absolute top-2 left-2 text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full bg-violet-600/90 text-white backdrop-blur-sm uppercase tracking-wide">
+                        {blog.category}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Card body */}
+                  <div className="flex flex-col flex-1 p-3 sm:p-4">
+                    {/* Meta row */}
+                    <div className="flex items-center gap-2 mb-2 flex-wrap">
+                      {blog.date && (
+                        <span className="flex items-center gap-1 text-[10px] text-slate-400 dark:text-slate-500">
+                          <Calendar className="w-2.5 h-2.5" />
+                          <span className="hidden sm:inline">{blog.date}</span>
+                          <span className="sm:hidden">{blog.date.split(' ').slice(0, 2).join(' ')}</span>
+                        </span>
+                      )}
+                      {blog.readTime && (
+                        <span className="flex items-center gap-1 text-[10px] text-slate-400 dark:text-slate-500">
+                          <Clock className="w-2.5 h-2.5" />
+                          {blog.readTime}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white leading-snug line-clamp-2 mb-2 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                      {blog.title}
+                    </h3>
+
+                    {/* Excerpt — desktop only */}
+                    {blog.excerpt && (
+                      <p className="hidden sm:block text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2 flex-grow mb-3">
+                        {blog.excerpt}
+                      </p>
+                    )}
+
+                    {/* Read More CTA */}
+                    <div className="mt-auto flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
+                      <span className="flex items-center gap-1 text-[11px] font-black text-violet-600 dark:text-violet-400 group-hover:gap-2 transition-all">
+                        Read More <ArrowRight className="w-3 h-3" />
+                      </span>
+                      {blog.author && (
+                        <span className="hidden sm:flex items-center gap-1 text-[10px] text-slate-400">
+                          <User className="w-2.5 h-2.5" />
+                          {blog.author.split(' ')[0]}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {/* No blogs fallback */}
+          {!blogsLoading && recentBlogs.length === 0 && (
+            <div className="text-center py-12 text-slate-400 dark:text-slate-500">
+              <BookOpen className="w-10 h-10 mx-auto mb-3 opacity-40" />
+              <p className="text-sm font-medium">No blog posts yet. Check back soon!</p>
+            </div>
+          )}
+
+          {/* View all button */}
+          {!blogsLoading && recentBlogs.length > 0 && (
+            <div className="mt-8 text-center">
+              <Link
+                to="/blog"
+                className="inline-flex items-center gap-2 px-7 py-3.5 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 rounded-2xl font-black text-sm text-slate-700 dark:text-slate-300 hover:border-violet-500 hover:text-violet-600 dark:hover:text-violet-400 transition-all shadow-sm hover:shadow-xl hover:shadow-violet-500/10 group"
+              >
+                <BookOpen className="w-4 h-4" />
+                View All Blog Posts
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          )}
         </section>
 
         {/* Social Share */}
