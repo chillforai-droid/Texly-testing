@@ -1,4 +1,5 @@
 import tailwindcss from '@tailwindcss/vite';
+import viteCompression from 'vite-plugin-compression';
 import react from '@vitejs/plugin-react';
 import legacy from '@vitejs/plugin-legacy';
 import path from 'path';
@@ -59,6 +60,8 @@ export default defineConfig(({ mode }) => {
       pagesSyncPlugin(),
       react(),
       tailwindcss(),
+      viteCompression({ algorithm: 'gzip', ext: '.gz' }),
+      viteCompression({ algorithm: 'brotliCompress', ext: '.br' }),
       legacy({
         targets: [
           'chrome >= 80',
@@ -168,9 +171,9 @@ export default defineConfig(({ mode }) => {
       },
 
       chunkSizeWarningLimit: 2500,
-      modulePreload: { polyfill: true },
+      modulePreload: { polyfill: true, resolveDependencies: (url, deps) => deps },
       reportCompressedSize: false,
-      assetsInlineLimit: 4096,
+      assetsInlineLimit: 8192,
     },
 
     server: {
