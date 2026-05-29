@@ -39,6 +39,7 @@ const PDFToolWorkspace = lazy(() => import('../components/PDFToolWorkspace').the
 const TextCleaningWorkspace = lazy(() => import('../components/TextCleaningWorkspace'));
 const TextConverterWorkspace = lazy(() => import('../components/TextConverterWorkspace'));
 const TextAnalysisWorkspace = lazy(() => import('../components/TextAnalysisWorkspace'));
+const TextUtilityWorkspace = lazy(() => import('../components/TextUtilityWorkspace'));
 import AdPlaceholder from '../components/AdPlaceholder';
 import AIPanel from '../components/AIPanel';
 import RatingSystem from '../components/RatingSystem';
@@ -515,6 +516,16 @@ const ToolPage: React.FC = () => {
                     placeholder={tool.placeholder}
                     toolName={tool.name}
                     theme={theme}
+                  />
+                </Suspense>
+              ) : tool.category === 'utility' ? (
+                <Suspense fallback={<div className="flex items-center justify-center p-20"><div className="w-10 h-10 border-4 border-violet-600/10 border-t-violet-600 rounded-full animate-spin"></div></div>}>
+                  <TextUtilityWorkspace
+                    toolId={tool.id}
+                    process={tool.process as (input: string, options?: any) => string}
+                    example={tool.example}
+                    placeholder={tool.placeholder}
+                    toolName={tool.name}
                   />
                 </Suspense>
               ) : (
