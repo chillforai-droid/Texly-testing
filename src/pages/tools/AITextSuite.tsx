@@ -257,6 +257,8 @@ Return ONLY the final text, no explanations.`;
       <Helmet>
         <title>AI Text Suite — Remove Special Chars, Text to List, Cleaner & More | Texly</title>
         <meta name="description" content="5 powerful AI text tools in one place — Remove Special Characters, Text to List, Text Repeater, Find & Replace, Text Cleaner. Free, fast, no signup." />
+        <link rel="canonical" href="https://www.texlyonline.in/tools/ai-text-suite" />
+        <meta property="og:url" content="https://www.texlyonline.in/tools/ai-text-suite" />
       </Helmet>
 
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-8 px-4">

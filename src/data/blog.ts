@@ -41,7 +41,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>Extra spaces usually creep into your content during the "copy-paste" process. It's rarely your fault, but it always becomes your problem. Common culprits include:</p>
       <ul>
         <li><strong>PDF Conversions:</strong> When you copy text from a PDF, the line breaks and spacing often get distorted. PDFs are designed for printing, not for text extraction, which leads to "ghost" spaces.</li>
-        <li><strong>OCR Scans:</strong> Optical Character Recognition software sometimes misinterprets shadows or paper texture as spaces. If you're using our <a href="/tool/image-to-text">Image to Text tool</a>, you might notice this occasionally.</li>
+        <li><strong>OCR Scans:</strong> Optical Character Recognition software sometimes misinterprets shadows or paper texture as spaces. If you're using our <a href="/tool/image-to-text-extractor">Image to Text tool</a>, you might notice this occasionally.</li>
         <li><strong>Manual Typing Errors:</strong> Double-tapping the spacebar is a common habit that leads to inconsistent gaps. It's a muscle memory thing that's hard to break.</li>
         <li><strong>Code Snippets:</strong> Copying code or data from spreadsheets can introduce hidden tabs and non-breaking spaces (NBSP) that look like regular spaces but behave differently.</li>
         <li><strong>Legacy Software:</strong> Older word processors often used multiple spaces to align text before "tabs" were standardized, leaving a mess for modern editors.</li>
@@ -54,7 +54,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>Search engines like Google prioritize high-quality, well-formatted content. While extra spaces might not directly penalize your site, they can affect how search bots parse your HTML and text. Clean code and clean text are signs of a professional, well-maintained website. Furthermore, if your text is messy, users are more likely to "bounce" (leave your site quickly), which <em>does</em> negatively impact your rankings.</p>
 
       <h3>2. User Experience (UX) and Cognitive Load</h3>
-      <p>Imagine reading a blog post where the words are spaced inconsistently. It breaks the flow of reading and increases "cognitive load"—the amount of mental effort required to process information. Professionalism is in the details. By using a <a href="/tool/remove-extra-spaces">Remove Extra Spaces tool</a>, you ensure your readers stay focused on your message, not your formatting errors.</p>
+      <p>Imagine reading a blog post where the words are spaced inconsistently. It breaks the flow of reading and increases "cognitive load"—the amount of mental effort required to process information. Professionalism is in the details. By using a <a href="/tool/remove-extra-spaces-online">Remove Extra Spaces tool</a>, you ensure your readers stay focused on your message, not your formatting errors.</p>
 
       <h3>3. Data Processing and Coding Errors</h3>
       <p>If you are a developer or data analyst, extra spaces are your worst enemy. They can break CSV imports, cause errors in database queries, and lead to incorrect string comparisons in your code. A single trailing space in a username or password field can cause hours of debugging frustration.</p>
@@ -81,7 +81,7 @@ export const BLOG_POSTS: BlogPost[] = [
       
       <ol>
         <li><strong>Copy your messy text:</strong> Highlight the text you want to fix and press Ctrl+C (or Cmd+C).</li>
-        <li><strong>Visit the Texly Tool:</strong> Go to our <a href="/tool/remove-extra-spaces">Remove Extra Spaces</a> page. It's fast, free, and works on any device.</li>
+        <li><strong>Visit the Texly Tool:</strong> Go to our <a href="/tool/remove-extra-spaces-online">Remove Extra Spaces</a> page. It's fast, free, and works on any device.</li>
         <li><strong>Paste and Process:</strong> Paste your text into the input box. The tool will automatically detect and remove all redundant spaces, leaving only single spaces between words. It also trims leading and trailing whitespace.</li>
         <li><strong>Copy the Result:</strong> Click the "Copy" button to get your perfectly formatted text. You can also use the "Clear" button if you have more text to process.</li>
       </ol>
@@ -89,10 +89,10 @@ export const BLOG_POSTS: BlogPost[] = [
       <h2>Advanced Tips for Text Hygiene and Productivity</h2>
       <p>Sometimes, removing spaces is just the first step in a larger cleanup project. Depending on your needs, you might also want to explore these related tools and techniques:</p>
       <ul>
-        <li><strong>Remove Line Breaks:</strong> Perfect for fixing text copied from narrow PDF columns that has artificial line breaks. Check out our <a href="/tool/remove-line-breaks">Remove Line Breaks tool</a>.</li>
-        <li><strong>Remove Duplicate Lines:</strong> Essential for cleaning up lists, email databases, and data sets. Use the <a href="/tool/remove-duplicate-lines">Remove Duplicate Lines tool</a>.</li>
-        <li><strong>Case Converter:</strong> Need to change your text to Title Case or UPPERCASE? Our <a href="/tool/upper-case">Case Converter</a> handles it in one click.</li>
-        <li><strong>Word Counter:</strong> After cleaning your text, verify your length and reading time with our <a href="/tool/word-counter">Word Counter</a>.</li>
+        <li><strong>Remove Line Breaks:</strong> Perfect for fixing text copied from narrow PDF columns that has artificial line breaks. Check out our <a href="/tool/remove-line-breaks-tool">Remove Line Breaks tool</a>.</li>
+        <li><strong>Remove Duplicate Lines:</strong> Essential for cleaning up lists, email databases, and data sets. Use the <a href="/tool/remove-duplicate-lines-tool">Remove Duplicate Lines tool</a>.</li>
+        <li><strong>Case Converter:</strong> Need to change your text to Title Case or UPPERCASE? Our <a href="/tool/upper-case-converter">Case Converter</a> handles it in one click.</li>
+        <li><strong>Word Counter:</strong> After cleaning your text, verify your length and reading time with our <a href="/tool/word-counter-online-free">Word Counter</a>.</li>
       </ul>
 
       <h2>Why Texly is the Best Choice for Text Cleaning</h2>
@@ -107,7 +107,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <h2>Conclusion: Make Clean Text a Habit</h2>
       <p>In the digital world, your text is your identity. Whether you are writing an email, a blog post, or a technical report, clean formatting speaks volumes about your attention to detail. Don't let messy spaces hold you back. Use Texly's suite of free online tools to ensure your content is always polished, professional, and ready for the world.</p>
 
-      <p>Ready to fix your text? <a href="/tool/remove-extra-spaces">Click here to remove extra spaces now!</a> and experience the Texly difference.</p>
+      <p>Ready to fix your text? <a href="/tool/remove-extra-spaces-online">Click here to remove extra spaces now!</a> and experience the Texly difference.</p>
       
       <p><em>Keywords: remove extra spaces, clean text online, fix messy text, remove double spaces, text formatting tool, SEO text optimization, productivity tools, free online text editor.</em></p>
     `
@@ -168,7 +168,7 @@ export const BLOG_POSTS: BlogPost[] = [
       </ul>
 
       <h2>Internal Linking: The Texly Ecosystem</h2>
-      <p>At Texly, we believe in a holistic approach to digital productivity. Once you've processed your images, you might need to handle the text associated with them. For instance, if you've extracted text from an image using our <a href="/tool/image-to-text">Image to Text tool</a>, you might find extra spaces that need cleaning. Our <a href="/blog/remove-extra-spaces-guide">guide on removing extra spaces</a> is a perfect next step for maintaining content quality.</p>
+      <p>At Texly, we believe in a holistic approach to digital productivity. Once you've processed your images, you might need to handle the text associated with them. For instance, if you've extracted text from an image using our <a href="/tool/image-to-text-extractor">Image to Text tool</a>, you might find extra spaces that need cleaning. Our <a href="/blog/remove-extra-spaces-guide">guide on removing extra spaces</a> is a perfect next step for maintaining content quality.</p>
 
       <h2>Frequently Asked Questions (FAQ)</h2>
       

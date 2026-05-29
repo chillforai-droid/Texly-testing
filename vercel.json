@@ -110,6 +110,41 @@
   ],
   "redirects": [
     {
+      "source": "/tool/json-formatter",
+      "destination": "/tool/json-formatter-online",
+      "permanent": true
+    },
+    {
+      "source": "/tool/word-counter",
+      "destination": "/tool/word-counter-online-free",
+      "permanent": true
+    },
+    {
+      "source": "/tool/upper-case",
+      "destination": "/tool/upper-case-converter",
+      "permanent": true
+    },
+    {
+      "source": "/tool/image-to-text",
+      "destination": "/tool/image-to-text-extractor",
+      "permanent": true
+    },
+    {
+      "source": "/tool/remove-line-breaks",
+      "destination": "/tool/remove-line-breaks-tool",
+      "permanent": true
+    },
+    {
+      "source": "/tool/remove-duplicate-lines",
+      "destination": "/tool/remove-duplicate-lines-tool",
+      "permanent": true
+    },
+    {
+      "source": "/tool/remove-extra-spaces",
+      "destination": "/tool/remove-extra-spaces-online",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {

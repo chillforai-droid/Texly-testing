@@ -162,6 +162,8 @@ const ImageGenerator = () => {
       <Helmet>
         <title>Free AI Image Generator - Create Stunning Art from Text | Texly</title>
         <meta name="description" content="Generate high-quality images from text descriptions instantly using Texly's Free AI Image Generator. 100% free, no sign-up required." />
+        <link rel="canonical" href="https://www.texlyonline.in/tools/image-generator" />
+        <meta property="og:url" content="https://www.texlyonline.in/tools/image-generator" />
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

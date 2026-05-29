@@ -138,8 +138,19 @@ function NavigateWithParams() {
 }
 
 function ToolRouteWrapper() {
-  // No redirect — both /tool/:slug and /tools/:slug render ToolPage directly.
-  // Redirecting between the two paths was causing 90 "Page with redirect" GSC errors.
+  const { slug } = useParams();
+  // AI/generator tools live at /tools/ — render directly
+  // Regular tools live at /tool/ — redirect to canonical URL to fix GSC "Crawled not indexed"
+  const AI_TOOL_SLUGS = new Set([
+    'face-swap', 'bg-remover', 'enhancer', 'compressor', 'image-upscale',
+    'image-generator', 'ai-text-suite', 'invisible-text-suite',
+    'snapchat-tag-generator', 'robots-txt-tester', 'json-path-finder',
+    'regex-explainer', 'cron-expression-generator', 'redirect-chain-checker',
+  ]);
+  if (slug && !AI_TOOL_SLUGS.has(slug)) {
+    // Non-AI tool accessed via /tools/ — redirect to canonical /tool/ path
+    return <Navigate to={`/tool/${slug}`} replace />;
+  }
   return <ToolPage />;
 }
 

@@ -180,6 +180,8 @@ const SnapchatTagGenerator = () => {
       <Helmet>
         <title>Restored from Snapchat Tag Generator - Add Authentic Snapchat Tags | Texly</title>
         <meta name="description" content="Add 'Restored from Snapchat' or 'Restored from Camera Roll' tags to your images instantly. 100% free, authentic font and style." />
+        <link rel="canonical" href="https://www.texlyonline.in/tools/snapchat-tag-generator" />
+        <meta property="og:url" content="https://www.texlyonline.in/tools/snapchat-tag-generator" />
       </Helmet>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
