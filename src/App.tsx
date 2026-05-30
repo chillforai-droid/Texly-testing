@@ -628,7 +628,7 @@ function AppContent() {
               path="/tool/:slug"
               element={
                 <RouteErrorBoundary>
-                  <ToolRouteWrapper />
+                  <ToolPage />
                 </RouteErrorBoundary>
               }
             />
