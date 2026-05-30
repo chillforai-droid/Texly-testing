@@ -26,6 +26,7 @@ import DynamicIcon from '../components/LucideIcon';
 import { Helmet } from 'react-helmet-async';
 import SEO from '../components/SEO';
 import { ALL_TOOLS } from '../data/tools';
+import { getToolBySlug } from '../utils/toolStorage';
 // seo.ts functions are lazy-loaded via dynamic import in the component (see seoModule state)
 import { useLanguage } from '../context/LanguageContext';
 import { BASE_URL } from '../config';
@@ -40,6 +41,7 @@ const TextCleaningWorkspace = lazy(() => import('../components/TextCleaningWorks
 const TextConverterWorkspace = lazy(() => import('../components/TextConverterWorkspace'));
 const TextAnalysisWorkspace = lazy(() => import('../components/TextAnalysisWorkspace'));
 const TextUtilityWorkspace = lazy(() => import('../components/TextUtilityWorkspace'));
+import DynamicToolRenderer from '../components/DynamicToolRenderer';
 import AdPlaceholder from '../components/AdPlaceholder';
 import AIPanel from '../components/AIPanel';
 import RatingSystem from '../components/RatingSystem';
@@ -50,7 +52,28 @@ import { shareOnTwitter, shareOnFacebook, shareOnLinkedin, shareOnWhatsApp } fro
 const ToolPage: React.FC = () => {
   const { t } = useLanguage();
   const { slug } = useParams<{ slug: string }>();
-  const tool = ALL_TOOLS.find(t => t.slug === slug);
+
+  // Pehle hardcoded tools mein dhundho (instant), phir Supabase se (async)
+  const [tool, setTool] = useState<import('../data/tools').Tool | null>(
+    ALL_TOOLS.find(t => t.slug === slug) ?? null
+  );
+  const [toolLoading, setToolLoading] = useState(!ALL_TOOLS.find(t => t.slug === slug));
+
+  useEffect(() => {
+    if (!slug) return;
+    const hardcoded = ALL_TOOLS.find(t => t.slug === slug);
+    if (hardcoded) {
+      setTool(hardcoded);
+      setToolLoading(false);
+      return;
+    }
+    // Hardcoded mein nahi mila — Supabase se dhundho
+    setToolLoading(true);
+    getToolBySlug(slug).then((found) => {
+      setTool(found);
+      setToolLoading(false);
+    });
+  }, [slug]);
   
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
@@ -126,6 +149,17 @@ const ToolPage: React.FC = () => {
     };
     fetchRelatedBlogs();
   }, [slug]);
+
+  if (toolLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-slate-500">Loading tool...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!tool) {
     return (
@@ -395,7 +429,7 @@ const ToolPage: React.FC = () => {
 
       <div className="max-w-5xl mx-auto">
         {/* Breadcrumbs */}
-        <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-sm text-slate-500 dark:text-slate-400 mb-10">
+        <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-sm text-slate-500 dark:text-slate-400 mb-5 sm:mb-8">
           <Link to="/" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t.navbar.home}</Link>
           <ChevronRight className="w-4 h-4 opacity-50" aria-hidden="true" />
           <span className="text-slate-900 dark:text-white font-semibold" aria-current="page">{tool.name}</span>
@@ -413,7 +447,7 @@ const ToolPage: React.FC = () => {
               <span>{tool.hook || t.tool.defaultHook}</span>
             </div>
             
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-6 tracking-tight leading-[1.1]">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-4 sm:mb-6 tracking-tight leading-[1.1]">
               {toolSEO?.h1 || tool.name}
               <span className={`block text-transparent bg-clip-text bg-gradient-to-r ${theme.gradient} mt-2`}>
                 {t.tool.freeOnlineTool}
@@ -421,7 +455,7 @@ const ToolPage: React.FC = () => {
             </h1>
             
             <p 
-              className="max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-400 mb-10 leading-relaxed"
+              className="max-w-2xl mx-auto text-sm sm:text-base text-slate-600 dark:text-slate-400 mb-10 leading-relaxed"
               dangerouslySetInnerHTML={{ __html: injectInternalLinks(toolSEO?.intro || t.toolDescriptions[tool.id] || t.tool.defaultHook, ALL_TOOLS) }}
             />
             
@@ -474,8 +508,8 @@ const ToolPage: React.FC = () => {
         <div className="relative group mb-16">
           <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient} opacity-[0.03] dark:opacity-[0.05] rounded-[3rem] blur-2xl group-hover:opacity-[0.05] dark:group-hover:opacity-[0.08] transition-opacity`} />
           
-          <div className="relative bg-white dark:bg-slate-900 rounded-[2rem] sm:rounded-[3rem] shadow-2xl shadow-slate-200/60 dark:shadow-slate-950/60 border border-slate-100 dark:border-slate-800 overflow-hidden">
-            <div className="p-4 sm:p-6 md:p-12">
+          <div className="relative bg-white dark:bg-slate-900 rounded-xl sm:rounded-[2rem] shadow-xl sm:shadow-2xl shadow-slate-200/60 dark:shadow-slate-950/60 border border-slate-100 dark:border-slate-800 overflow-hidden">
+            <div className="p-3 sm:p-5 md:p-8">
               {tool.externalUrl ? (
                 <div className="w-full aspect-[4/3] sm:aspect-[16/9] min-h-[400px] sm:min-h-[500px] md:min-h-[700px]">
                   <iframe 
@@ -486,6 +520,8 @@ const ToolPage: React.FC = () => {
                     allowFullScreen
                   />
                 </div>
+              ) : tool.isDynamic && tool.componentCode ? (
+                <DynamicToolRenderer componentCode={tool.componentCode} toolName={tool.name} />
               ) : tool.category === 'pdf' ? (
                 <Suspense fallback={<div className="flex items-center justify-center p-20"><div className="w-10 h-10 border-4 border-blue-600/10 border-t-blue-600 rounded-full animate-spin"></div></div>}><PDFToolWorkspace toolId={tool.id} toolName={tool.name} /></Suspense>
               ) : tool.category === 'cleaning' ? (
@@ -529,7 +565,7 @@ const ToolPage: React.FC = () => {
                   />
                 </Suspense>
               ) : (
-                <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-10 gap-10 lg:items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8 gap-6 lg:items-start">
                   {/* Input Section */}
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
@@ -565,7 +601,7 @@ const ToolPage: React.FC = () => {
                     <div className="relative">
                       {tool.id === 'image-to-text' ? (
                         <div 
-                          className={`relative border-2 border-dashed rounded-[2rem] p-8 sm:p-12 transition-all ${
+                          className={`relative border-2 border-dashed rounded-xl sm:rounded-2xl p-4 sm:p-8 transition-all ${
                             imagePreview ? `${theme.border.replace('border-', 'border-')} ${theme.bg.replace('bg-', 'bg-')}/30 ${theme.darkBg}` : 'border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-600 bg-slate-50/50 dark:bg-slate-950/30'
                           }`}
                         >
@@ -603,7 +639,7 @@ const ToolPage: React.FC = () => {
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             placeholder={tool.placeholder || t.tool.defaultPlaceholder}
-                            className={`w-full h-48 sm:h-64 p-4 sm:p-6 bg-slate-50 dark:bg-slate-950 border-2 border-slate-100 dark:border-slate-800 rounded-2xl sm:rounded-[2rem] focus:border-blue-500 dark:focus:border-blue-400 focus:ring-0 transition-all resize-none font-mono text-slate-700 dark:text-slate-300 text-sm sm:text-lg leading-relaxed shadow-inner`}
+                            className={`w-full h-48 sm:h-64 p-4 sm:p-6 bg-slate-50 dark:bg-slate-950 border-2 border-slate-100 dark:border-slate-800 rounded-2xl sm:rounded-[2rem] focus:border-blue-500 dark:focus:border-blue-400 focus:ring-0 transition-all resize-none font-mono text-slate-700 dark:text-slate-300 text-sm leading-relaxed shadow-inner`}
                             aria-multiline="true"
                           />
                           {/* Real-time Stats Overlay */}
@@ -617,7 +653,7 @@ const ToolPage: React.FC = () => {
                     </div>
 
                     {/* Ad Slot 1 — min-height prevents CLS */}
-        <div className="mb-12" style={{ minHeight: "100px", contain: "layout" }}>
+        <div className="mb-6 sm:mb-8" style={{ minHeight: "60px", contain: "layout" }}>
           <AdPlaceholder slot="Top of Tool" format="horizontal" />
         </div>
 
@@ -625,8 +661,8 @@ const ToolPage: React.FC = () => {
                     {Object.keys(options).length > 0 || ['text-repeater', 'invisible-text', 'add-prefix', 'text-steganography', 'password-gen-strength', 'find-replace', 'qr-code-generator', 'unit-converter', 'color-palette-generator', 'base64-image-converter', 'age-calculator', 'military-alphabet-converter', 'whatsapp-text-formatter', 'number-to-words'].includes(tool.id) ? (
                       <div className="grid grid-cols-1 gap-4">
                         {tool.id === 'qr-code-generator' && (
-                          <div className={`flex flex-col items-center p-8 ${theme.bg} ${theme.darkBg} rounded-[2rem] border ${theme.border} ${theme.darkBorder}`}>
-                            <div className="p-6 bg-white dark:bg-slate-800 rounded-3xl shadow-xl mb-6">
+                          <div className={`flex flex-col items-center p-4 sm:p-6 ${theme.bg} ${theme.darkBg} rounded-xl sm:rounded-2xl border ${theme.border} ${theme.darkBorder}`}>
+                            <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl shadow-lg mb-4">
                               <QRCodeCanvas 
                                 id="qr-code-canvas"
                                 value={input || BASE_URL} 
@@ -1030,7 +1066,7 @@ const ToolPage: React.FC = () => {
                           <pre 
                             id="tool-output"
                             aria-live="polite"
-                            className={`w-full min-h-[150px] p-8 bg-slate-50 dark:bg-slate-950 border-2 border-slate-100 dark:border-slate-800 rounded-[2.5rem] font-mono text-slate-800 dark:text-slate-200 text-lg whitespace-pre-wrap break-all overflow-auto shadow-inner`}
+                            className={`w-full min-h-[120px] p-4 sm:p-6 bg-slate-50 dark:bg-slate-950 border-2 border-slate-100 dark:border-slate-800 rounded-xl sm:rounded-2xl font-mono text-slate-800 dark:text-slate-200 text-sm sm:text-base whitespace-pre-wrap break-all overflow-auto shadow-inner`}
                           >
                             {output || t.tool.processing}
                           </pre>
@@ -1083,7 +1119,7 @@ const ToolPage: React.FC = () => {
         </div>
 
         {/* SEO Content Section - Enhanced Professional Layout */}
-        <div className="rounded-[3rem] p-10 sm:p-16 border border-slate-100 dark:border-slate-800 mb-16 prose prose-slate dark:prose-invert max-w-none prose-headings:font-black prose-headings:tracking-tight prose-p:leading-relaxed">
+        <div className="rounded-2xl sm:rounded-[2rem] p-5 sm:p-10 border border-slate-100 dark:border-slate-800 mb-16 prose prose-slate dark:prose-invert max-w-none prose-headings:font-black prose-headings:tracking-tight prose-p:leading-relaxed">
           <div 
             dangerouslySetInnerHTML={{ 
               __html: seoModule ? seoModule.getSEOContent(
@@ -1099,9 +1135,9 @@ const ToolPage: React.FC = () => {
 
         {/* Related Tools - Enhanced Cards */}
         {relatedTools.length > 0 && (
-          <section className="mt-32 pt-20 border-t border-slate-100 dark:border-slate-800">
-            <div className="flex items-center justify-between mb-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">Related Tools</h2>
+          <section className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-slate-100 dark:border-slate-800">
+            <div className="flex items-center justify-between mb-6 sm:mb-10">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Related Tools</h2>
               <Link to="/" className="text-sm font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest hover:opacity-70 transition-opacity">View All</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -1111,9 +1147,9 @@ const ToolPage: React.FC = () => {
                   <Link
                     key={t.slug}
                     to={`/tool/${t.slug}`}
-                    className="group p-8 bg-white dark:bg-slate-900 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+                    className="group p-4 sm:p-6 bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
                   >
-                    <div className={`w-14 h-14 ${tTheme.iconBg} ${tTheme.darkBg} ${tTheme.darkSecondaryText} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500`}>
+                    <div className={`w-10 h-10 sm:w-12 sm:h-12 ${tTheme.iconBg} ${tTheme.darkBg} ${tTheme.darkSecondaryText} rounded-2xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-500`}>
                       <DynamicIcon name={t.icon} size={28} />
                     </div>
                     <h3 className="text-lg font-black text-slate-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight">{t.name}</h3>
@@ -1127,8 +1163,8 @@ const ToolPage: React.FC = () => {
 
         {/* Related Blogs Section - Enhanced Cards */}
         {relatedBlogs.length > 0 && (
-          <section className="mt-32 pt-20 border-t border-slate-100 dark:border-slate-800">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-6 sm:mb-12 tracking-tight">Expert Guides & Tips</h2>
+          <section className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-slate-100 dark:border-slate-800">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-5 sm:mb-8 tracking-tight">Expert Guides & Tips</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
               {relatedBlogs.map((blog) => (
                 <Link
@@ -1144,19 +1180,19 @@ const ToolPage: React.FC = () => {
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute top-6 left-6">
-                      <span className="px-5 py-2.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] shadow-xl">
+                      <span className="px-3 py-1.5 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] shadow-xl">
                         {blog.category}
                       </span>
                     </div>
                   </div>
-                  <div className="p-10 flex flex-col flex-grow">
+                  <div className="p-4 sm:p-6 flex flex-col flex-grow">
                     <h3 className="text-xl font-black text-slate-900 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 leading-tight">
                       {blog.title}
                     </h3>
-                    <p className="text-slate-500 dark:text-slate-400 text-sm line-clamp-3 mb-8 leading-relaxed">
+                    <p className="text-slate-500 dark:text-slate-400 text-sm line-clamp-3 mb-4 sm:mb-6 leading-relaxed">
                       {blog.excerpt}
                     </p>
-                    <div className="mt-auto flex items-center justify-between pt-8 border-t border-slate-50 dark:border-slate-800">
+                    <div className="mt-auto flex items-center justify-between pt-4 sm:pt-6 border-t border-slate-50 dark:border-slate-800">
                       <div className="flex items-center gap-2">
                         <Calendar className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                         <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">{blog.date}</span>
@@ -1233,10 +1269,10 @@ const ToolPage: React.FC = () => {
         )}
 
         {/* How to Use & FAQ Section */}
-        <section className="mt-32 pt-20 border-t border-slate-100 dark:border-slate-800">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <section className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-slate-100 dark:border-slate-800">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
             <div>
-              <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-8 tracking-tight">How to use {toolName}</h2>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-5 sm:mb-6 tracking-tight">How to use {toolName}</h2>
               <div className="space-y-6">
                 {(toolSEO?.howToUse || [
                   'Input your text: Paste your text into the input area above or use the "Load Example" button to see how it works.',
@@ -1261,7 +1297,7 @@ const ToolPage: React.FC = () => {
               </div>
             </div>
             <div>
-              <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-8 tracking-tight">Frequently Asked Questions</h2>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-5 sm:mb-6 tracking-tight">Frequently Asked Questions</h2>
               <div className="space-y-4">
                 {(toolSEO?.faqs || [
                   { q: `Is this ${toolName} tool free?`, a: `Yes, all tools on Texly are 100% free to use without any registration or hidden costs.` },
@@ -1286,9 +1322,9 @@ const ToolPage: React.FC = () => {
 
         {/* Related Tools Section */}
         {relatedTools.length > 0 && (
-          <section className="mt-32 pt-20 border-t border-slate-100 dark:border-slate-800">
-            <div className="flex items-center justify-between mb-12">
-              <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Related Tools</h2>
+          <section className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-slate-100 dark:border-slate-800">
+            <div className="flex items-center justify-between mb-6 sm:mb-10">
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">Related Tools</h2>
               <Link to="/" className="text-sm font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest flex items-center gap-2 group">
                 View All Tools <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
@@ -1319,7 +1355,7 @@ const ToolPage: React.FC = () => {
         <CommentSection targetId={tool.id} targetType="tool" theme={theme} />
 
         {/* Footer CTA */}
-        <div className="mt-32 text-center">
+        <div className="mt-12 sm:mt-16 text-center">
           <Link
             to="/"
             className="inline-flex items-center space-x-3 px-8 py-4 bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 rounded-2xl font-black uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-slate-800 transition-all active:scale-95"

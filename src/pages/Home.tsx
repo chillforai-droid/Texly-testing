@@ -146,7 +146,7 @@ const HomePage = () => {
           </div>
 
           {/* Main headline */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[0.95] tracking-tight mb-4 sm:mb-6">
             <span className="text-slate-900 dark:text-white">100+</span>
             {' '}
             <span className="relative inline-block">
@@ -229,7 +229,7 @@ const HomePage = () => {
         </div>
 
         {/* Stats bar */}
-        <div className="max-w-4xl mx-auto px-4 mt-16">
+        <div className="max-w-4xl mx-auto px-4 mt-8 sm:mt-12">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-slate-200 dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800">
             {STATS.map((stat, i) => (
               <div key={i} className="bg-white dark:bg-slate-900 px-6 py-5 text-center">
@@ -246,7 +246,7 @@ const HomePage = () => {
         {/* ═══════════════════════════════════════════════════════
             TRENDING — Bold editorial cards
         ═══════════════════════════════════════════════════════ */}
-        <section className="mb-20">
+        <section className="mb-10 sm:mb-16">
           {/* Section header */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
@@ -336,7 +336,7 @@ const HomePage = () => {
         {/* ═══════════════════════════════════════════════════════
             DEV & SEO UTILITY TOOLS
         ═══════════════════════════════════════════════════════ */}
-        <section className="mb-20">
+        <section className="mb-10 sm:mb-16">
           <div className="flex items-center justify-between mb-6">
             <div>
               <div className="flex items-center gap-2 mb-1">
@@ -471,8 +471,8 @@ const HomePage = () => {
         {/* ═══════════════════════════════════════════════════════
             AI SECTION
         ═══════════════════════════════════════════════════════ */}
-        <section className="mb-20 rounded-3xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #2e1065 100%)' }}>
-          <div className="relative p-8 sm:p-10">
+        <section className="mb-10 sm:mb-16 rounded-2xl sm:rounded-3xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #2e1065 100%)' }}>
+          <div className="relative p-4 sm:p-8">
             <div className="hidden sm:block absolute inset-0 pointer-events-none overflow-hidden rounded-3xl">
               <div className="absolute -top-10 -right-10 w-64 h-64 bg-blue-500/15 rounded-full blur-[60px]" />
               <div className="absolute bottom-0 left-0 w-48 h-48 bg-violet-500/15 rounded-full blur-[50px]" />
@@ -509,7 +509,7 @@ const HomePage = () => {
             CATEGORIES
         ═══════════════════════════════════════════════════════ */}
         {!searchQuery && (
-          <section className="mb-20">
+          <section className="mb-10 sm:mb-16">
             <div className="flex items-end justify-between mb-8">
               <div>
                 <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mb-1">{t.home.browseCategory}</h2>
@@ -540,7 +540,7 @@ const HomePage = () => {
         {/* ═══════════════════════════════════════════════════════
             TOOLS GRID — Redesigned cards
         ═══════════════════════════════════════════════════════ */}
-        <section className="mb-20">
+        <section className="mb-10 sm:mb-16">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/25">
@@ -624,7 +624,7 @@ const HomePage = () => {
           </div>
 
           {!searchQuery && ALL_TOOLS.length > displayCount && (
-            <div className="mt-10 text-center">
+            <div className="mt-6 sm:mt-8 text-center">
               <button
                 onClick={() => setDisplayCount(prev => prev + (isLargeScreen ? 18 : isDesktop ? 12 : 6))}
                 className="group inline-flex items-center gap-2 px-8 py-4 bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-2xl font-black text-slate-700 dark:text-slate-300 hover:border-blue-500 hover:text-blue-600 transition-all shadow-sm hover:shadow-xl hover:shadow-blue-500/10 text-sm">
@@ -635,9 +635,9 @@ const HomePage = () => {
         </section>
 
         {/* WHY CHOOSE */}
-        <section className="mb-20 pt-10 border-t border-slate-100 dark:border-slate-800/60">
+        <section className="mb-10 sm:mb-16 pt-6 sm:pt-10 border-t border-slate-100 dark:border-slate-800/60">
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-3 text-center">{t.home.whyChoose}</h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 text-center max-w-xl mx-auto mb-10">{t.home.whyChooseDesc}</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 text-center max-w-xl mx-auto mb-5 sm:mb-8">{t.home.whyChooseDesc}</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
               { icon: <Zap className="w-6 h-6" />, bg: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400', title: t.home.freeTitle, desc: t.home.freeDesc },
@@ -656,8 +656,8 @@ const HomePage = () => {
         {/* ═══════════════════════════════════════════════════════
             HOW TO USE — Content section for AdSense quality
         ═══════════════════════════════════════════════════════ */}
-        <section className="mb-20 pt-10 border-t border-slate-100 dark:border-slate-800/60">
-          <div className="text-center mb-10">
+        <section className="mb-10 sm:mb-16 pt-6 sm:pt-10 border-t border-slate-100 dark:border-slate-800/60">
+          <div className="text-center mb-5 sm:mb-8">
             <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 text-xs font-black uppercase tracking-widest mb-4">
               <BookOpen className="w-3.5 h-3.5" /> Guide
             </span>
@@ -712,8 +712,8 @@ const HomePage = () => {
         {/* ═══════════════════════════════════════════════════════
             USE CASES — Who is Texly for?
         ═══════════════════════════════════════════════════════ */}
-        <section className="mb-20">
-          <div className="text-center mb-10">
+        <section className="mb-10 sm:mb-16">
+          <div className="text-center mb-5 sm:mb-8">
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mb-3">Who Uses Texly?</h2>
             <p className="text-slate-500 dark:text-slate-400 max-w-xl mx-auto text-sm">
               From students to senior developers — Texly is built for anyone who works with text, code, images, or content online.
@@ -775,8 +775,8 @@ const HomePage = () => {
         {/* ═══════════════════════════════════════════════════════
             FAQ — Common Questions
         ═══════════════════════════════════════════════════════ */}
-        <section className="mb-20 pt-10 border-t border-slate-100 dark:border-slate-800/60">
-          <div className="text-center mb-10">
+        <section className="mb-10 sm:mb-16 pt-6 sm:pt-10 border-t border-slate-100 dark:border-slate-800/60">
+          <div className="text-center mb-5 sm:mb-8">
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mb-3">Frequently Asked Questions</h2>
             <p className="text-slate-500 dark:text-slate-400 text-sm">Everything you need to know about Texly tools.</p>
           </div>
@@ -825,8 +825,8 @@ const HomePage = () => {
         {/* ═══════════════════════════════════════════════════════
             AUTHOR / MEET THE CREATOR
         ═══════════════════════════════════════════════════════ */}
-        <section className="mb-20">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-950 to-violet-950 p-8 sm:p-10">
+        <section className="mb-10 sm:mb-16">
+          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-slate-900 via-blue-950 to-violet-950 p-5 sm:p-8">
             {/* Background glow */}
             <div className="hidden sm:block absolute -top-10 -right-10 w-64 h-64 bg-blue-500/10 rounded-full blur-[60px] pointer-events-none" />
             <div className="hidden sm:block absolute bottom-0 left-0 w-48 h-48 bg-violet-500/10 rounded-full blur-[50px] pointer-events-none" />
@@ -897,7 +897,7 @@ const HomePage = () => {
         {/* ═══════════════════════════════════════════════════════
             TRUST SIGNALS / ABOUT THE SITE
         ═══════════════════════════════════════════════════════ */}
-        <section className="mb-20 pt-10 border-t border-slate-100 dark:border-slate-800/60">
+        <section className="mb-10 sm:mb-16 pt-6 sm:pt-10 border-t border-slate-100 dark:border-slate-800/60">
           <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-3">Why Texly is Trusted by 50,000+ Users Daily</h2>
             <p className="text-slate-500 dark:text-slate-400 text-sm max-w-xl mx-auto">
@@ -925,7 +925,7 @@ const HomePage = () => {
         {/* ═══════════════════════════════════════════════════════
             LATEST BLOG POSTS — Supabase से fetch
         ═══════════════════════════════════════════════════════ */}
-        <section className="mb-20 pt-10 border-t border-slate-100 dark:border-slate-800/60">
+        <section className="mb-10 sm:mb-16 pt-6 sm:pt-10 border-t border-slate-100 dark:border-slate-800/60">
           {/* Section header */}
           <div className="flex items-center justify-between mb-8">
             <div>
@@ -1074,7 +1074,7 @@ const HomePage = () => {
         </section>
 
         {/* Social Share */}
-        <section className="mb-16 text-center">
+        <section className="mb-8 sm:mb-12 text-center">
           <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-4">Share Texly with your friends</p>
           <div className="flex flex-wrap justify-center gap-3">
             <a

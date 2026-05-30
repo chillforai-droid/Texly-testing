@@ -131,7 +131,7 @@ export default async function handler(req: any, res: any) {
       // graceful degradation — sitemap without AI pages
     }
 
-    // Dynamic Blog Posts (Supabase)
+    // ── Dynamic Content from Supabase (Blogs + AI Tools) ───────────────────────
     const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "";
     const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || "";
 
@@ -140,6 +140,7 @@ export default async function handler(req: any, res: any) {
         const { createClient } = await import("@supabase/supabase-js");
         const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+        // Blog posts
         const { data: articles } = await supabase
           .from("articles")
           .select("slug, updated_at, created_at")
@@ -153,8 +154,29 @@ export default async function handler(req: any, res: any) {
             xml += `\n  <url>\n    <loc>${baseUrl}/blog/${article.slug}</loc>\n    <lastmod>${lastModDate}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`;
           });
         }
+
+        // Dynamic AI Tools
+        const { data: aiTools } = await supabase
+          .from("ai_tools")
+          .select("slug, category, updated_at, created_at")
+          .eq("is_active", true)
+          .limit(500);
+
+        if (aiTools) {
+          aiTools.forEach((tool: any) => {
+            if (toolSlugs.includes(tool.slug) || specialToolSlugs.includes(tool.slug)) return;
+            const lastmod = tool.updated_at
+              ? new Date(tool.updated_at).toISOString().split("T")[0]
+              : today;
+            const toolPath = (tool.category === "ai" || tool.category === "generator")
+              ? `/tools/${tool.slug}`
+              : `/tool/${tool.slug}`;
+            xml += `\n  <url>\n    <loc>${baseUrl}${toolPath}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`;
+          });
+          console.log(`[SITEMAP] Dynamic AI tools: ${aiTools.length}`);
+        }
       } catch (dbErr) {
-        console.error("[SITEMAP] Supabase Fetch Error:", dbErr);
+        console.error("[SITEMAP] Supabase error:", dbErr);
       }
     }
 

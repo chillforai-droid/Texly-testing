@@ -144,7 +144,7 @@ function WordCounterResult({ text }: { text: string }) {
       {/* Hero count */}
       <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 text-white text-center shadow-lg shadow-blue-500/20">
         <p className="text-xs font-black uppercase tracking-[0.2em] opacity-70 mb-1">Total Words</p>
-        <p className="text-5xl sm:text-6xl font-black tabular-nums">{s.words.toLocaleString()}</p>
+        <p className="text-3xl sm:text-3xl sm:text-5xl font-black tabular-nums">{s.words.toLocaleString()}</p>
         <p className="text-sm opacity-70 mt-1">{s.uniqueWords} unique words</p>
       </div>
 
@@ -211,7 +211,7 @@ function CharacterCounterResult({ text }: { text: string }) {
     <div className="space-y-5">
       <div className="bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl p-6 text-white text-center shadow-lg shadow-violet-500/20">
         <p className="text-xs font-black uppercase tracking-[0.2em] opacity-70 mb-1">Characters (with spaces)</p>
-        <p className="text-5xl sm:text-6xl font-black tabular-nums">{s.withSpaces.toLocaleString()}</p>
+        <p className="text-3xl sm:text-3xl sm:text-5xl font-black tabular-nums">{s.withSpaces.toLocaleString()}</p>
         <p className="text-sm opacity-70 mt-1">{s.withoutSpaces.toLocaleString()} without spaces</p>
       </div>
 
@@ -277,11 +277,11 @@ function LetterCounterResult({ text }: { text: string }) {
         <div className="flex justify-between items-center">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] opacity-70 mb-1">Total Letters</p>
-            <p className="text-5xl font-black tabular-nums">{total.toLocaleString()}</p>
+            <p className="text-3xl sm:text-5xl font-black tabular-nums">{total.toLocaleString()}</p>
           </div>
           <div className="text-right">
             <p className="text-xs font-black uppercase tracking-[0.2em] opacity-70 mb-1">Unique</p>
-            <p className="text-5xl font-black tabular-nums">{uniqueCount}</p>
+            <p className="text-3xl sm:text-5xl font-black tabular-nums">{uniqueCount}</p>
           </div>
         </div>
       </div>
@@ -408,7 +408,7 @@ function SimpleCounterResult({ text, toolId }: { text: string; toolId: string })
     <div className="space-y-5">
       <div className={`bg-gradient-to-br ${gradients[toolId] || 'from-slate-600 to-slate-800'} rounded-2xl p-6 text-white text-center shadow-lg`}>
         <p className="text-xs font-black uppercase tracking-[0.2em] opacity-70 mb-1">{mainLabel}</p>
-        <p className="text-5xl sm:text-6xl font-black tabular-nums">{mainValue.toLocaleString()}</p>
+        <p className="text-3xl sm:text-3xl sm:text-5xl font-black tabular-nums">{mainValue.toLocaleString()}</p>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {cards.map(c => (
@@ -769,7 +769,7 @@ function AgeCalculatorOutput({ dateValue }: { dateValue: string }) {
     <div className="space-y-5">
       <div className="bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl p-6 text-white shadow-lg shadow-amber-500/20">
         <p className="text-xs font-black uppercase tracking-[0.2em] opacity-70 mb-2 text-center">Your Age</p>
-        <p className="text-5xl sm:text-6xl font-black text-center tabular-nums">
+        <p className="text-3xl sm:text-5xl font-black text-center tabular-nums">
           {result.years} <span className="text-2xl font-semibold opacity-80">years</span>
         </p>
         <p className="text-center text-lg opacity-80 mt-2">
@@ -1100,7 +1100,7 @@ function ImageToTextInput({ onResult }: { onResult: (text: string) => void }) {
   return (
     <div className="space-y-4">
       <label className="block cursor-pointer">
-        <div className={`relative border-2 border-dashed rounded-3xl p-8 transition-all ${preview ? 'border-amber-300 dark:border-amber-700 bg-amber-50/30 dark:bg-amber-900/10' : 'border-slate-200 dark:border-slate-700 hover:border-amber-400 dark:hover:border-amber-600 bg-slate-50/50 dark:bg-slate-950/30'}`}>
+        <div className={`relative border-2 border-dashed rounded-2xl p-4 sm:p-6 transition-all ${preview ? 'border-amber-300 dark:border-amber-700 bg-amber-50/30 dark:bg-amber-900/10' : 'border-slate-200 dark:border-slate-700 hover:border-amber-400 dark:hover:border-amber-600 bg-slate-50/50 dark:bg-slate-950/30'}`}>
           <input type="file" accept="image/*" onChange={handleFile} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
           <div className="flex flex-col items-center justify-center gap-4 text-center">
             {preview ? (
@@ -1386,7 +1386,7 @@ const TextAnalysisWorkspace: React.FC<Props> = ({
           <button
             onClick={handleProcess}
             disabled={loading || !input.trim()}
-            className={`group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r ${gradientClass} text-white rounded-[2rem] font-black text-base uppercase tracking-widest shadow-lg hover:shadow-xl transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 w-full sm:w-auto justify-center`}
+            className={`group relative inline-flex items-center gap-3 px-5 py-3 sm:px-8 sm:py-4 bg-gradient-to-r ${gradientClass} text-white rounded-xl sm:rounded-2xl font-black text-sm sm:text-base uppercase tracking-widest shadow-lg hover:shadow-xl transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 w-full sm:w-auto justify-center`}
           >
             {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Play className="w-5 h-5 fill-current" />}
             <span>{loading ? 'Processing...' : 'Analyse'}</span>

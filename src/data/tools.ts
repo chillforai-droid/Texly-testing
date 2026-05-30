@@ -9,12 +9,17 @@ export interface Tool {
   keywords: string[];
   primaryKeyword?: string;
   secondaryKeywords?: string[];
+  metaTitle?: string;
+  metaDescription?: string;
   example?: string;
   hook?: string;
   buttonText?: string;
   placeholder?: string;
   externalUrl?: string;
   isAI?: boolean;
+  // Dynamic tools (admin panel se generate hue)
+  isDynamic?: boolean;
+  componentCode?: string;
   process: (input: string, options?: any) => string | Promise<string>;
 }
 

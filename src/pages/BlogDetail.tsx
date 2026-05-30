@@ -235,7 +235,7 @@ const BlogDetail: React.FC = () => {
               <span>{post.readTime}</span>
             </div>
             
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter text-slate-900 dark:text-white mb-10 leading-[0.95]">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-black tracking-tighter text-slate-900 dark:text-white mb-10 leading-[0.95]">
               {post.title}
             </h1>
 
@@ -285,7 +285,7 @@ const BlogDetail: React.FC = () => {
 
         {/* Table of Contents */}
         {toc.length > 0 && (
-          <div className="mb-16 p-8 bg-slate-50 dark:bg-slate-900/50 rounded-[32px] border border-slate-100 dark:border-slate-800">
+          <div className="mb-8 sm:mb-12 p-4 sm:p-6 bg-slate-50 dark:bg-slate-900/50 rounded-xl sm:rounded-2xl border border-slate-100 dark:border-slate-800">
             <h3 className="text-xl font-black text-slate-900 dark:text-white mb-6 flex items-center gap-2">
               <List className="w-5 h-5 text-blue-600 dark:text-blue-400" />
               Table of Contents
@@ -333,7 +333,7 @@ const BlogDetail: React.FC = () => {
           {post.contentType === 'html' ? (
             <div dangerouslySetInnerHTML={{ __html: processedContent }} />
           ) : post.contentType === 'text' ? (
-            <div className="whitespace-pre-wrap font-serif leading-loose text-slate-800 dark:text-slate-200 bg-slate-50/50 dark:bg-slate-900/30 p-6 sm:p-10 rounded-[1.5rem] sm:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm text-lg sm:text-xl">
+            <div className="whitespace-pre-wrap font-serif leading-loose text-slate-800 dark:text-slate-200 bg-slate-50/50 dark:bg-slate-900/30 p-4 sm:p-8 rounded-xl sm:rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm text-sm sm:text-base">
               {processedContent}
             </div>
           ) : (
@@ -411,7 +411,7 @@ const BlogDetail: React.FC = () => {
         />
 
         <footer className="mt-24 pt-16 border-t border-slate-100 dark:border-slate-800">
-          <div className="bg-slate-900 dark:bg-slate-900/80 p-10 sm:p-16 rounded-[40px] text-center relative overflow-hidden border border-slate-800">
+          <div className="bg-slate-900 dark:bg-slate-900/80 p-5 sm:p-10 rounded-2xl sm:rounded-[32px] text-center relative overflow-hidden border border-slate-800">
             <div className="absolute top-0 right-0 w-[50%] h-full opacity-10 pointer-events-none">
               <div className="hidden sm:block absolute top-[-20%] right-[-10%] w-full h-full bg-blue-500 rounded-full blur-[100px]" />
             </div>

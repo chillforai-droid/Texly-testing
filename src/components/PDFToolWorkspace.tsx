@@ -654,7 +654,7 @@ export const PDFToolWorkspace: React.FC<PDFToolWorkspaceProps> = ({ toolId, tool
         <div
           {...getRootProps()}
           className={`
-            relative rounded-2xl border-2 border-dashed p-10 text-center cursor-pointer transition-all duration-200 group select-none
+            relative rounded-2xl border-2 border-dashed p-5 sm:p-8 text-center cursor-pointer transition-all duration-200 group select-none
             ${isDragActive
               ? 'border-blue-500 bg-blue-50/70 scale-[1.01]'
               : 'border-slate-200 hover:border-slate-300 bg-slate-50/50 hover:bg-slate-50'

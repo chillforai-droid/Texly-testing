@@ -139,7 +139,7 @@ const BlogList: React.FC = () => {
                 <Sparkles className="w-3 h-3" />
                 <span>Texly Insights</span>
               </div>
-              <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.1]">
+              <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.1]">
                 The <span className="text-blue-600 dark:text-blue-400">Texly</span> Blog
               </h1>
               <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -191,7 +191,7 @@ const BlogList: React.FC = () => {
             </div>
           </div>
         ) : error ? (
-          <div className="text-center py-20 bg-red-50 dark:bg-red-900/10 rounded-[40px] border border-red-100 dark:border-red-900/20 max-w-2xl mx-auto">
+          <div className="text-center py-10 sm:py-16 bg-red-50 dark:bg-red-900/10 rounded-2xl sm:rounded-xl sm:rounded-[24px] border border-red-100 dark:border-red-900/20 max-w-2xl mx-auto">
             <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full flex items-center justify-center mx-auto mb-6">
               <Filter className="w-8 h-8" />
             </div>
@@ -205,7 +205,7 @@ const BlogList: React.FC = () => {
             </button>
           </div>
         ) : filteredBlogs.length === 0 ? (
-          <div className="text-center py-32 bg-slate-50 dark:bg-slate-900/30 rounded-[40px] border-2 border-dashed border-slate-200 dark:border-slate-800 max-w-2xl mx-auto">
+          <div className="text-center py-12 sm:py-20 bg-slate-50 dark:bg-slate-900/30 rounded-2xl sm:rounded-xl sm:rounded-[24px] border-2 border-dashed border-slate-200 dark:border-slate-800 max-w-2xl mx-auto">
             <div className="w-20 h-20 bg-white dark:bg-slate-800 shadow-sm rounded-3xl flex items-center justify-center mx-auto mb-8">
               <Search className="w-10 h-10 text-slate-300 dark:text-slate-600" />
             </div>
@@ -228,7 +228,7 @@ const BlogList: React.FC = () => {
               <div
                 className="mb-24"
               >
-                <Link to={`/blog/${featuredPost.slug}`} className="group relative block bg-white dark:bg-slate-900 rounded-[40px] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-2xl shadow-slate-200/50 dark:shadow-slate-950/50 hover:shadow-blue-200/30 dark:hover:shadow-blue-900/20 transition-all duration-500">
+                <Link to={`/blog/${featuredPost.slug}`} className="group relative block bg-white dark:bg-slate-900 rounded-2xl sm:rounded-xl sm:rounded-[24px] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-2xl shadow-slate-200/50 dark:shadow-slate-950/50 hover:shadow-blue-200/30 dark:hover:shadow-blue-900/20 transition-all duration-500">
                   <div className="grid grid-cols-1 lg:grid-cols-2">
                     <div className="aspect-[16/10] lg:aspect-auto overflow-hidden">
                       <img 
@@ -238,7 +238,7 @@ const BlogList: React.FC = () => {
                         referrerPolicy="no-referrer"
                       />
                     </div>
-                    <div className="p-8 lg:p-16 flex flex-col justify-center">
+                    <div className="p-5 sm:p-8 lg:p-12 flex flex-col justify-center">
                       <div className="flex items-center gap-3 mb-6">
                         <span className="px-4 py-1.5 bg-blue-600 text-white text-xs font-black uppercase tracking-widest rounded-full">
                           {t.blog.featured}
@@ -247,7 +247,7 @@ const BlogList: React.FC = () => {
                           {featuredPost.category}
                         </span>
                       </div>
-                      <h2 className="text-3xl lg:text-5xl font-black text-slate-900 dark:text-white mb-6 leading-tight group-hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                      <h2 className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white mb-4 leading-tight group-hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                         {featuredPost.title}
                       </h2>
                       <p className="text-lg text-slate-500 dark:text-slate-400 mb-8 line-clamp-3 leading-relaxed">
@@ -272,7 +272,7 @@ const BlogList: React.FC = () => {
                 {paginatedBlogs.map((post, index) => (
                   <article
                     key={post.id}
-                    className="group flex flex-col bg-white dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 overflow-hidden hover:shadow-2xl hover:shadow-slate-200/50 dark:hover:shadow-slate-950/50 transition-all duration-500"
+                    className="group flex flex-col bg-white dark:bg-slate-900 rounded-xl sm:rounded-[24px] border border-slate-100 dark:border-slate-800 overflow-hidden hover:shadow-2xl hover:shadow-slate-200/50 dark:hover:shadow-slate-950/50 transition-all duration-500"
                   >
                     <Link to={`/blog/${post.slug}`} className="flex flex-col h-full">
                       <div className="aspect-[16/10] overflow-hidden relative">
@@ -372,7 +372,7 @@ const BlogList: React.FC = () => {
           <div className="w-20 h-20 bg-blue-600/20 text-blue-500 rounded-3xl flex items-center justify-center mx-auto mb-10">
             <Mail className="w-10 h-10" />
           </div>
-          <h2 className="text-3xl sm:text-5xl font-black text-white mb-6 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black text-white mb-4 tracking-tight">
             {t.blog.newsletterTitle}
           </h2>
           <p className="text-lg text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
@@ -381,7 +381,7 @@ const BlogList: React.FC = () => {
           
           {isSubscribed ? (
             <div
-              className="bg-emerald-500/10 border border-emerald-500/20 p-6 rounded-[32px] text-emerald-400 font-bold"
+              className="bg-emerald-500/10 border border-emerald-500/20 p-6 rounded-xl sm:rounded-[24px] text-emerald-400 font-bold"
             >
               Awesome! You're now subscribed to our newsletter.
             </div>

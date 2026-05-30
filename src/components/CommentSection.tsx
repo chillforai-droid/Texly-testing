@@ -172,7 +172,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ targetId, targetType, t
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
-    <div className={`mt-12 p-4 sm:p-8 bg-white dark:bg-slate-900 rounded-[2rem] sm:rounded-[2.5rem] border ${borderCls} dark:border-slate-800 shadow-sm`}>
+    <div className={`mt-12 p-4 sm:p-8 bg-white dark:bg-slate-900 rounded-[2rem] sm:rounded-xl sm:rounded-2xl border ${borderCls} dark:border-slate-800 shadow-sm`}>
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-10">
         <div className={`p-3 sm:p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700`}>

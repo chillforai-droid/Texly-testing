@@ -139,16 +139,44 @@ function NavigateWithParams() {
 
 function ToolRouteWrapper() {
   const { slug } = useParams();
-  // AI/generator tools live at /tools/ — render directly
-  // Regular tools live at /tool/ — redirect to canonical URL to fix GSC "Crawled not indexed"
-  const AI_TOOL_SLUGS = new Set([
+  // Hardcoded AI/generator tools — /tools/ par rehte hain
+  const HARDCODED_AI_SLUGS = new Set([
     'face-swap', 'bg-remover', 'enhancer', 'compressor', 'image-upscale',
     'image-generator', 'ai-text-suite', 'invisible-text-suite',
     'snapchat-tag-generator', 'robots-txt-tester', 'json-path-finder',
     'regex-explainer', 'cron-expression-generator', 'redirect-chain-checker',
   ]);
-  if (slug && !AI_TOOL_SLUGS.has(slug)) {
-    // Non-AI tool accessed via /tools/ — redirect to canonical /tool/ path
+
+  const [routeReady, setRouteReady] = useState(false);
+  const [isAiTool, setIsAiTool] = useState(false);
+
+  useEffect(() => {
+    if (!slug) { setRouteReady(true); return; }
+
+    // Hardcoded mein hai toh seedha render karo
+    if (HARDCODED_AI_SLUGS.has(slug)) {
+      setIsAiTool(true);
+      setRouteReady(true);
+      return;
+    }
+
+    // Supabase se check karo — dynamic tool ka category kya hai?
+    import('./utils/toolStorage').then(({ getToolBySlug }) => {
+      getToolBySlug(slug).then((tool) => {
+        if (tool && (tool.category === 'ai' || tool.category === 'generator' || tool.isDynamic)) {
+          setIsAiTool(true);
+        } else {
+          setIsAiTool(false);
+        }
+        setRouteReady(true);
+      });
+    });
+  }, [slug]);
+
+  if (!routeReady) return null; // Brief loading — no flash
+
+  if (!isAiTool && slug) {
+    // Non-AI tool /tools/ se /tool/ redirect
     return <Navigate to={`/tool/${slug}`} replace />;
   }
   return <ToolPage />;
