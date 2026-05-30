@@ -8,7 +8,7 @@ import {
   Wand2, Save, FileCheck, Copy, Check, Info, AlertCircle, 
   HelpCircle, Sparkles, BookOpen, Share2, Clipboard, Chrome 
 } from "lucide-react";
-import { SEOPage } from "../types";
+import { SEOPage } from "./types";
 
 interface ContentTabProps {
   onGenerate: (keyword: string, slug: string, category: string) => Promise<SEOPage | null>;

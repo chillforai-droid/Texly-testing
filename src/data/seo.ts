@@ -81,35 +81,36 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     relatedTools: ['text-to-binary', 'hex-decode', 'base64-decode']
   },
   'lorem-ipsum': {
-    title: 'Lorem Ipsum Generator - Instant Placeholder Text',
-    metaDescription: 'Generate professional Lorem Ipsum placeholder text for your designs. Choose paragraphs, words, or lists. Fast, free, and perfect for mockups!',
-    h1: 'Professional Lorem Ipsum Generator',
-    intro: 'Designers have trusted Lorem Ipsum for over five centuries — because filler text that looks like real language lets viewers evaluate layout, typography, and visual hierarchy without getting distracted by actual words. Our Lorem Ipsum Generator goes beyond the classic \'Lorem ipsum dolor sit amet\' opening, drawing from a 200-word Latin-inspired pool to create varied, natural-looking paragraphs that resize realistically as you adjust your mockup. Choose your exact paragraph count, control word and sentence density, and toggle whether to begin with the traditional phrase or generate a completely fresh opening. All output is plain text you can paste directly into Figma, Adobe XD, HTML prototypes, or any design tool.',
+    title: 'Lorem Ipsum Generator - Generate Placeholder Text Instantly Free',
+    metaDescription: 'Generate Lorem Ipsum placeholder text in paragraphs, sentences, or words — up to 50 paragraphs or 500 words. Free, instant, no login. Perfect for design mockups!',
+    h1: 'Lorem Ipsum Generator — Professional Placeholder Text Instantly',
+    intro: 'Designers have trusted Lorem Ipsum for over five centuries — because filler text that looks like real language lets viewers evaluate layout, typography, and visual hierarchy without getting distracted by actual words. Our Lorem Ipsum Generator goes beyond the classic opening, drawing from a varied Latin-inspired word pool to create natural-looking paragraphs that resize realistically in any mockup. Generate up to 50 paragraphs, 100 sentences, or 500 words with a single click. Output is plain text you can paste directly into Figma, Adobe XD, HTML prototypes, WordPress, email templates, or any design tool.',
     howToUse: [
-      'Select the number of paragraphs or words you need.',
-      'Choose whether you want the text to start with "Lorem ipsum dolor sit amet".',
-      'Click "Generate" to create your placeholder text.',
-      'Copy the generated text for your design mockups.'
+      'Select the output type: Paragraphs (for body text blocks), Sentences (for shorter sections), or Words (for headings and captions).',
+      'Set the count using the +/- buttons or quick preset buttons (1, 3, 5, 10 for paragraphs; 20, 50, 100, 200 for words).',
+      'Click "Generate Lorem Ipsum" to create the text.',
+      'The word count is shown in the output header so you know exactly how much text was generated.',
+      'Copy all text with one click or download as a .txt file.'
     ],
     faqs: [
-      { q: 'What is Lorem Ipsum?', a: 'Lorem Ipsum is standard placeholder text used in the design and printing industry to demonstrate the visual form of a document.' },
-      { q: 'Is the generated text unique?', a: 'It follows the classic Latin-style structure, providing a natural-looking distribution of letters.' },
-      { q: 'Can I generate lists or HTML tags?', a: 'Currently, it generates plain text, but you can easily wrap it in tags in your editor.' },
-      { q: 'Is it free for commercial use?', a: 'Yes, the text generated is free to use in any project, personal or commercial.' },
-      { q: 'Why use Lorem Ipsum instead of real text?', a: 'It prevents viewers from being distracted by the content, allowing them to focus on the design and layout.' }
+      { q: 'What is Lorem Ipsum and where did it come from?', a: 'Lorem Ipsum is derived from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" by Cicero, written in 45 BC. It was first used as filler text in the 1500s by an unknown printer who scrambled a passage of Latin prose to create a type specimen book. The passage "Lorem ipsum dolor sit amet..." has remained the industry standard ever since.' },
+      { q: 'Why use Lorem Ipsum instead of real text in designs?', a: 'Real text draws the viewer\'s attention to the content rather than the layout. Lorem Ipsum looks like real text at a glance (similar letter frequency distribution, realistic word lengths, punctuation) but is meaningless, so reviewers focus on typography, spacing, column width, and visual hierarchy instead of reading. This is exactly what you want during the design review phase.' },
+      { q: 'What is the difference between generating paragraphs, sentences, and words?', a: 'Paragraphs generate full multi-sentence blocks of text — ideal for body text areas and content sections. Sentences generate individual sentences — useful for subheadings, captions, and pull quotes. Words generate a specified number of words without sentence structure — best for short UI elements like button labels, headings, or single-line fields.' },
+      { q: 'Is Lorem Ipsum free to use commercially?', a: 'Yes — Lorem Ipsum text is effectively in the public domain. It has been used freely in the design and publishing industry for over 500 years. There are no licensing restrictions on using generated Lorem Ipsum in commercial design work, client mockups, print templates, or software interfaces.' },
+      { q: 'Can I generate more than a few paragraphs?', a: 'Yes — the generator supports up to 50 paragraphs, 100 sentences, or 500 words in a single generation. Each click produces a fresh, slightly varied output drawn from the word pool, so multiple generations look naturally different from each other.' }
     ],
     benefits: [
-      'Helps designers focus on layout rather than content.',
-      'Provides a realistic look for website mockups.',
-      'Instant generation of any length of text.',
-      'No registration required - just generate and copy.',
-      'Clean, distraction-free interface.'
+      'Three generation modes — paragraphs, sentences, and words — with generous maximums (50 paragraphs, 100 sentences, 500 words) for all design needs.',
+      'Quick preset buttons for the most common counts let you generate in one or two clicks.',
+      'Word count shown in the output header so you can match specific layout requirements.',
+      'Each generation produces naturally varied text — not the same Lorem Ipsum repeated — for more realistic-looking mockups.',
     ],
     useCases: [
-      'Filling empty spaces in web design prototypes.',
-      'Testing typography and font styles in layouts.',
-      'Creating sample documents for templates.',
-      'Mocking up social media posts or ad copies.'
+      'Filling body text areas in website, app, and email mockups to evaluate typography and column layout.',
+      'Testing how a CMS template handles long vs short content by generating different paragraph counts.',
+      'Creating realistic-looking design handoffs for client review without using real proprietary content.',
+      'Generating placeholder text for print templates, brochures, and marketing materials during the design phase.',
+      'Populating form inputs, cards, and list items in UI prototypes to test spacing and truncation behavior.',
     ],
     relatedTools: ['word-counter', 'character-counter', 'text-repeater']
   },
@@ -410,23 +411,29 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     intro: 'Text reversal has dozens of practical and creative applications: generating palindrome tests, creating mirror-effect typography, obfuscating text for puzzles, verifying string manipulation logic in code, and producing backwards-reading artistic displays. Our Text Reverser offers character-level reversal (the entire string flipped), word-level reversal (word order reversed, each word intact), and line-level reversal (lines reordered, each line intact). All three modes operate simultaneously so you can compare results and choose the right transformation for your use case.',
     howToUse: [
       'Type or paste your text into the input box.',
-      'Click "Reverse Text" to flip the entire string backwards.',
-      'The tool can reverse the entire text, word by word, or line by line.',
-      'Copy the reversed text for your creative projects.'
+      'Choose a reversal mode: Characters (full string flip), Words (reverse word order), or Lines (reverse line order).',
+      'The output updates instantly as you switch between modes — no button click needed.',
+      'Copy the reversed text using the Copy button or download it as a .txt file.'
     ],
     faqs: [
-      { q: 'Can it reverse emojis?', a: 'Yes, it correctly handles Unicode characters including emojis and symbols.' },
-      { q: 'Why would I need to reverse text?', a: 'It is often used for creative design, creating puzzles, or testing software logic.' }
+      { q: 'What is the difference between reversing characters vs reversing words?', a: 'Character reversal flips every single character in the string — "Hello World" becomes "dlroW olleH". Word reversal keeps each word intact but reverses their order — "Hello World" becomes "World Hello". Use character reversal for mirror effects and word reversal for sentence rearrangement.' },
+      { q: 'Can it reverse emojis and special Unicode characters?', a: 'Yes — the tool uses JavaScript\'s spread operator to correctly handle multi-byte Unicode characters including emojis, accented letters, Arabic, Chinese, and other non-ASCII text. Simple character-based reversal would corrupt multi-byte sequences, but this tool handles them correctly.' },
+      { q: 'What does line reversal do?', a: 'Line reversal reorders the lines of your text from bottom to top. If you paste a numbered list from 1 to 10, line reversal gives you the same list from 10 to 1. Each line remains unchanged internally — only their order is flipped.' },
+      { q: 'Why would I need to reverse text?', a: 'Common uses include: creating mirror-image text for design projects, generating test data with known properties, making readable-only-in-mirror puzzles, verifying that your parser handles reversed input, and creating fun social media posts.' },
+      { q: 'Is my text stored on your servers?', a: 'No — all text processing happens entirely in your browser using JavaScript. Your text never leaves your device. This tool is 100% client-side and requires no server connection to operate.' }
     ],
     benefits: [
-      'Quickly creates fun and unique text effects.',
-      'Useful for testing palindromes and string manipulation code.',
-      'No data sent to servers, ensuring private processing.'
+      'Three reversal modes in one tool — character, word, and line reversal — covering all common text-flipping scenarios.',
+      'Instant live preview updates as you type and switch modes, with no manual button click required.',
+      'Handles Unicode, emojis, and international characters correctly without corrupting multi-byte sequences.',
+      'Fully private — no server upload, no account required, no data stored.',
     ],
     useCases: [
-      'Creating puzzles or "secret" messages for games.',
-      'Designing creative typography for posters or social media.',
-      'Testing how software handles reversed data streams.'
+      'Creating mirror-effect text for posters, social media graphics, and creative design projects.',
+      'Writing secret messages or simple ciphers that require a mirror to read.',
+      'Testing string manipulation code by feeding it reversed input and verifying output.',
+      'Reversing bullet-point lists to change priority order quickly without manual reordering.',
+      'Generating palindrome candidates and fun wordplay for puzzles or games.',
     ]
   },
   'camel-case': {
@@ -1196,53 +1203,66 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     title: 'Text Repeater — Repeat Any Text, Word or Phrase Online Free | Instant Tool',
     metaDescription: 'Repeat any text, word, or phrase up to 1000x instantly. Choose separator, click generate — done! Free text repeater tool, no login needed. Works on mobile & desktop.',
     h1: 'Text Repeater — Repeat Words and Phrases Instantly Online',
-    intro: 'Repetitive text is surprisingly useful: stress-testing text rendering systems requires large input volumes; generating placeholder content for load testing databases needs many rows of varied text; creating multi-line watermarks on documents requires repeating a phrase; and some musical or poetic forms intentionally repeat phrases with variation. Our Text Repeater multiplies any input text a specified number of times with configurable separator — newline, comma, space, or custom string — between each repetition. It handles inputs of any length, produces output in milliseconds, and works entirely in your browser so you can generate even millions of characters without a server call.',
+    intro: 'Repetitive text is surprisingly useful: stress-testing text rendering systems requires large input volumes; generating placeholder content for load testing databases needs many rows of varied text; creating multi-line watermarks on documents requires repeating a phrase; and some musical or poetic forms intentionally repeat phrases with variation. Our Text Repeater multiplies any input text a specified number of times with configurable separator — newline, comma, space, custom string, or none — between each repetition. It handles inputs of any length, produces output instantly, and works entirely in your browser so you can generate even millions of characters without a server call.',
     howToUse: [
-      'Enter the text you want to repeat in the input box.',
-      'Specify the number of times you want it to repeat.',
-      'Choose whether to add a space, newline, or custom separator between repetitions.',
-      'Click "Repeat" to generate the repeated text instantly.'
+      'Enter the text, word, or phrase you want to repeat in the input box.',
+      'Set the repeat count using the +/- buttons or type a number directly (up to 1000).',
+      'Choose a separator: New Line, Comma, Space, Custom string, or None.',
+      'For Custom separator, type any string (e.g. " | " or " — ") in the text field that appears.',
+      'The output updates live — copy or download the repeated text instantly.'
     ],
     faqs: [
-      { q: 'Is there a limit to the number of repetitions?', a: 'You can repeat text thousands of times, but extremely high numbers might slow down your browser depending on your device memory.' },
-      { q: 'Can I repeat emojis?', a: 'Yes, our tool fully supports Unicode, so you can repeat emojis, symbols, and special characters.' }
+      { q: 'What is the maximum number of repetitions?', a: 'The tool supports up to 1000 repetitions. For very long input strings at 1000× repetitions, the output can reach millions of characters — the tool handles this in-browser without any server round-trip, though rendering very large outputs may take a moment on older devices.' },
+      { q: 'Can I repeat emojis and Unicode characters?', a: 'Yes — the tool fully supports Unicode including emojis, Arabic, Chinese, accented letters, and symbols. Emoji repetition is popular for social media comment spamming and reaction chains.' },
+      { q: 'What does the "None" separator do?', a: 'With separator set to None, the repetitions are concatenated with no delimiter between them: "abc" × 3 = "abcabcabc". This is useful for generating repeated character sequences, stress-testing input length limits, or creating patterns.' },
+      { q: 'Can I repeat multiple lines of text?', a: 'Yes — if your input contains newlines (multiple lines), the entire block is treated as one unit and repeated. Each repetition contains all the lines, separated by your chosen delimiter. To repeat individual lines separately, split them first and process one at a time.' },
+      { q: 'Why would a developer use a text repeater?', a: 'Common developer uses: filling a database with N rows of sample data, generating long strings to test input validation and overflow handling, creating repeated patterns in config files, and stress-testing text layout engines with very long inputs.' }
     ],
     benefits: [
-      'Quickly generate large amounts of text for testing.',
-      'Create repetitive patterns for design or social media.',
-      'Saves time on manual copy-pasting.'
+      'Repeat up to 1000× with five separator options including custom strings — far more flexible than manual copy-paste.',
+      'Quick-count preset buttons (×5, ×10, ×50, ×100, ×500) for the most common repetition counts.',
+      'Live character and repetition count keeps you aware of output size before copying.',
+      'Supports any Unicode text — emojis, symbols, international characters — without corruption.',
     ],
     useCases: [
-      'Testing text overflow in web development.',
-      'Creating repetitive social media posts or comments.',
-      'Generating sample data for testing purposes.'
+      'Generating large amounts of placeholder text to stress-test text rendering, overflow handling, or database inputs.',
+      'Repeating a hashtag or phrase 10–50 times for social media posts or comment chains.',
+      'Creating multi-line repeated watermark text for overlaying on documents or images.',
+      'Producing repeated character sequences (e.g. dashes "---") for formatting dividers in text documents.',
+      'Building repeated data rows for CSV or spreadsheet import testing.',
     ]
   },
   'find-replace': {
     title: 'Find and Replace Text Online — Bulk Replace Words Instantly | Free Tool',
-    metaDescription: 'Find and replace any word or phrase in your text instantly — supports bulk replacements, case-sensitive search & regex. Free, no login, works in browser. Try now!',
+    metaDescription: 'Find and replace any word or phrase in your text instantly — supports multiple pairs, case-sensitive search, whole-word matching & regex. Free, no login needed!',
     h1: 'Find and Replace Text Online — Bulk Replace Words & Phrases Free',
-    intro: 'Manual find-and-replace in a text editor works for one substitution at a time — but what if you need to replace 50 different abbreviations across a 10,000-word document, swap dozens of variable names in a code file, or normalize inconsistent terminology across a corporate document? Our Find & Replace tool accepts multiple find-replace pairs simultaneously, processes them in order, and applies them to your entire text in one pass. It supports case-sensitive and case-insensitive matching, whole-word-only matching, and — for power users — regular expression patterns. Results appear instantly, and you can undo any replacement before copying.',
+    intro: 'Manual find-and-replace in a text editor works for one substitution at a time — but what if you need to replace 50 different abbreviations across a 10,000-word document, swap dozens of variable names in a code file, or normalize inconsistent terminology across a corporate document? Our Find & Replace tool accepts multiple find-replace pairs simultaneously, processes them in order, and applies them to your entire text in one pass. It supports case-sensitive and case-insensitive matching, whole-word-only matching, and regular expression patterns for power users. A replacement counter shows exactly how many substitutions were made so you can verify the result before copying.',
     howToUse: [
       'Paste your text into the main input area.',
-      'Enter the word or phrase you want to find.',
-      'Enter the replacement word or phrase.',
-      'Choose whether to match case or replace all occurrences.',
-      'Click "Replace" to update your text instantly.'
+      'Enter the word or phrase to find in the left (red) field and its replacement in the right (green) field.',
+      'Click "+ Add Another Pair" to add multiple find-replace rules that all run in one pass.',
+      'Toggle Case Sensitive, Whole Word, or Regex Mode options as needed.',
+      'Click "Find & Replace" to apply all rules. A counter shows the total number of replacements made.'
     ],
     faqs: [
-      { q: 'Can I use regular expressions?', a: 'Currently, it supports plain text matching, but we are working on adding regex support for advanced users.' },
-      { q: 'Does it replace all occurrences at once?', a: 'Yes, by default it replaces every instance of the search term in your text.' }
+      { q: 'Can I run multiple find-replace rules at once?', a: 'Yes — this is one of the tool\'s key advantages over text editors. Add as many pairs as you need by clicking "+ Add Another Pair". All rules run sequentially in the order listed, so if replacement A produces text that matches rule B, rule B will also replace it. Order your rules carefully when chaining.' },
+      { q: 'Does it support regular expressions (regex)?', a: 'Yes — enable "Regex Mode" to use full JavaScript-compatible regular expressions in the find field. The replace field supports backreferences ($1, $2) for captured groups. Invalid regex patterns are silently skipped to prevent errors.' },
+      { q: 'What does "Whole Word" matching do?', a: 'With Whole Word enabled, the search term only matches when surrounded by word boundaries — not inside longer words. For example, searching for "cat" would match "the cat sat" but not "concatenate". This prevents unintended partial matches when replacing short words or abbreviations.' },
+      { q: 'How does case-sensitive matching work?', a: 'With Case Sensitive off (default), "hello" matches "Hello", "HELLO", and "hello". With Case Sensitive on, only an exact case match is replaced. Use case-sensitive mode when replacing variable names in code where case matters.' },
+      { q: 'Is there a limit to text size?', a: 'No hard limit — the tool processes text entirely in your browser. Very large documents (100,000+ words) may take a fraction of a second extra for complex regex patterns, but typical documents process instantly.' }
     ],
     benefits: [
-      'Fast bulk editing of large documents.',
-      'Ensures consistency when changing names or terms.',
-      'Easy to use interface for complex replacements.'
+      'Multiple simultaneous find-replace pairs — run dozens of substitutions in a single click instead of repeating manual operations.',
+      'Regex mode with full JavaScript regex support and $1/$2 backreference replacement for advanced pattern matching.',
+      'Replacement counter confirms exactly how many substitutions were made after each run.',
+      'Whole-word mode prevents partial matches — essential when replacing short words or variable names in code.',
     ],
     useCases: [
-      'Updating names or dates in a long article.',
-      'Fixing recurring typos in a document.',
-      'Replacing placeholders in code or templates.'
+      'Replacing 20+ different abbreviations and acronyms throughout a long document in one operation.',
+      'Renaming variables, class names, or function names across a code snippet or configuration file.',
+      'Normalizing inconsistent terminology — replacing "e-mail" and "E-Mail" and "EMAIL" all with "email" in one pass.',
+      'Using regex to reformat dates — replacing "DD/MM/YYYY" patterns with "YYYY-MM-DD" format.',
+      'Removing or replacing specific HTML tags, markdown syntax, or formatting characters in bulk.',
     ]
   },
   'json-to-text': {
@@ -1277,23 +1297,30 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     intro: 'Sorting is one of the most fundamental data operations, but text editors make it surprisingly cumbersome. Our Sort Lines tool sorts any newline-delimited list alphabetically (A-Z or Z-A), numerically (1-10 or 10-1), by line length, or randomly — with options for case-sensitive or case-insensitive comparison, and locale-aware sorting for international text. It handles blank lines, leading whitespace, and mixed alphanumeric content correctly. Paste a list of domain names, sort them alphabetically. Paste a numbered list, sort numerically. Paste country names, get them in the order your style guide requires. Output updates instantly.',
     howToUse: [
       'Paste your list of items (one per line) into the input.',
-      'Choose your sorting order: Alphabetical (A-Z), Reverse (Z-A), or Random.',
-      'Select whether to remove duplicate lines during sorting.',
-      'Click "Sort" to organize your list instantly.'
+      'Choose your sorting mode: A→Z, Z→A, Numeric (1→9 or 9→1), Short→Long, Long→Short, Shuffle, or Reverse.',
+      'Toggle "Remove Duplicates" to deduplicate the list and "Trim Lines" to strip leading/trailing spaces.',
+      'Toggle "Ignore Case" for case-insensitive alphabetical sorting (e.g. "apple" and "Apple" treated equally).',
+      'The output updates live — copy or download the sorted result instantly.'
     ],
     faqs: [
-      { q: 'Can it sort numbers correctly?', a: 'Yes, it handles both alphabetical and numerical sorting to ensure your list is perfectly ordered.' },
-      { q: 'Does it ignore case while sorting?', a: 'You can choose whether to perform a case-sensitive or case-insensitive sort based on your needs.' }
+      { q: 'How does numeric sort differ from alphabetical sort?', a: 'Alphabetical sort treats all lines as text, so "10" sorts before "2" because "1" < "2" lexicographically. Numeric sort parses each line as a number, so 2 correctly sorts before 10. Use numeric sort for any list containing numbers you want sorted by value.' },
+      { q: 'Can I sort a list and remove duplicates at the same time?', a: 'Yes — enable the "Remove Duplicates" toggle before or after sorting. Duplicate detection respects the "Ignore Case" setting, so with case-insensitive mode, "Apple" and "apple" are considered the same entry and one will be removed.' },
+      { q: 'What is the Shuffle option?', a: 'Shuffle randomizes the order of lines using Fisher-Yates randomization. Each shuffle produces a different result. This is useful for randomizing quiz questions, creating random draw lists, or shuffling sample data sets.' },
+      { q: 'Does it support sorting in languages other than English?', a: 'Yes — alphabetical sorting uses JavaScript\'s localeCompare() with locale-aware comparison, which correctly handles accented characters (é, ü, ñ) and other Unicode letters for proper alphabetical ordering in French, German, Spanish, and other languages.' },
+      { q: 'What is the maximum number of lines I can sort?', a: 'The tool handles thousands of lines without any slowdown since all processing runs in your browser. For very large lists (50,000+ lines), processing may take a second on slower devices, but there is no hard limit.' }
     ],
     benefits: [
-      'Instantly organizes messy lists.',
-      'Removes duplicates automatically if selected.',
-      'Multiple sorting modes for maximum flexibility.'
+      'Eight sort modes in one tool: A→Z, Z→A, numeric ascending, numeric descending, short-to-long, long-to-short, shuffle, and reverse — covering every common sorting need.',
+      'Numeric sort correctly orders numbers by value (2 before 10) rather than lexicographically, which standard text editors get wrong.',
+      'Built-in deduplication with case-aware matching eliminates repeated lines in the same operation as sorting.',
+      'Live output — no need to click a button; results update as you type and change settings.',
     ],
     useCases: [
-      'Organizing a list of names or email addresses.',
-      'Sorting CSS properties or code variables.',
-      'Cleaning up a list of keywords for SEO.'
+      'Alphabetically sorting a list of names, countries, cities, or product names for clean documentation or reports.',
+      'Numerically sorting invoice numbers, version strings, or scores to find the highest or lowest values instantly.',
+      'Shuffling a list of questions, participants, or tasks to create a randomized order for quizzes or draws.',
+      'Deduplicating a list of emails, URLs, or keywords while simultaneously sorting them alphabetically.',
+      'Reversing the order of a changelog or log file to read most-recent entries first.',
     ]
   },
   'word-counter': {
@@ -1679,23 +1706,31 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     h1: 'Add Prefix & Suffix to Lines — Batch Text Formatting Tool',
     intro: 'Adding a consistent prefix or suffix to every line in a block of text is a common but tedious task: adding quote marks around each item to create a quoted list, prepending a variable name to make SQL IN clause values, adding a bullet character to create a Markdown list, inserting a comment marker to comment out lines in a config file. Our Add Prefix & Suffix tool applies your custom prefix and suffix to every line simultaneously — including blank lines if desired — in one operation. It supports special characters, spaces, and multi-character strings, making it equally useful for formatting SQL arrays, building grep patterns, creating formatted import statements, and dozens of other repetitive text operations.',
     howToUse: [
-      'Paste your list of lines into the input field.',
-      'Enter the prefix you want to add to the beginning of each line.',
-      'The tool will instantly update each line with the prefix.'
+      'Paste your list of lines into the input field (one item per line).',
+      'Enter the prefix you want added to the beginning of every line (e.g. "• " for bullets or "\'" for SQL quotes).',
+      'Enter the suffix you want added to the end of every line (e.g. "," for comma-separated output or "\'," for SQL).',
+      'Use Quick Presets to instantly apply common patterns like bullet points, quotes, or code comments.',
+      'Toggle "Skip Blank Lines" to leave empty lines unchanged, or "Trim Lines" to strip whitespace before applying.'
     ],
     faqs: [
-      { q: 'Can I add a suffix as well?', a: 'Yes, our tool also allows you to add a suffix to the end of each line.' },
-      { q: 'Does it handle empty lines?', a: 'Yes, you can choose whether to add the prefix to empty lines or not.' }
+      { q: 'How do I format a list as a SQL IN clause?', a: 'Set prefix to a single quote (\') and suffix to \',\'. Your lines will become \'item\', ready to paste inside a SQL IN() statement. You can then manually remove the trailing comma from the last item, or wrap the whole block in parentheses.' },
+      { q: 'Can I add multi-character prefixes or suffixes?', a: 'Yes — prefixes and suffixes can be any string of any length. You can add entire words, tags, or code snippets. For example, set prefix to "<li>" and suffix to "</li>" to wrap each line in an HTML list item tag.' },
+      { q: 'What does "Skip Blank Lines" do?', a: 'When enabled, blank lines in your input are passed through unchanged without the prefix or suffix applied. This preserves the visual structure of your text (like paragraph breaks) without polluting empty lines with formatting characters.' },
+      { q: 'Can I use this to add HTML or Markdown formatting to each line?', a: 'Yes. Set prefix to "- " for Markdown unordered lists, or "1. " for numbered lists. For HTML, set prefix to "<li>" and suffix to "</li>". The tool applies any text you enter, including HTML tags and Markdown syntax.' },
+      { q: 'Is there a line limit?', a: 'No hard limit — the tool processes thousands of lines in milliseconds since everything runs in your browser. Extremely large inputs (millions of characters) may slow down on older devices, but typical use cases work instantly.' }
     ],
     benefits: [
-      'Quickly format a list of items.',
-      'Prepare data for use in code or documentation.',
-      'Saves time on manual editing.'
+      'Apply any prefix and suffix to hundreds of lines in one click — no scripting or find-and-replace loops needed.',
+      'Ten built-in Quick Presets cover the most common patterns: bullet points, quotes, dashes, SQL values, blockquotes, code comments, and more.',
+      'Smart blank-line handling preserves paragraph structure when formatting prose or mixed-content lists.',
+      'Supports any character including spaces, symbols, HTML tags, and Markdown syntax.',
     ],
     useCases: [
-      'Adding a bullet point to each line of a list.',
-      'Formatting a list of variables for code.',
-      'Preparing clean data for professional use.'
+      'Wrapping each line in single quotes and a trailing comma for SQL IN() clauses (e.g. \'value\',).',
+      'Adding bullet points (• or -) or numbering to convert plain text into a Markdown or Notion list.',
+      'Prefixing lines with "//" or "#" to bulk-comment out code or config file lines.',
+      'Wrapping each line in <li></li> tags to build an HTML unordered list from a plain text list.',
+      'Adding a domain or path prefix to a list of URLs to build full links from slugs.',
     ]
   },
   'random-string': {
@@ -1704,23 +1739,31 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     h1: 'Random String Generator — Create Custom Random Text Instantly',
     intro: 'Random strings power security tokens, test data generation, password creation, API key generation, session IDs, captcha challenges, and cryptographic salt values. But not all randomness is equal — Math.random() is not cryptographically secure. Our Random String Generator uses the Web Crypto API\'s getRandomValues() for true cryptographic randomness, giving you configurable character sets (uppercase, lowercase, digits, special characters, hex-only, alphanumeric) and lengths from 1 to 10,000 characters. Generate multiple strings in batch, with one per line. Each result is statistically independent — never predictable, never repeated, and suitable for security-sensitive applications.',
     howToUse: [
-      'Specify the length of the random string you want to generate.',
-      'Choose the character sets to include (e.g., letters, numbers, symbols).',
-      'The tool will instantly generate a random string based on your selection.'
+      'Set the length of the string using the slider or by typing a number (1–512 characters).',
+      'Set the count to generate multiple strings at once (each on its own line).',
+      'Choose your character set: Uppercase A-Z, Lowercase a-z, Numbers 0-9, and/or Symbols !@#$%.',
+      'Click "Generate" to produce your random strings instantly.',
+      'Copy all generated strings at once or download as a text file.'
     ],
     faqs: [
-      { q: 'Is the string truly random?', a: 'Yes, it uses a cryptographically secure random number generator for maximum randomness.' },
-      { q: 'Can I generate multiple strings?', a: 'Yes, you can specify the number of random strings you want to generate.' }
+      { q: 'Is this generator truly random or pseudo-random?', a: 'It uses the browser\'s Web Crypto API (window.crypto.getRandomValues()), which provides cryptographically secure random numbers — the same source used by password managers and security libraries. This is far more secure than Math.random(), which is a pseudo-random number generator unsuitable for security use.' },
+      { q: 'Can I generate random hexadecimal strings?', a: 'Yes — enable only Numbers (0-9) and set uppercase letters limited to A-F, or simply select the hex preset. Hex strings are commonly used for color codes, cryptographic hashes, and database UUIDs.' },
+      { q: 'What is the maximum length I can generate?', a: 'The tool supports lengths up to 512 characters per string, and you can generate up to 100 strings in one batch. For longer strings or larger batches, you would need to run multiple generations.' },
+      { q: 'Can I use this for generating API keys?', a: 'Yes — a common API key format is 32–64 alphanumeric characters. Set character set to uppercase + lowercase + numbers with length 32 or 64, generate one string, and you have a strong random API key. Add symbols for even higher entropy.' },
+      { q: 'What if I need a UUID instead of a random string?', a: 'UUIDs follow a specific format (xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx). This tool generates free-form random strings without the UUID format. For UUID generation, look for a dedicated UUID tool.' }
     ],
     benefits: [
-      'Quickly generate secure random strings.',
-      'Create unique identifiers for your data.',
-      'Saves time on manual string creation.'
+      'Cryptographically secure randomness via the Web Crypto API — suitable for passwords, tokens, and API keys, not just testing.',
+      'Batch generation produces multiple unique strings at once, each on its own line for easy copying.',
+      'Fully configurable character sets let you match any system\'s requirements (alphanumeric only, no ambiguous chars, symbols, hex, etc.).',
+      'All generation is client-side — your strings are never transmitted to any server or stored anywhere.',
     ],
     useCases: [
-      'Generating random passwords or API keys.',
-      'Creating unique IDs for database entries.',
-      'Preparing clean data for professional use.'
+      'Generating secure random API keys, session tokens, or secret keys for web applications.',
+      'Creating random test data strings for software development and QA testing.',
+      'Generating random passwords with custom length and character requirements.',
+      'Creating unique identifiers, coupon codes, or invite tokens for applications.',
+      'Producing random hex strings for color codes, hash salts, or cryptographic seeds.',
     ]
   },
   'remove-all-whitespace': {
@@ -2102,50 +2145,66 @@ const toolSpecificDetails: Record<string, ToolContent> = {
     title: 'Invisible Text Generator - Create Zero-Width Space Characters Free',
     metaDescription: 'Generate invisible zero-width Unicode characters for social media bios, usernames, and hidden messages. Free invisible text generator — instant & fun!',
     h1: 'Invisible Text Generator — Create Blank & Zero-Width Characters',
-    intro: 'Zero-width characters are genuinely invisible — they exist in the text stream and are copied and pasted normally, but render with zero width, making them completely hidden to the reader. Unicode provides several of these: Zero Width Space (U+200B), Zero Width Non-Joiner (U+200C), Zero Width Joiner (U+200D), and Word Joiner (U+2060). Our Invisible Text Generator creates strings of these characters that you can paste into social media bios for alignment effects, usernames for uniqueness when your preferred name is taken, Snapchat name changes, Discord custom statuses, and any other text field where you want blank-appearing content. The tool shows a character counter and copy button for each generated invisible string.',
+    intro: 'Zero-width characters are genuinely invisible — they exist in the text stream and are copied and pasted normally, but render with zero width, making them completely hidden to the reader. Unicode provides several of these: Zero Width Space (U+200B), Zero Width Non-Joiner (U+200C), Zero Width Joiner (U+200D), and the Braille Blank (U+2800). Each behaves slightly differently across platforms and applications. Our Invisible Text Generator lets you choose your character type and quantity, generates the exact invisible string you need, and gives you a one-click copy button so you can paste it instantly into Instagram bio, Discord status, WhatsApp name, Snapchat username, or any other text field.',
     howToUse: [
-      'Type or paste your text into the input field.',
-      'The tool will instantly convert it into invisible characters.',
-      'Copy the resulting "blank" text for your use.'
+      'Choose the invisible character type: Zero-Width Space (U+200B) is the most universally compatible.',
+      'Set the count — how many invisible characters you need (1 to 500).',
+      'Click "Generate" to create the invisible string.',
+      'Click "Copy" and paste the result into any social media field, username, or text input.',
+      'For maximum stealth, choose "Mixed Types" which combines multiple zero-width characters randomly.'
     ],
     faqs: [
-      { q: 'How does it create invisible text?', a: 'It uses special Unicode characters that are invisible to the naked eye.' },
-      { q: 'Can I use invisible text on social media?', a: 'Yes, most social media platforms support invisible text, though some may filter it.' }
+      { q: 'What is a zero-width space and why is it invisible?', a: 'A zero-width space (U+200B) is a Unicode character that tells the text rendering engine there is a word-break opportunity, but it occupies zero horizontal width when drawn. Unlike a regular space (which takes up ~0.25em), a zero-width space literally renders nothing — it is invisible but still present in the string.' },
+      { q: 'What is the difference between the four character types?', a: 'Zero-Width Space (U+200B) is the most compatible — works on almost every platform. Zero-Width Non-Joiner (U+200C) prevents adjacent characters from forming ligatures. Zero-Width Joiner (U+200D) causes adjacent characters to connect (used in emoji sequences). Braille Blank (U+2800) is technically a Braille character with no raised dots — it renders as a visible space on some systems, making it slightly less invisible than the others.' },
+      { q: 'Will invisible text work on Instagram, Twitter, TikTok, and Discord?', a: 'Zero-Width Space and Braille Blank work on most major platforms including Instagram bio, Twitter/X bio, Discord username/status, Snapchat name, and WhatsApp. Some platforms actively filter zero-width characters to prevent abuse — if your invisible text disappears after pasting, try the Braille Blank type instead.' },
+      { q: 'Can invisible text be detected or removed?', a: 'Yes — sophisticated tools and scripts can detect zero-width characters by scanning Unicode code points. Most regular users will never notice them, but developers inspecting string length or running text sanitization may catch them. They can be removed with a find-and-replace targeting the specific Unicode code point.' },
+      { q: 'Can I use this to send a blank WhatsApp message?', a: 'Yes — copy 1 or more invisible characters and paste them into the WhatsApp message field. WhatsApp accepts the message because the field is non-empty (it contains invisible characters), so you can send what appears to be a completely blank message.' }
     ],
     benefits: [
-      'Quickly create unique and creative text effects.',
-      'Design creative digital art or posters.',
-      'Saves time on manual invisible text creation.'
+      'Five character type options including Mixed mode for harder-to-detect invisible strings.',
+      'Slider + number input for precise control from 1 to 500 invisible characters.',
+      'Clear explanation of each character type\'s Unicode code point and platform compatibility.',
+      'One-click copy instantly puts the invisible text on your clipboard for immediate use.',
     ],
     useCases: [
-      'Creating unique social media posts.',
-      'Designing creative digital art or posters.',
-      'Preparing clean data for professional use.'
+      'Adding invisible characters to an Instagram bio to create blank lines between sections for better formatting.',
+      'Sending blank-looking WhatsApp or Telegram messages as a joke or to get someone\'s attention.',
+      'Creating a unique Discord or Snapchat username when your preferred name is already taken (add invisible chars to differentiate).',
+      'Inserting invisible watermarks into text documents to track unauthorized copying.',
+      'Testing text inputs and form validation in web development to see how applications handle zero-width characters.',
     ]
   },
   'yt-timestamp-formatter': {
-    title: 'YouTube Timestamp Formatter - Format Video Timestamps Online Free',
-    metaDescription: 'Create properly formatted YouTube timestamps for video descriptions and chapters. Clickable links, correct format. Free YouTube timestamp formatter tool!',
+    title: 'YouTube Timestamp Formatter - Format Video Chapters Online Free',
+    metaDescription: 'Create properly formatted YouTube chapter timestamps for video descriptions. Auto-validate 0:00 start, chronological order. Free YouTube timestamp formatter!',
     h1: 'YouTube Timestamp Formatter — Create Chapter Links Instantly',
-    intro: 'YouTube video chapters are created by adding a properly formatted timestamp list in your video description — timestamps must start at 0:00, be in chronological order, and use MM:SS or H:MM:SS format. Chapters improve viewer navigation, appear in Google search results as chapter markers, and significantly improve watch time by helping viewers find the exact section they want. Our YouTube Timestamp Formatter takes your rough chapter list (any time format you\'ve jotted down), normalizes it to YouTube\'s required HH:MM:SS format, lets you reorder and rename chapters, and generates a properly formatted description block ready to paste directly into YouTube Studio. It also validates that your first timestamp is 0:00:00 and that all timestamps are in ascending order.',
+    intro: 'YouTube video chapters are one of the most impactful things a creator can add to a video description — they appear as chapter markers in the progress bar, show up as individual segments in Google search results, and help viewers jump directly to the content they need. But YouTube has strict formatting requirements: the first timestamp must be 0:00, all timestamps must be in ascending chronological order, and the format must be M:SS or H:MM:SS. Our YouTube Timestamp Formatter has two modes: a Chapter Builder where you fill in time and title row by row, and a Paste & Format mode that accepts rough notes and auto-cleans them. Invalid timestamps are filtered, and the formatted output is ready to paste directly into YouTube Studio.',
     howToUse: [
-      'Paste your YouTube timestamps into the input field.',
-      'The tool will instantly format them into a clean and readable list.',
-      'You can choose the format (e.g., 0:00 - Title, Title (0:00)).'
+      'Choose Chapter Builder mode to add chapters row by row with time inputs and title fields.',
+      'Or choose Paste & Format mode to paste raw timestamps in any format and let the tool clean them up.',
+      'In Builder mode, always start with 0:00 as your first chapter — YouTube requires this for chapters to activate.',
+      'Add as many chapters as needed using the "+ Add Chapter" button.',
+      'Copy the formatted output and paste it anywhere in your YouTube video description.'
     ],
     faqs: [
-      { q: 'What timestamp formats are supported?', a: 'We support most common YouTube timestamp formats, including 0:00, 00:00, and 0:00:00.' },
-      { q: 'Can I add titles to the timestamps?', a: 'Yes, you can include titles along with the timestamps for better organization.' }
+      { q: 'Why do my YouTube chapters not show up even though I added timestamps?', a: 'YouTube requires at least three timestamps, the first must be exactly 0:00, all must be in ascending order, and each must have a title after it. If any of these conditions are not met, YouTube silently ignores the timestamps and does not create chapters. Use our builder to ensure all requirements are met.' },
+      { q: 'What format should YouTube timestamps be in?', a: 'YouTube accepts M:SS (e.g. 1:30), MM:SS (e.g. 01:30), H:MM:SS (e.g. 1:05:30), and HH:MM:SS for videos over an hour. The simplest valid format is M:SS with no leading zero required for the minutes.' },
+      { q: 'How many chapters can I add to a YouTube video?', a: 'YouTube supports up to 100 chapters per video. Each chapter title can be up to 100 characters. There is no minimum chapter duration requirement, but chapters shorter than a few seconds may not display well in the progress bar.' },
+      { q: 'Can I paste my rough notes into the tool and have it clean them up?', a: 'Yes — use Paste & Format mode. Paste lines in formats like "1:30 - Main Topic", "05:00 Demo Section", or "10 minutes: Conclusion" and the tool extracts valid timestamps. Lines that cannot be parsed as timestamps are automatically removed.' },
+      { q: 'Do YouTube timestamps help with SEO?', a: 'Yes — YouTube chapter titles appear as rich results in Google search, giving your video additional keyword-rich entries in search results. Each chapter effectively acts as a mini-result that can match specific search queries, improving click-through rates and discoverability.' }
     ],
     benefits: [
-      'Quickly format YouTube timestamps for your video descriptions.',
-      'Improve the organization of your video content.',
-      'Saves time on manual formatting.'
+      'Two-mode interface: structured Chapter Builder for precision and Paste & Format for quick cleanup of rough notes.',
+      'Built-in validation reminder for the mandatory 0:00 first chapter requirement.',
+      'Dynamic row adding and deletion makes reordering and editing chapters fast.',
+      'Output is a ready-to-paste block requiring zero additional formatting.',
     ],
     useCases: [
-      'Formatting timestamps for YouTube video descriptions.',
-      'Organizing video content for viewers.',
-      'Preparing clean data for professional use.'
+      'Adding YouTube chapters to long tutorial videos so viewers can jump to specific steps or sections.',
+      'Formatting podcast timestamps for YouTube uploads where chapters improve listener navigation.',
+      'Cleaning up rough timestamp notes taken during video editing into proper YouTube-ready format.',
+      'Adding chapter markers to educational course videos to help students find specific lessons.',
+      'Improving YouTube SEO by using keyword-rich chapter titles that appear in Google search results.',
     ]
   },
   'fancy-text': {

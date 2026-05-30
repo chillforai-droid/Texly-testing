@@ -8,7 +8,7 @@ import {
   FileText, LogOut, CheckCircle, RefreshCw, AlertTriangle, 
   Trash2, Search, ExternalLink, Play, Clock, Database, Trash 
 } from "lucide-react";
-import { SEOPage, AutomationLog } from "../types";
+import { SEOPage, AutomationLog } from "./types";
 
 interface DashboardTabProps {
   pages: SEOPage[];

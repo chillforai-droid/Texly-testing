@@ -8,7 +8,7 @@ import {
   Compass, ChevronRight, BarChart2, TrendingUp, CheckCircle, 
   HelpCircle, Sparkles, Wand2, RefreshCw 
 } from "lucide-react";
-import { KeywordResult } from "../types";
+import { KeywordResult } from "./types";
 
 interface KeywordTabProps {
   onSearch: (seed: string) => Promise<KeywordResult[]>;

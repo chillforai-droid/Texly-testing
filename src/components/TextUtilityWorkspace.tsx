@@ -242,27 +242,40 @@ function TextReverserUI({ process, example }: TextUtilityWorkspaceProps) {
     ? mode === 'chars'
       ? input.split('').reverse().join('')
       : mode === 'words'
-      ? input.split(/\s+/).reverse().join(' ')
+      ? input.split(/(\s+)/).reverse().join('')
       : input.split('\n').reverse().join('\n')
     : '';
 
+  const modeInfo = {
+    chars: { icon: '🔤', label: 'Reverse Characters', desc: 'Flip entire string backwards' },
+    words:  { icon: '📝', label: 'Reverse Words',     desc: 'Reverse word order, keep each word intact' },
+    lines:  { icon: '📋', label: 'Reverse Lines',     desc: 'Flip line order, keep each line intact' },
+  };
+
   return (
-    <div className="space-y-4">
-      <div className="flex gap-2">
-        {(['chars', 'words', 'lines'] as const).map(m => (
-          <button
-            key={m}
-            onClick={() => setMode(m)}
-            className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
-              mode === m
-                ? 'bg-violet-600 text-white shadow-md shadow-violet-500/30'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
-            }`}
-          >
-            Reverse {m}
-          </button>
-        ))}
+    <div className="space-y-5">
+      {/* Mode selector — distinctive orange/amber theme */}
+      <div className="p-1 bg-orange-50 dark:bg-orange-950/30 border border-orange-100 dark:border-orange-900/50 rounded-2xl">
+        <div className="grid grid-cols-3 gap-1">
+          {(['chars', 'words', 'lines'] as const).map(m => (
+            <button
+              key={m}
+              onClick={() => setMode(m)}
+              className={`py-3 px-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
+                mode === m
+                  ? 'bg-orange-500 text-white shadow-md shadow-orange-500/30'
+                  : 'text-orange-700 dark:text-orange-400 hover:bg-orange-100 dark:hover:bg-orange-900/30'
+              }`}
+            >
+              <div className="text-base mb-0.5">{modeInfo[m].icon}</div>
+              {m}
+            </button>
+          ))}
+        </div>
       </div>
+      <p className="text-xs text-slate-500 dark:text-slate-400 px-1">
+        <span className="font-bold text-orange-600 dark:text-orange-400">{modeInfo[mode].label}:</span> {modeInfo[mode].desc}
+      </p>
       <IOLayout
         input={input} setInput={setInput}
         output={output}
@@ -280,18 +293,28 @@ function TextReverserUI({ process, example }: TextUtilityWorkspaceProps) {
 function TextRepeaterUI({ example }: TextUtilityWorkspaceProps) {
   const [input, setInput] = useState('');
   const [count, setCount] = useState(10);
-  const [separator, setSeparator] = useState<'newline' | 'comma' | 'space' | 'none'>('newline');
+  const [separator, setSeparator] = useState<'newline' | 'comma' | 'space' | 'custom' | 'none'>('newline');
+  const [customSep, setCustomSep] = useState('');
 
-  const sepChar = separator === 'newline' ? '\n' : separator === 'comma' ? ', ' : separator === 'space' ? ' ' : '';
+  const sepChar = separator === 'newline' ? '\n' : separator === 'comma' ? ', ' : separator === 'space' ? ' ' : separator === 'custom' ? customSep : '';
   const output = input ? new Array(Math.min(count, 1000)).fill(input).join(sepChar) : '';
 
+  const seps = [
+    { value: 'newline', label: '↵ New Line' },
+    { value: 'comma',   label: ', Comma' },
+    { value: 'space',   label: '⎵ Space' },
+    { value: 'custom',  label: '✏️ Custom' },
+    { value: 'none',    label: '∅ None' },
+  ];
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
+      {/* Teal theme controls */}
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Repeat Count</label>
-          <div className="flex items-center gap-2 p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl">
-            <button onClick={() => setCount(Math.max(1, count - 1))} className="w-7 h-7 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 font-black transition-colors">
+          <label className="text-[10px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-widest">Repeat Count</label>
+          <div className="flex items-center gap-2 p-3 bg-teal-50 dark:bg-teal-950/30 border border-teal-100 dark:border-teal-900/50 rounded-xl">
+            <button onClick={() => setCount(Math.max(1, count - 1))} className="w-7 h-7 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-teal-200 dark:border-teal-800 text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-900/30 font-black transition-colors">
               <Minus className="w-3.5 h-3.5" />
             </button>
             <input
@@ -300,43 +323,54 @@ function TextRepeaterUI({ example }: TextUtilityWorkspaceProps) {
               onChange={e => setCount(Math.max(1, Math.min(1000, parseInt(e.target.value) || 1)))}
               className="flex-1 text-center font-black text-lg text-slate-800 dark:text-white bg-transparent outline-none"
             />
-            <button onClick={() => setCount(Math.min(1000, count + 1))} className="w-7 h-7 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 font-black transition-colors">
+            <button onClick={() => setCount(Math.min(1000, count + 1))} className="w-7 h-7 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-teal-200 dark:border-teal-800 text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-900/30 font-black transition-colors">
               <Plus className="w-3.5 h-3.5" />
             </button>
           </div>
           <div className="flex gap-1">
-            {[5, 10, 50, 100].map(n => (
+            {[5, 10, 50, 100, 500].map(n => (
               <button key={n} onClick={() => setCount(n)}
-                className="flex-1 py-1 text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-900/30 hover:text-violet-700 dark:hover:text-violet-400 transition-colors">
+                className={`flex-1 py-1.5 text-[10px] font-bold rounded-lg transition-colors ${count === n ? 'bg-teal-500 text-white' : 'bg-teal-50 dark:bg-teal-950/30 text-teal-700 dark:text-teal-400 hover:bg-teal-100 dark:hover:bg-teal-900/40'}`}>
                 ×{n}
               </button>
             ))}
           </div>
         </div>
         <div className="space-y-2">
-          <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Separator</label>
-          <div className="grid grid-cols-2 gap-1.5">
-            {[
-              { value: 'newline', label: 'New Line' },
-              { value: 'comma', label: 'Comma' },
-              { value: 'space', label: 'Space' },
-              { value: 'none', label: 'None' },
-            ].map(s => (
+          <label className="text-[10px] font-black text-teal-600 dark:text-teal-400 uppercase tracking-widest">Separator</label>
+          <div className="grid grid-cols-1 gap-1">
+            {seps.map(s => (
               <button
                 key={s.value}
                 onClick={() => setSeparator(s.value as any)}
-                className={`py-2 text-xs font-bold rounded-xl transition-all ${
+                className={`py-1.5 text-xs font-bold rounded-xl transition-all text-left px-3 ${
                   separator === s.value
-                    ? 'bg-violet-600 text-white'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
+                    ? 'bg-teal-500 text-white'
+                    : 'bg-teal-50 dark:bg-teal-950/30 text-teal-700 dark:text-teal-400 hover:bg-teal-100 dark:hover:bg-teal-900/40'
                 }`}
               >
                 {s.label}
               </button>
             ))}
           </div>
+          {separator === 'custom' && (
+            <input
+              value={customSep}
+              onChange={e => setCustomSep(e.target.value)}
+              placeholder="e.g.  |  or  ---"
+              className="w-full p-2 text-xs font-mono bg-teal-50 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800 rounded-xl text-slate-700 dark:text-slate-300 outline-none focus:border-teal-400"
+            />
+          )}
         </div>
       </div>
+      {output && (
+        <div className="flex items-center gap-2 px-3 py-2 bg-teal-50 dark:bg-teal-950/30 border border-teal-100 dark:border-teal-900/50 rounded-xl">
+          <Zap className="w-3.5 h-3.5 text-teal-500" />
+          <span className="text-xs text-teal-700 dark:text-teal-400 font-bold">
+            {count} repetitions · {output.length.toLocaleString()} total characters
+          </span>
+        </div>
+      )}
       <IOLayout
         input={input} setInput={setInput}
         output={output}
@@ -372,32 +406,51 @@ function LoremIpsumUI() {
   const [count, setCount] = useState(3);
   const [output, setOutput] = useState('');
 
+  const maxCounts = { paragraphs: 50, sentences: 100, words: 500 };
+
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-3 gap-2">
-        {(['paragraphs', 'sentences', 'words'] as const).map(t => (
-          <button
-            key={t}
-            onClick={() => setType(t)}
-            className={`py-2.5 rounded-xl text-xs font-black uppercase tracking-widest capitalize transition-all ${
-              type === t ? 'bg-violet-600 text-white shadow-md shadow-violet-500/30' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
-            }`}
-          >
-            {t}
+    <div className="space-y-5">
+      {/* Green theme */}
+      <div className="p-1 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50 rounded-2xl">
+        <div className="grid grid-cols-3 gap-1">
+          {(['paragraphs', 'sentences', 'words'] as const).map(t => (
+            <button
+              key={t}
+              onClick={() => { setType(t); setCount(t === 'words' ? 50 : 3); }}
+              className={`py-3 rounded-xl text-xs font-black uppercase tracking-widest capitalize transition-all ${
+                type === t ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/30' : 'text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/30'
+              }`}
+            >
+              {t === 'paragraphs' ? '¶ Paragraphs' : t === 'sentences' ? '— Sentences' : '📝 Words'}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="flex items-center gap-4 p-4 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl border border-emerald-100 dark:border-emerald-900/50">
+        <span className="text-sm font-bold text-emerald-700 dark:text-emerald-400 capitalize">Number of {type}:</span>
+        <div className="flex items-center gap-2 ml-auto">
+          <button onClick={() => setCount(Math.max(1, count - 1))} className="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-800 font-black text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition-colors">-</button>
+          <input
+            type="number"
+            value={count}
+            onChange={e => setCount(Math.max(1, Math.min(maxCounts[type], parseInt(e.target.value) || 1)))}
+            className="w-16 text-center font-black text-lg text-slate-800 dark:text-white bg-transparent outline-none"
+          />
+          <button onClick={() => setCount(Math.min(maxCounts[type], count + 1))} className="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-800 font-black text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition-colors">+</button>
+        </div>
+        <span className="text-xs text-emerald-400 dark:text-emerald-600">max {maxCounts[type]}</span>
+      </div>
+      <div className="flex gap-2">
+        {(type === 'paragraphs' ? [1,3,5,10] : type === 'sentences' ? [5,10,20,50] : [20,50,100,200]).map(n => (
+          <button key={n} onClick={() => setCount(n)}
+            className={`flex-1 py-2 text-xs font-bold rounded-xl transition-colors ${count === n ? 'bg-emerald-500 text-white' : 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/40'}`}>
+            {n}
           </button>
         ))}
       </div>
-      <div className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
-        <span className="text-sm font-bold text-slate-600 dark:text-slate-400 capitalize">Number of {type}:</span>
-        <div className="flex items-center gap-2 ml-auto">
-          <button onClick={() => setCount(Math.max(1, count - 1))} className="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-black text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">-</button>
-          <span className="w-10 text-center font-black text-lg text-slate-800 dark:text-white">{count}</span>
-          <button onClick={() => setCount(Math.min(20, count + 1))} className="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-black text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">+</button>
-        </div>
-      </div>
       <button
         onClick={() => setOutput(generateLorem(type, count))}
-        className="w-full py-4 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 hover:from-violet-700 hover:to-indigo-700 shadow-xl shadow-violet-500/20 transition-all active:scale-[0.98]"
+        className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 hover:from-emerald-600 hover:to-teal-600 shadow-xl shadow-emerald-500/20 transition-all active:scale-[0.98]"
       >
         <Sparkles className="w-4 h-4" /> Generate Lorem Ipsum <ArrowRight className="w-4 h-4" />
       </button>
@@ -407,6 +460,7 @@ function LoremIpsumUI() {
             <div className="flex items-center gap-2">
               <Check className="w-4 h-4 text-emerald-500" />
               <span className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Generated Text</span>
+              <span className="text-[10px] text-slate-400">({output.split(/\s+/).length} words)</span>
             </div>
             <div className="flex items-center gap-2">
               <DownloadBtn text={output} filename="lorem-ipsum.txt" />
@@ -428,39 +482,54 @@ function FindReplaceUI({ example }: TextUtilityWorkspaceProps) {
   const [pairs, setPairs] = useState([{ find: '', replace: '' }]);
   const [caseSensitive, setCaseSensitive] = useState(false);
   const [wholeWord, setWholeWord] = useState(false);
+  const [useRegex, setUseRegex] = useState(false);
   const [output, setOutput] = useState('');
+  const [replaceCount, setReplaceCount] = useState(0);
 
   const handleRun = () => {
     let result = input;
+    let total = 0;
     for (const { find, replace } of pairs) {
       if (!find) continue;
-      const escaped = find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const pattern = wholeWord ? `\\b${escaped}\\b` : escaped;
-      const flags = caseSensitive ? 'g' : 'gi';
       try {
-        result = result.replace(new RegExp(pattern, flags), replace);
+        let pattern: string;
+        if (useRegex) {
+          pattern = find;
+        } else {
+          const escaped = find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          pattern = wholeWord ? `\\b${escaped}\\b` : escaped;
+        }
+        const flags = caseSensitive ? 'g' : 'gi';
+        const regex = new RegExp(pattern, flags);
+        const matches = result.match(regex);
+        total += matches ? matches.length : 0;
+        result = result.replace(regex, replace);
       } catch {}
     }
     setOutput(result);
+    setReplaceCount(total);
   };
 
   return (
     <div className="space-y-4">
+      {/* Rose/red theme for Find & Replace */}
       <div className="space-y-2">
         {pairs.map((pair, i) => (
           <div key={i} className="flex items-center gap-2">
-            <input
-              placeholder="Find..."
-              value={pair.find}
-              onChange={e => setPairs(p => p.map((x, j) => j === i ? { ...x, find: e.target.value } : x))}
-              className="flex-1 p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm font-mono text-slate-700 dark:text-slate-300 focus:border-rose-400 dark:focus:border-rose-500 focus:outline-none transition-colors"
-            />
+            <div className="flex-1 relative">
+              <input
+                placeholder="Find..."
+                value={pair.find}
+                onChange={e => setPairs(p => p.map((x, j) => j === i ? { ...x, find: e.target.value } : x))}
+                className="w-full p-3 bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/50 rounded-xl text-sm font-mono text-slate-700 dark:text-slate-300 focus:border-rose-400 focus:outline-none transition-colors"
+              />
+            </div>
             <ArrowRight className="w-4 h-4 shrink-0 text-slate-400" />
             <input
               placeholder="Replace with..."
               value={pair.replace}
               onChange={e => setPairs(p => p.map((x, j) => j === i ? { ...x, replace: e.target.value } : x))}
-              className="flex-1 p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm font-mono text-slate-700 dark:text-slate-300 focus:border-emerald-400 dark:focus:border-emerald-500 focus:outline-none transition-colors"
+              className="flex-1 p-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/50 rounded-xl text-sm font-mono text-slate-700 dark:text-slate-300 focus:border-emerald-400 focus:outline-none transition-colors"
             />
             {pairs.length > 1 && (
               <button onClick={() => setPairs(p => p.filter((_, j) => j !== i))}
@@ -472,94 +541,126 @@ function FindReplaceUI({ example }: TextUtilityWorkspaceProps) {
         ))}
         <button
           onClick={() => setPairs(p => [...p, { find: '', replace: '' }])}
-          className="w-full py-2 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-400 dark:text-slate-500 hover:border-violet-400 dark:hover:border-violet-500 hover:text-violet-600 dark:hover:text-violet-400 transition-all flex items-center justify-center gap-1.5"
+          className="w-full py-2 border-2 border-dashed border-rose-200 dark:border-rose-800/50 rounded-xl text-xs font-bold text-rose-400 dark:text-rose-500 hover:border-rose-400 hover:text-rose-600 transition-all flex items-center justify-center gap-1.5"
         >
           <Plus className="w-3.5 h-3.5" /> Add Another Pair
         </button>
       </div>
-      <div className="flex gap-3">
-        <button
-          onClick={() => setCaseSensitive(!caseSensitive)}
-          className={`flex-1 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${caseSensitive ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}`}
-        >
-          Aa Case Sensitive
-        </button>
-        <button
-          onClick={() => setWholeWord(!wholeWord)}
-          className={`flex-1 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${wholeWord ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}`}
-        >
-          " " Whole Word
-        </button>
+      <div className="flex gap-2 flex-wrap">
+        {[
+          { label: 'Aa Case Sensitive', val: caseSensitive, set: setCaseSensitive },
+          { label: '" " Whole Word', val: wholeWord, set: setWholeWord },
+          { label: '⚡ Regex Mode', val: useRegex, set: setUseRegex },
+        ].map(opt => (
+          <button key={opt.label} onClick={() => opt.set(!opt.val)}
+            className={`flex-1 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${opt.val ? 'bg-rose-500 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}`}>
+            {opt.label}
+          </button>
+        ))}
       </div>
+      {replaceCount > 0 && output && (
+        <div className="flex items-center gap-2 px-3 py-2 bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 rounded-xl">
+          <Check className="w-3.5 h-3.5 text-emerald-500" />
+          <span className="text-xs text-emerald-700 dark:text-emerald-400 font-bold">{replaceCount} replacement{replaceCount !== 1 ? 's' : ''} made</span>
+        </div>
+      )}
       <IOLayout
         input={input} setInput={setInput}
         output={output}
-        onRun={handleRun} onClear={() => { setInput(''); setOutput(''); }}
+        onRun={handleRun} onClear={() => { setInput(''); setOutput(''); setReplaceCount(0); }}
         onLoadExample={() => setInput(example || 'The quick brown fox jumps over the lazy dog.')}
         toolId="find-replace"
         runLabel="Find & Replace"
-        placeholder="Paste your text here..."
+        placeholder="Paste text to search and replace in..."
       />
     </div>
   );
 }
 
+
 // ─── Sort Lines ───────────────────────────────────────────────────────────────
 function SortLinesUI({ example }: TextUtilityWorkspaceProps) {
   const [input, setInput] = useState('');
-  const [mode, setMode] = useState<'az' | 'za' | 'length-asc' | 'length-desc' | 'random' | 'reverse'>('az');
+  const [mode, setMode] = useState<'az' | 'za' | 'num-asc' | 'num-desc' | 'length-asc' | 'length-desc' | 'random' | 'reverse'>('az');
   const [removeDupes, setRemoveDupes] = useState(false);
   const [trimLines, setTrimLines] = useState(true);
+  const [ignoreCase, setIgnoreCase] = useState(true);
 
   const output = React.useMemo(() => {
     if (!input) return '';
     let lines = input.split('\n');
     if (trimLines) lines = lines.map(l => l.trim());
-    if (removeDupes) lines = [...new Set(lines)];
+    if (removeDupes) {
+      const seen = new Set<string>();
+      lines = lines.filter(l => {
+        const key = ignoreCase ? l.toLowerCase() : l;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
     switch (mode) {
-      case 'az': lines = [...lines].sort((a, b) => a.localeCompare(b)); break;
-      case 'za': lines = [...lines].sort((a, b) => b.localeCompare(a)); break;
+      case 'az': lines = [...lines].sort((a, b) => (ignoreCase ? a.toLowerCase() : a).localeCompare(ignoreCase ? b.toLowerCase() : b)); break;
+      case 'za': lines = [...lines].sort((a, b) => (ignoreCase ? b.toLowerCase() : b).localeCompare(ignoreCase ? a.toLowerCase() : a)); break;
+      case 'num-asc': lines = [...lines].sort((a, b) => parseFloat(a) - parseFloat(b)); break;
+      case 'num-desc': lines = [...lines].sort((a, b) => parseFloat(b) - parseFloat(a)); break;
       case 'length-asc': lines = [...lines].sort((a, b) => a.length - b.length); break;
       case 'length-desc': lines = [...lines].sort((a, b) => b.length - a.length); break;
       case 'random': lines = [...lines].sort(() => Math.random() - 0.5); break;
       case 'reverse': lines = [...lines].reverse(); break;
     }
     return lines.join('\n');
-  }, [input, mode, removeDupes, trimLines]);
+  }, [input, mode, removeDupes, trimLines, ignoreCase]);
 
   const modes = [
     { value: 'az', label: 'A → Z', icon: SortAsc },
     { value: 'za', label: 'Z → A', icon: SortDesc },
-    { value: 'length-asc', label: 'Short → Long', icon: AlignLeft },
-    { value: 'length-desc', label: 'Long → Short', icon: AlignLeft },
-    { value: 'random', label: 'Shuffle', icon: Shuffle },
+    { value: 'num-asc', label: '1 → 9', icon: Hash },
+    { value: 'num-desc', label: '9 → 1', icon: Hash },
+    { value: 'length-asc', label: 'Short→Long', icon: AlignLeft },
+    { value: 'length-desc', label: 'Long→Short', icon: AlignLeft },
+    { value: 'random', label: 'Shuffle 🎲', icon: Shuffle },
     { value: 'reverse', label: 'Reverse', icon: RotateCcw },
   ];
 
+  const lineCount = input ? input.split('\n').filter(l => l.trim()).length : 0;
+
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-        {modes.map(m => (
-          <button key={m.value} onClick={() => setMode(m.value as any)}
-            className={`py-2.5 rounded-xl text-xs font-black transition-all flex flex-col items-center gap-1 ${
-              mode === m.value ? 'bg-violet-600 text-white shadow-md shadow-violet-500/30' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
-            }`}
-          >
-            <m.icon className="w-3.5 h-3.5" />
-            {m.label}
+    <div className="space-y-5">
+      {/* Blue theme for Sort */}
+      <div className="p-1 bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/50 rounded-2xl">
+        <div className="grid grid-cols-4 gap-1">
+          {modes.map(m => (
+            <button key={m.value} onClick={() => setMode(m.value as any)}
+              className={`py-2.5 px-1 rounded-xl text-xs font-black transition-all flex flex-col items-center gap-1 ${
+                mode === m.value ? 'bg-blue-500 text-white shadow-md shadow-blue-500/30' : 'text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30'
+              }`}
+            >
+              <m.icon className="w-3.5 h-3.5" />
+              {m.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="grid grid-cols-3 gap-2">
+        {[
+          { label: 'Remove Dupes', val: removeDupes, set: setRemoveDupes },
+          { label: 'Trim Lines', val: trimLines, set: setTrimLines },
+          { label: 'Ignore Case', val: ignoreCase, set: setIgnoreCase },
+        ].map(opt => (
+          <button key={opt.label} onClick={() => opt.set(!opt.val)}
+            className={`py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${opt.val ? 'bg-blue-500 text-white' : 'bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30'}`}>
+            {opt.label}
           </button>
         ))}
       </div>
-      <div className="flex gap-3">
-        <button onClick={() => setRemoveDupes(!removeDupes)}
-          className={`flex-1 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${removeDupes ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}`}>
-          Remove Duplicates
-        </button>
-        <button onClick={() => setTrimLines(!trimLines)}
-          className={`flex-1 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${trimLines ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}`}>
-          Trim Lines
-        </button>
-      </div>
+      {lineCount > 0 && (
+        <div className="flex items-center gap-2 px-3 py-2 bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/50 rounded-xl">
+          <List className="w-3.5 h-3.5 text-blue-500" />
+          <span className="text-xs text-blue-700 dark:text-blue-400 font-bold">{lineCount} lines</span>
+          {removeDupes && output && <span className="text-xs text-blue-500">· {output.split('\n').filter(l=>l.trim()).length} after deduplication</span>}
+        </div>
+      )}
       <IOLayout
         input={input} setInput={setInput}
         output={output}
@@ -576,14 +677,16 @@ function SortLinesUI({ example }: TextUtilityWorkspaceProps) {
 // ─── Text to List ─────────────────────────────────────────────────────────────
 function TextToListUI({ example }: TextUtilityWorkspaceProps) {
   const [input, setInput] = useState('');
-  const [listType, setListType] = useState<'bullet' | 'numbered' | 'comma' | 'pipe' | 'html-ul' | 'html-ol'>('bullet');
+  const [listType, setListType] = useState<'bullet' | 'numbered' | 'comma' | 'pipe' | 'tab' | 'semicolon' | 'html-ul' | 'html-ol' | 'json'>('bullet');
   const [removeDupes, setRemoveDupes] = useState(false);
   const [skipBlanks, setSkipBlanks] = useState(true);
   const [sortAZ, setSortAZ] = useState(false);
+  const [trimLines, setTrimLines] = useState(true);
 
   const output = React.useMemo(() => {
     if (!input) return '';
     let lines = input.split('\n');
+    if (trimLines) lines = lines.map(l => l.trim());
     if (skipBlanks) lines = lines.filter(l => l.trim());
     if (removeDupes) lines = [...new Set(lines)];
     if (sortAZ) lines = [...lines].sort((a, b) => a.localeCompare(b));
@@ -592,41 +695,50 @@ function TextToListUI({ example }: TextUtilityWorkspaceProps) {
       case 'numbered': return lines.map((l, i) => `${i + 1}. ${l}`).join('\n');
       case 'comma': return lines.join(', ');
       case 'pipe': return lines.join(' | ');
+      case 'tab': return lines.join('\t');
+      case 'semicolon': return lines.join('; ');
       case 'html-ul': return `<ul>\n${lines.map(l => `  <li>${l}</li>`).join('\n')}\n</ul>`;
       case 'html-ol': return `<ol>\n${lines.map(l => `  <li>${l}</li>`).join('\n')}\n</ol>`;
+      case 'json': return JSON.stringify(lines, null, 2);
       default: return lines.join('\n');
     }
-  }, [input, listType, removeDupes, skipBlanks, sortAZ]);
+  }, [input, listType, removeDupes, skipBlanks, sortAZ, trimLines]);
 
   const types = [
-    { value: 'bullet', label: '• Bullet' },
-    { value: 'numbered', label: '1. Numbered' },
-    { value: 'comma', label: ', Comma' },
-    { value: 'pipe', label: '| Pipe' },
-    { value: 'html-ul', label: '<ul> HTML' },
-    { value: 'html-ol', label: '<ol> HTML' },
+    { value: 'bullet',    label: '• Bullet',   },
+    { value: 'numbered',  label: '1. Numbered', },
+    { value: 'comma',     label: ', Comma',     },
+    { value: 'pipe',      label: '| Pipe',      },
+    { value: 'semicolon', label: '; Semicolon', },
+    { value: 'html-ul',   label: '⟨ul⟩ HTML',  },
+    { value: 'html-ol',   label: '⟨ol⟩ HTML',  },
+    { value: 'json',      label: '[ ] JSON',    },
   ];
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-        {types.map(t => (
-          <button key={t.value} onClick={() => setListType(t.value as any)}
-            className={`py-2.5 rounded-xl text-xs font-black transition-all ${
-              listType === t.value ? 'bg-violet-600 text-white shadow-md shadow-violet-500/30' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
-            }`}>
-            {t.label}
-          </button>
-        ))}
+    <div className="space-y-5">
+      {/* Purple theme */}
+      <div className="p-1 bg-purple-50 dark:bg-purple-950/30 border border-purple-100 dark:border-purple-900/50 rounded-2xl">
+        <div className="grid grid-cols-4 gap-1">
+          {types.map(t => (
+            <button key={t.value} onClick={() => setListType(t.value as any)}
+              className={`py-2.5 px-1 rounded-xl text-xs font-black transition-all ${
+                listType === t.value ? 'bg-purple-500 text-white shadow-md shadow-purple-500/30' : 'text-purple-700 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/30'
+              }`}>
+              {t.label}
+            </button>
+          ))}
+        </div>
       </div>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {[
-          { label: 'Remove Dupes', val: removeDupes, set: setRemoveDupes },
-          { label: 'Skip Blanks', val: skipBlanks, set: setSkipBlanks },
-          { label: 'Sort A→Z', val: sortAZ, set: setSortAZ },
+          { label: '✂️ Skip Blanks', val: skipBlanks, set: setSkipBlanks },
+          { label: '🔁 Remove Dupes', val: removeDupes, set: setRemoveDupes },
+          { label: '↕ Sort A→Z', val: sortAZ, set: setSortAZ },
+          { label: '✦ Trim Lines', val: trimLines, set: setTrimLines },
         ].map(opt => (
           <button key={opt.label} onClick={() => opt.set(!opt.val)}
-            className={`py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${opt.val ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}`}>
+            className={`py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${opt.val ? 'bg-purple-500 text-white' : 'bg-purple-50 dark:bg-purple-950/30 text-purple-700 dark:text-purple-400 hover:bg-purple-100 dark:hover:bg-purple-900/30'}`}>
             {opt.label}
           </button>
         ))}
@@ -650,57 +762,71 @@ function AddPrefixUI({ example }: TextUtilityWorkspaceProps) {
   const [prefix, setPrefix] = useState('');
   const [suffix, setSuffix] = useState('');
   const [skipBlanks, setSkipBlanks] = useState(true);
+  const [trimLines, setTrimLines] = useState(false);
 
   const output = React.useMemo(() => {
     if (!input) return '';
     return input.split('\n')
       .map(line => {
-        if (skipBlanks && !line.trim()) return line;
-        return `${prefix}${line}${suffix}`;
+        const l = trimLines ? line.trim() : line;
+        if (skipBlanks && !l.trim()) return l;
+        return `${prefix}${l}${suffix}`;
       })
       .join('\n');
-  }, [input, prefix, suffix, skipBlanks]);
+  }, [input, prefix, suffix, skipBlanks, trimLines]);
 
   const presets = [
-    { label: '• Bullet', prefix: '• ', suffix: '' },
-    { label: '- Dash', prefix: '- ', suffix: '' },
-    { label: '" Quote"', prefix: '"', suffix: '"' },
-    { label: '> Quote', prefix: '> ', suffix: '' },
-    { label: '# Hash', prefix: '# ', suffix: '' },
-    { label: ', Comma', prefix: '', suffix: ',' },
+    { label: '• Bullet',   prefix: '• ',  suffix: ''  },
+    { label: '- Dash',     prefix: '- ',  suffix: ''  },
+    { label: '"Quotes"',   prefix: '"',   suffix: '"' },
+    { label: "'Single'",   prefix: "'",   suffix: "'" },
+    { label: '> Blockquote', prefix: '> ', suffix: '' },
+    { label: '# Heading',  prefix: '# ',  suffix: ''  },
+    { label: ', Comma',    prefix: '',    suffix: ',' },
+    { label: '; Semicolon',prefix: '',    suffix: ';' },
+    { label: 'SQL val',    prefix: "'",   suffix: "'," },
+    { label: '// Comment', prefix: '// ', suffix: ''  },
   ];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
+      {/* Indigo theme */}
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1.5">
-          <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Prefix (Add to Start)</label>
+          <label className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Prefix (Add to Start)</label>
           <input value={prefix} onChange={e => setPrefix(e.target.value)}
             placeholder="e.g. • or > or ..."
-            className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm font-mono text-slate-700 dark:text-slate-300 focus:border-violet-400 focus:outline-none transition-colors" />
+            className="w-full p-3 bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-900/50 rounded-xl text-sm font-mono text-slate-700 dark:text-slate-300 focus:border-indigo-400 focus:outline-none transition-colors" />
         </div>
         <div className="space-y-1.5">
-          <label className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Suffix (Add to End)</label>
+          <label className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Suffix (Add to End)</label>
           <input value={suffix} onChange={e => setSuffix(e.target.value)}
             placeholder="e.g. , or ; or ..."
-            className="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm font-mono text-slate-700 dark:text-slate-300 focus:border-violet-400 focus:outline-none transition-colors" />
+            className="w-full p-3 bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-900/50 rounded-xl text-sm font-mono text-slate-700 dark:text-slate-300 focus:border-indigo-400 focus:outline-none transition-colors" />
         </div>
       </div>
-      <div className="space-y-1.5">
-        <p className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">Quick Presets</p>
+      <div className="space-y-2">
+        <p className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Quick Presets</p>
         <div className="flex flex-wrap gap-2">
           {presets.map(p => (
             <button key={p.label} onClick={() => { setPrefix(p.prefix); setSuffix(p.suffix); }}
-              className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-lg text-xs font-bold hover:bg-violet-100 dark:hover:bg-violet-900/30 hover:text-violet-700 dark:hover:text-violet-400 transition-colors">
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${prefix === p.prefix && suffix === p.suffix ? 'bg-indigo-500 text-white' : 'bg-indigo-50 dark:bg-indigo-950/30 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/40'}`}>
               {p.label}
             </button>
           ))}
         </div>
       </div>
-      <button onClick={() => setSkipBlanks(!skipBlanks)}
-        className={`w-full py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${skipBlanks ? 'bg-emerald-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}`}>
-        {skipBlanks ? '✓ Skipping Blank Lines' : 'Skip Blank Lines'}
-      </button>
+      <div className="flex gap-2">
+        {[
+          { label: 'Skip Blank Lines', val: skipBlanks, set: setSkipBlanks },
+          { label: 'Trim Lines', val: trimLines, set: setTrimLines },
+        ].map(opt => (
+          <button key={opt.label} onClick={() => opt.set(!opt.val)}
+            className={`flex-1 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${opt.val ? 'bg-indigo-500 text-white' : 'bg-indigo-50 dark:bg-indigo-950/30 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/30'}`}>
+            {opt.label}
+          </button>
+        ))}
+      </div>
       <IOLayout
         input={input} setInput={setInput}
         output={output}
@@ -805,65 +931,92 @@ function RandomStringUI() {
 // ─── Invisible Text ───────────────────────────────────────────────────────────
 function InvisibleTextUI() {
   const [count, setCount] = useState(10);
-  const [charType, setCharType] = useState<'zwsp' | 'zwnj' | 'zwj' | 'braille'>('zwsp');
+  const [charType, setCharType] = useState<'zwsp' | 'zwnj' | 'zwj' | 'braille' | 'mix'>('zwsp');
   const [output, setOutput] = useState('');
 
   const charMap = {
-    zwsp: '\u200B',    // Zero-width space
-    zwnj: '\u200C',    // Zero-width non-joiner
-    zwj: '\u200D',     // Zero-width joiner
-    braille: '\u2800', // Braille blank
+    zwsp:    '\u200B',    // Zero-width space
+    zwnj:    '\u200C',    // Zero-width non-joiner
+    zwj:     '\u200D',    // Zero-width joiner
+    braille: '\u2800',   // Braille blank
+    mix:     '',         // Mix of all
   };
 
   const generate = () => {
-    setOutput(charMap[charType].repeat(Math.min(count, 500)));
+    if (charType === 'mix') {
+      const chars = ['\u200B', '\u200C', '\u200D', '\u2800'];
+      setOutput(Array.from({ length: Math.min(count, 500) }, () => chars[Math.floor(Math.random() * chars.length)]).join(''));
+    } else {
+      setOutput(charMap[charType].repeat(Math.min(count, 500)));
+    }
   };
 
+  const charOptions = [
+    { value: 'zwsp',    label: 'Zero-Width Space',       desc: 'U+200B · Most compatible', badge: 'bg-slate-700' },
+    { value: 'zwnj',    label: 'Zero-Width Non-Joiner',  desc: 'U+200C · Ligature control', badge: 'bg-slate-600' },
+    { value: 'zwj',     label: 'Zero-Width Joiner',      desc: 'U+200D · Emoji combiner',   badge: 'bg-slate-500' },
+    { value: 'braille', label: 'Braille Blank',          desc: 'U+2800 · Visual blank',      badge: 'bg-slate-400' },
+    { value: 'mix',     label: 'Mixed Types',            desc: 'Random combo · Hard to detect', badge: 'bg-violet-600' },
+  ];
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
+      {/* Dark/slate theme for invisible text */}
       <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-2xl flex items-start gap-3">
         <Info className="w-4 h-4 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
-        <p className="text-xs text-amber-700 dark:text-amber-300 leading-relaxed">
-          Invisible characters are zero-width Unicode characters. They appear blank but can be pasted into forms, social media bios, and messages.
-        </p>
+        <div className="text-xs text-amber-700 dark:text-amber-300 leading-relaxed">
+          <strong>Invisible characters</strong> are zero-width Unicode characters — present in the text but render with no width. Perfect for social media bios, usernames, and hidden watermarks.
+        </div>
       </div>
-      <div className="grid grid-cols-2 gap-2">
-        {[
-          { value: 'zwsp', label: 'Zero-Width Space', desc: 'U+200B' },
-          { value: 'zwnj', label: 'Zero-Width Non-Joiner', desc: 'U+200C' },
-          { value: 'zwj', label: 'Zero-Width Joiner', desc: 'U+200D' },
-          { value: 'braille', label: 'Braille Blank', desc: 'U+2800' },
-        ].map(c => (
+      <div className="grid grid-cols-1 gap-2">
+        {charOptions.map(c => (
           <button key={c.value} onClick={() => setCharType(c.value as any)}
-            className={`p-3 rounded-xl text-left transition-all ${charType === c.value ? 'bg-violet-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}`}>
-            <div className="text-xs font-black">{c.label}</div>
-            <div className={`text-[10px] font-mono mt-0.5 ${charType === c.value ? 'text-violet-200' : 'text-slate-400'}`}>{c.desc}</div>
+            className={`flex items-center gap-3 p-3 rounded-xl text-left transition-all ${charType === c.value ? 'bg-slate-800 text-white dark:bg-slate-700' : 'bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'}`}>
+            <span className={`px-2 py-0.5 rounded-md text-[10px] font-mono font-bold text-white ${c.badge}`}>{c.value === 'mix' ? 'MIX' : c.value.toUpperCase()}</span>
+            <div>
+              <div className="text-xs font-black">{c.label}</div>
+              <div className={`text-[10px] mt-0.5 ${charType === c.value ? 'text-slate-400' : 'text-slate-400 dark:text-slate-500'}`}>{c.desc}</div>
+            </div>
           </button>
         ))}
       </div>
       <div className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
         <span className="text-sm font-bold text-slate-600 dark:text-slate-400">Count:</span>
+        <input type="range" min={1} max={500} value={count} onChange={e => setCount(parseInt(e.target.value))}
+          className="flex-1 accent-slate-700" />
         <input type="number" value={count} onChange={e => setCount(Math.max(1, Math.min(500, parseInt(e.target.value) || 1)))}
-          className="w-24 p-2 text-center font-black text-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none text-slate-800 dark:text-white" />
-        <span className="text-xs text-slate-400">max 500</span>
+          className="w-16 p-2 text-center font-black text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none text-slate-800 dark:text-white" />
+      </div>
+      <div className="flex gap-2">
+        {[1, 5, 10, 50, 100].map(n => (
+          <button key={n} onClick={() => setCount(n)}
+            className={`flex-1 py-1.5 text-xs font-bold rounded-xl transition-colors ${count === n ? 'bg-slate-800 text-white dark:bg-slate-700' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'}`}>
+            {n}
+          </button>
+        ))}
       </div>
       <button onClick={generate}
-        className="w-full py-4 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 hover:from-violet-700 hover:to-indigo-700 shadow-xl shadow-violet-500/20 transition-all active:scale-[0.98]">
-        <Eye className="w-4 h-4" /> Generate Invisible Text <ArrowRight className="w-4 h-4" />
+        className="w-full py-4 bg-gradient-to-r from-slate-700 to-slate-900 text-white rounded-2xl font-black uppercase tracking-widest text-sm flex items-center justify-center gap-3 hover:from-slate-800 hover:to-black shadow-xl shadow-slate-500/20 transition-all active:scale-[0.98]">
+        <Eye className="w-4 h-4" /> Generate {count} Invisible Character{count !== 1 ? 's' : ''} <ArrowRight className="w-4 h-4" />
       </button>
       {output && (
         <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
           <div className="flex items-center justify-between">
             <div>
               <span className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Invisible Characters Ready</span>
-              <p className="text-[10px] text-slate-400 mt-0.5">{count} invisible chars generated • Click copy to use</p>
+              <p className="text-[10px] text-slate-400 mt-0.5">{count} chars generated · {charType === 'mix' ? 'mixed types' : charMap[charType as keyof typeof charMap].codePointAt(0)?.toString(16).toUpperCase().padStart(4, '0') + ' repeated'}</p>
             </div>
             <CopyBtn text={output} />
           </div>
           <div className="p-5 bg-slate-50 dark:bg-slate-950 border-2 border-slate-100 dark:border-slate-800 rounded-2xl text-center">
             <div className="h-12 flex items-center justify-center">
-              <span className="text-slate-300 dark:text-slate-700 text-sm font-mono italic">[{count} invisible characters — copy above to use]</span>
+              <span className="text-slate-300 dark:text-slate-700 text-sm font-mono italic">[{count} invisible chars — copy above ↑]</span>
             </div>
+          </div>
+          <div className="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+            <p className="text-[10px] text-slate-500 dark:text-slate-400">
+              💡 <strong>Use in:</strong> Instagram/Twitter bio, Discord status, Snapchat name, WhatsApp name, blank social media posts
+            </p>
           </div>
         </div>
       )}
@@ -874,88 +1027,219 @@ function InvisibleTextUI() {
 // ─── WhatsApp Text Formatter ──────────────────────────────────────────────────
 function WhatsAppFormatterUI({ example }: TextUtilityWorkspaceProps) {
   const [input, setInput] = useState('');
-  const [output, setOutput] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Apply format to selected text or entire input
+  const applyFormat = (symbol: string) => {
+    const ta = textareaRef.current;
+    if (!ta) return;
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    const selected = ta.value.substring(start, end);
+    if (selected) {
+      const newText = ta.value.substring(0, start) + `${symbol}${selected}${symbol}` + ta.value.substring(end);
+      setInput(newText);
+      // Restore selection
+      setTimeout(() => {
+        ta.focus();
+        ta.setSelectionRange(start + symbol.length, end + symbol.length);
+      }, 0);
+    } else if (input) {
+      setInput(`${symbol}${input}${symbol}`);
+    }
+  };
 
   const formats = [
-    { label: '**Bold**', symbol: '*', desc: 'Bold', bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-700 dark:text-blue-300', border: 'border-blue-200 dark:border-blue-800' },
-    { label: '_Italic_', symbol: '_', desc: 'Italic', bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-700 dark:text-purple-300', border: 'border-purple-200 dark:border-purple-800' },
-    { label: '~Strike~', symbol: '~', desc: 'Strikethrough', bg: 'bg-rose-100 dark:bg-rose-900/30', text: 'text-rose-700 dark:text-rose-300', border: 'border-rose-200 dark:border-rose-800' },
-    { label: '`Mono`', symbol: '`', desc: 'Monospace', bg: 'bg-emerald-100 dark:bg-emerald-900/30', text: 'text-emerald-700 dark:text-emerald-300', border: 'border-emerald-200 dark:border-emerald-800' },
-    { label: '```Block```', symbol: '```', desc: 'Code Block', bg: 'bg-slate-100 dark:bg-slate-800', text: 'text-slate-700 dark:text-slate-300', border: 'border-slate-200 dark:border-slate-700' },
+    { label: '*Bold*',      symbol: '*',   desc: 'Bold',          color: 'bg-blue-500 text-white',   idle: 'bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900/50' },
+    { label: '_Italic_',    symbol: '_',   desc: 'Italic',        color: 'bg-purple-500 text-white',  idle: 'bg-purple-50 dark:bg-purple-950/30 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-900/50' },
+    { label: '~Strike~',    symbol: '~',   desc: 'Strikethrough', color: 'bg-rose-500 text-white',    idle: 'bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900/50' },
+    { label: '`Mono`',      symbol: '`',   desc: 'Monospace',     color: 'bg-emerald-500 text-white', idle: 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/50' },
+    { label: '```Block```', symbol: '```', desc: 'Code Block',    color: 'bg-slate-700 text-white',   idle: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700' },
   ];
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+      {/* Green/WhatsApp theme */}
+      <div className="p-3 bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900/50 rounded-xl flex items-start gap-3">
+        <Info className="w-4 h-4 shrink-0 mt-0.5 text-green-600 dark:text-green-400" />
+        <p className="text-xs text-green-700 dark:text-green-300 leading-relaxed">
+          <strong>Select text</strong> in the box below, then click a format button to wrap it. Or click without selection to format the whole message.
+        </p>
+      </div>
+      <div className="grid grid-cols-5 gap-2">
         {formats.map(f => (
           <button
             key={f.symbol}
-            onClick={() => {
-              const text = input || f.desc;
-              setOutput(`${f.symbol}${text}${f.symbol}`);
-            }}
-            className={`p-3 rounded-xl border-2 ${f.bg} ${f.text} ${f.border} text-center font-bold transition-all hover:scale-105 active:scale-95`}
+            onClick={() => applyFormat(f.symbol)}
+            className={`p-3 rounded-xl text-center font-bold transition-all hover:scale-105 active:scale-95 ${f.idle}`}
           >
-            <div className="text-base mb-1">{f.label}</div>
-            <div className="text-[10px] uppercase tracking-widest opacity-70">{f.desc}</div>
+            <div className="text-sm mb-0.5 font-mono">{f.label}</div>
+            <div className="text-[9px] uppercase tracking-widest opacity-70">{f.desc}</div>
           </button>
         ))}
       </div>
-      <div className="p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
-        <p className="text-[10px] text-slate-400 dark:text-slate-500">
-          💡 Type your message below, then click a format button above. Or apply manually by wrapping text with *bold*, _italic_, ~strikethrough~, or `monospace`.
-        </p>
+
+      {/* Input with ref */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Your Message</span>
+          <div className="flex items-center gap-3">
+            <button onClick={() => setInput(example || 'Hello! This is my WhatsApp message.')}
+              className="text-xs font-bold text-violet-600 dark:text-violet-400 hover:opacity-75 uppercase tracking-widest">
+              Load Example
+            </button>
+            <button onClick={() => setInput('')}
+              className="inline-flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-rose-500 transition-colors uppercase tracking-widest">
+              <Trash2 className="w-3 h-3" /> Clear
+            </button>
+          </div>
+        </div>
+        <textarea
+          ref={textareaRef}
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          placeholder="Type your WhatsApp message here, then select text and click a format button above..."
+          className="w-full h-48 p-4 bg-green-50 dark:bg-green-950/20 border-2 border-green-100 dark:border-green-900/50 rounded-2xl resize-none font-mono text-sm text-slate-700 dark:text-slate-300 focus:border-green-400 focus:outline-none transition-colors leading-relaxed"
+        />
       </div>
-      <IOLayout
-        input={input} setInput={setInput}
-        output={output}
-        onClear={() => { setInput(''); setOutput(''); }}
-        onLoadExample={() => setInput(example || 'Hello! This is my WhatsApp message.')}
-        toolId="whatsapp-text-formatter"
-        placeholder="Type your WhatsApp message here..."
-        autoRun={false}
-        onRun={() => setOutput(input)}
-        runLabel="Preview Output"
-      />
+
+      {input && (
+        <div className="space-y-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Formatted Output (Copy to WhatsApp)</span>
+            <CopyBtn text={input} />
+          </div>
+          <div className="p-4 bg-green-50 dark:bg-green-950/20 border-2 border-green-100 dark:border-green-900/50 rounded-2xl font-mono text-sm text-slate-800 dark:text-slate-200 whitespace-pre-wrap break-words">
+            {input}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 // ─── YouTube Timestamp Formatter ──────────────────────────────────────────────
 function YTTimestampUI({ example }: TextUtilityWorkspaceProps) {
-  const [input, setInput] = useState('');
+  const [mode, setMode] = useState<'builder' | 'paste'>('builder');
+  const [rows, setRows] = useState([
+    { time: '0:00', title: 'Intro' },
+    { time: '1:30', title: '' },
+  ]);
+  const [pasteInput, setPasteInput] = useState('');
 
-  const output = React.useMemo(() => {
-    if (!input) return '';
-    return input.split('\n')
+  const formatTime = (t: string) => {
+    const cleaned = t.replace(/[^0-9:]/g, '');
+    return cleaned;
+  };
+
+  const builderOutput = rows
+    .filter(r => r.time.trim() && /^\d{1,2}:\d{2}(:\d{2})?$/.test(r.time.trim()))
+    .map(r => `${r.time} ${r.title}`.trim())
+    .join('\n');
+
+  const pasteOutput = React.useMemo(() => {
+    if (!pasteInput) return '';
+    return pasteInput.split('\n')
       .map(line => line.trim())
       .filter(line => /^\d{1,2}:\d{2}/.test(line))
       .map(line => {
-        // Ensure consistent timestamp format
         const match = line.match(/^(\d{1,2}:\d{2}(?::\d{2})?)\s*(.*)/);
         if (match) return `${match[1]} ${match[2]}`.trim();
         return line;
       })
       .join('\n');
-  }, [input]);
+  }, [pasteInput]);
+
+  const output = mode === 'builder' ? builderOutput : pasteOutput;
+
+  const addRow = () => setRows(r => [...r, { time: '', title: '' }]);
+  const removeRow = (i: number) => setRows(r => r.filter((_, j) => j !== i));
+  const updateRow = (i: number, field: 'time' | 'title', val: string) =>
+    setRows(r => r.map((row, j) => j === i ? { ...row, [field]: field === 'time' ? formatTime(val) : val } : row));
 
   return (
-    <div className="space-y-3">
-      <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-xl flex items-start gap-3">
-        <Info className="w-4 h-4 shrink-0 mt-0.5 text-red-500" />
-        <p className="text-xs text-red-700 dark:text-red-300">
-          Format: <code className="font-mono bg-red-100 dark:bg-red-900/40 px-1 rounded">00:00 Chapter Title</code> — one per line. Invalid lines are filtered out.
-        </p>
+    <div className="space-y-4">
+      {/* Red YouTube theme */}
+      <div className="flex gap-2">
+        <button onClick={() => setMode('builder')}
+          className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all ${mode === 'builder' ? 'bg-red-500 text-white shadow-md shadow-red-500/30' : 'bg-red-50 dark:bg-red-950/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900/50'}`}>
+          🔨 Chapter Builder
+        </button>
+        <button onClick={() => setMode('paste')}
+          className={`flex-1 py-3 rounded-xl text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all ${mode === 'paste' ? 'bg-red-500 text-white shadow-md shadow-red-500/30' : 'bg-red-50 dark:bg-red-950/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900/50'}`}>
+          📋 Paste & Format
+        </button>
       </div>
-      <IOLayout
-        input={input} setInput={setInput}
-        output={output}
-        onClear={() => setInput('')}
-        onLoadExample={() => setInput(example || '00:00 Intro\n01:30 Setup\n05:00 Main Demo\n10:00 Conclusion')}
-        toolId="yt-timestamp-formatter"
-        placeholder={"00:00 Intro\n01:30 Setup\n05:00 Demo\n10:00 Outro"}
-        autoRun
-      />
+
+      {mode === 'builder' ? (
+        <div className="space-y-3">
+          <div className="p-3 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/50 rounded-xl">
+            <p className="text-xs text-red-700 dark:text-red-400">
+              ✅ First chapter must start at <strong>0:00</strong> for YouTube chapters to work.
+            </p>
+          </div>
+          <div className="space-y-2">
+            {rows.map((row, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <input
+                  value={row.time}
+                  onChange={e => updateRow(i, 'time', e.target.value)}
+                  placeholder="0:00"
+                  className="w-20 p-2.5 text-center font-mono text-sm bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/50 rounded-xl text-slate-700 dark:text-slate-300 focus:border-red-400 focus:outline-none"
+                />
+                <input
+                  value={row.title}
+                  onChange={e => updateRow(i, 'title', e.target.value)}
+                  placeholder={`Chapter ${i + 1} title...`}
+                  className="flex-1 p-2.5 text-sm bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-700 dark:text-slate-300 focus:border-red-400 focus:outline-none"
+                />
+                {rows.length > 1 && (
+                  <button onClick={() => removeRow(i)} className="w-8 h-8 flex items-center justify-center rounded-lg bg-red-50 dark:bg-red-950/20 text-red-400 hover:text-red-600 hover:bg-red-100 transition-colors">
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+          <button onClick={addRow}
+            className="w-full py-2 border-2 border-dashed border-red-200 dark:border-red-800/50 rounded-xl text-xs font-bold text-red-400 hover:border-red-400 hover:text-red-600 transition-all flex items-center justify-center gap-1.5">
+            <Plus className="w-3.5 h-3.5" /> Add Chapter
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          <div className="p-3 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/50 rounded-xl flex items-start gap-2">
+            <Info className="w-4 h-4 shrink-0 mt-0.5 text-red-500" />
+            <p className="text-xs text-red-700 dark:text-red-300">
+              Paste raw timestamps: <code className="font-mono bg-red-100 dark:bg-red-900/40 px-1 rounded">00:00 Chapter Title</code> — one per line. Invalid lines are removed.
+            </p>
+          </div>
+          <textarea
+            value={pasteInput}
+            onChange={e => setPasteInput(e.target.value)}
+            placeholder={"0:00 Intro\n1:30 Main Topic\n5:00 Demo\n10:00 Conclusion"}
+            className="w-full h-40 p-4 bg-slate-50 dark:bg-slate-950 border-2 border-slate-100 dark:border-slate-800 rounded-2xl resize-none font-mono text-sm text-slate-700 dark:text-slate-300 focus:border-red-400 focus:outline-none transition-colors"
+          />
+          <button onClick={() => setPasteInput('')} className="text-xs font-bold text-slate-400 hover:text-rose-500 flex items-center gap-1">
+            <Trash2 className="w-3 h-3" /> Clear
+          </button>
+        </div>
+      )}
+
+      {output && (
+        <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-emerald-500" />
+              <span className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">YouTube Description Timestamps</span>
+            </div>
+            <CopyBtn text={output} />
+          </div>
+          <pre className="w-full p-5 bg-slate-50 dark:bg-slate-950 border-2 border-slate-100 dark:border-slate-800 rounded-2xl font-mono text-sm text-slate-800 dark:text-slate-200 whitespace-pre-wrap">
+            {output}
+          </pre>
+        </div>
+      )}
     </div>
   );
 }
