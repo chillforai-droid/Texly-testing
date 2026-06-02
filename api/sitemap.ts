@@ -168,9 +168,8 @@ export default async function handler(req: any, res: any) {
             const lastmod = tool.updated_at
               ? new Date(tool.updated_at).toISOString().split("T")[0]
               : today;
-            const toolPath = (tool.category === "ai" || tool.category === "generator")
-              ? `/tools/${tool.slug}`
-              : `/tool/${tool.slug}`;
+            // Dynamic tools = direct /{slug} path
+            const toolPath = `/${tool.slug}`;
             xml += `\n  <url>\n    <loc>${baseUrl}${toolPath}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`;
           });
           console.log(`[SITEMAP] Dynamic AI tools: ${aiTools.length}`);

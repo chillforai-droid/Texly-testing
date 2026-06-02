@@ -53,46 +53,51 @@ const Footer: React.FC = () => {
               <a
                 href="https://twitter.com/texly_tools"
                 target="_blank" rel="noopener noreferrer"
-                aria-label="Twitter"
+                aria-label="Follow Texly on Twitter"
                 className="w-9 h-9 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 style={{ minHeight: 'unset', minWidth: 'unset' }}
               >
-                <Twitter className="w-4 h-4" />
+                <Twitter className="w-4 h-4" aria-hidden="true" />
+                <span className="sr-only">Follow Texly on Twitter</span>
               </a>
               <a
-                href="https://github.com/texly"
+                href="https://github.com/chillforai/Texly"
                 target="_blank" rel="noopener noreferrer"
-                aria-label="GitHub"
+                aria-label="Texly on GitHub"
                 className="w-9 h-9 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors"
                 style={{ minHeight: 'unset', minWidth: 'unset' }}
               >
-                <Github className="w-4 h-4" />
+                <Github className="w-4 h-4" aria-hidden="true" />
+                <span className="sr-only">Texly on GitHub</span>
               </a>
               <a
                 href="mailto:texlyonline@gmail.com"
-                aria-label="Email"
+                aria-label="Email Texly Support"
                 className="w-9 h-9 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                 style={{ minHeight: 'unset', minWidth: 'unset' }}
               >
-                <Mail className="w-4 h-4" />
+                <Mail className="w-4 h-4" aria-hidden="true" />
+                <span className="sr-only">Email Texly Support</span>
               </a>
               <a
                 href="https://youtube.com/@texlytools"
                 target="_blank" rel="noopener noreferrer"
-                aria-label="YouTube"
+                aria-label="Texly on YouTube"
                 className="w-9 h-9 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                 style={{ minHeight: 'unset', minWidth: 'unset' }}
               >
-                <YouTubeIcon />
+                <YouTubeIcon aria-hidden="true" />
+                <span className="sr-only">Texly on YouTube</span>
               </a>
               <a
                 href="https://www.facebook.com/share/1A7BuUGmSm/"
                 target="_blank" rel="noopener noreferrer"
-                aria-label="Facebook"
+                aria-label="Texly on Facebook"
                 className="w-9 h-9 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 hover:text-blue-700 dark:hover:text-blue-400 transition-colors"
                 style={{ minHeight: 'unset', minWidth: 'unset' }}
               >
-                <FacebookIcon />
+                <FacebookIcon aria-hidden="true" />
+                <span className="sr-only">Texly on Facebook</span>
               </a>
             </div>
           </div>
@@ -210,6 +215,15 @@ const Footer: React.FC = () => {
             <address className="text-[10px] text-slate-300 dark:text-slate-600 not-italic">
               Texly · India · <a href="mailto:texlyonline@gmail.com" className="hover:text-slate-500 transition-colors">texlyonline@gmail.com</a>
             </address>
+            <p className="text-[10px] text-slate-300 dark:text-slate-600">
+              <span itemProp="author" itemScope itemType="https://schema.org/Organization">
+                <span itemProp="name">Texly Team</span>
+              </span>
+              {' · '}
+              <time dateTime="2024-01-01" itemProp="datePublished">Est. 2024</time>
+              {' · '}
+              <time dateTime={new Date().toISOString().split('T')[0]} itemProp="dateModified">Updated {new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</time>
+            </p>
           </div>
         </div>
 

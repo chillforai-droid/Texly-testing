@@ -60,6 +60,12 @@
     <link rel="dns-prefetch" href="https://www.youtube.com" />
     <link rel="dns-prefetch" href="https://www.facebook.com" />
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.texlyonline.in/" />
+
+    <!-- AI/GEO: llms.txt reference -->
+    <link rel="alternate" type="text/plain" title="LLMs.txt" href="/llms.txt" />
+
     <!-- OG / SEO -->
     <meta property="og:image" content="https://www.texlyonline.in/og-image.png" />
     <meta property="og:type" content="website" />
@@ -82,9 +88,7 @@
     <!---Adsense meta--->
     <meta name="google-adsense-account" content="ca-pub-8739462043637379">
 
-<!----Adsense ----->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8739462043637379"
-     crossorigin="anonymous"></script>
+<!-- AdSense: deferred to avoid render-blocking (loaded after page load) -->
 
     <!-- AdSense: DISABLED until approval -->
     <!--
@@ -98,14 +102,14 @@
     <!--
       CLS FIX: Inter Fallback font-face with size-adjust
     -->
-    <style>@font-face{font-family:'Inter Fallback';src:local('Arial');ascent-override:90.20%;descent-override:22.48%;line-gap-override:0%;size-adjust:107.40%}@font-face{font-family:'Inter Fallback';src:local('BlinkMacSystemFont'),local('.AppleSystemUIFont'),local('Helvetica Neue');ascent-override:90.20%;descent-override:22.48%;line-gap-override:0%;size-adjust:107.40%}</style>
+    <style>@font-face{font-family:'Inter Fallback';src:local('Arial');ascent-override:90.20%;descent-override:22.48%;line-gap-override:0%;size-adjust:107.40%;font-display:swap}@font-face{font-family:'Inter Fallback';src:local('BlinkMacSystemFont'),local('.AppleSystemUIFont'),local('Helvetica Neue');ascent-override:90.20%;descent-override:22.48%;line-gap-override:0%;size-adjust:107.40%;font-display:swap}</style>
 
     <style>body{margin:0;background:#f8fafc;font-family:system-ui,sans-serif}#texly-boot-loader{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f8fafc;transition:opacity .4s ease}#texly-boot-loader.hide{opacity:0;pointer-events:none}.texly-spinner{width:48px;height:48px;border:4px solid rgba(37,99,235,.15);border-top-color:#2563eb;border-radius:50%;animation:texly-boot-spin .8s linear infinite}.texly-logo-text{margin-top:20px;font-size:24px;font-weight:800;color:#2563eb;letter-spacing:-.5px}.texly-tagline{margin-top:6px;font-size:13px;color:#94a3b8}@keyframes texly-boot-spin{to{transform:rotate(360deg)}}@media(min-width:1280px){html,body{height:100%}#root{min-height:100%;display:flex;flex-direction:column}}@media(hover:none) and (pointer:coarse){*{cursor:default!important}}</style>
 
     <!--
       Deferred analytics – injected after page load to avoid blocking render
     -->
-    <script>window.addEventListener('load',function(){setTimeout(function(){var gtm=document.createElement('script');gtm.async=true;gtm.src='https://www.googletagmanager.com/gtag/js?id=G-60WQBHB35M';document.head.appendChild(gtm);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-60WQBHB35M');(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,'clarity','script','w4sr7isiid')},2000)});</script>
+    <script>window.addEventListener('load',function(){setTimeout(function(){var ads=document.createElement('script');ads.async=true;ads.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8739462043637379';ads.crossOrigin='anonymous';document.head.appendChild(ads);var gtm=document.createElement('script');gtm.async=true;gtm.src='https://www.googletagmanager.com/gtag/js?id=G-60WQBHB35M';document.head.appendChild(gtm);window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-60WQBHB35M');(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,'clarity','script','w4sr7isiid')},2000)});</script>
   </head>
   <body>
     <!-- Skip navigation for accessibility -->
@@ -126,6 +130,20 @@
       <div class="texly-logo-text">Texly</div>
       <div class="texly-tagline">Loading tools…</div>
     </div>
+
+    <!-- Anchor target for skip navigation -->
+    <span id="main-content" aria-hidden="true"></span>
+
+    <!-- SEO: Static content for crawlers (React renders full UI dynamically) -->
+    <h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">100+ Free AI Tools &amp; Text Utilities Online | No Signup</h1>
+    <noscript>
+      <main>
+        <h1>100+ Free AI &amp; Online Utilities — No Signup Required</h1>
+        <p>Texly provides over 100 free browser-based utilities including PDF conversion, AI writing assistance, case conversion, whitespace removal, URL encoding, word counting, and more. Every feature works instantly with no account needed and complete privacy.</p>
+        <p>Popular categories: PDF Tools, AI Writing, Cleaning &amp; Formatting, Converters, Analysis, Generators. Built for developers, writers, students, and professionals alike.</p>
+        <p>Founded in 2024 · Contact: texlyonline@gmail.com · <a href="/about">About Us</a> · <a href="/privacy">Privacy Policy</a></p>
+      </main>
+    </noscript>
 
     <div id="root"></div>
 

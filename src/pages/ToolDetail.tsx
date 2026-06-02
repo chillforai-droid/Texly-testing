@@ -86,6 +86,8 @@ const ToolPage: React.FC = () => {
   const [schemaRating, setSchemaRating] = useState<{ ratingValue: number; ratingCount: number } | undefined>(undefined);
 
   const getToolPath = (tool: any) => {
+    // Dynamic (Supabase) tools ka canonical path /{slug} hai
+    if (tool.isDynamic) return `/${tool.slug}`;
     if (tool.category === 'ai' || tool.category === 'generator') {
       return `/tools/${tool.slug}`;
     }
@@ -125,7 +127,7 @@ const ToolPage: React.FC = () => {
 
   // Live Preview Effect
   useEffect(() => {
-    if (tool && input && !tool.isAI) {
+    if (tool && input && !tool.isAI && !tool.isDynamic && typeof tool.process === 'function') {
       const result = tool.process(input, options);
       if (typeof result === 'string') {
         setOutput(result);
@@ -149,6 +151,13 @@ const ToolPage: React.FC = () => {
     };
     fetchRelatedBlogs();
   }, [slug]);
+
+  // Stats calculation — MUST be before any early returns (React Rules of Hooks)
+  const stats = useMemo(() => ({
+    chars: input.length,
+    words: input.trim() ? input.trim().split(/\s+/).length : 0,
+    lines: input ? input.split(/\n/).length : 0
+  }), [input]);
 
   if (toolLoading) {
     return (
@@ -250,6 +259,9 @@ const ToolPage: React.FC = () => {
       handleOcr();
       return;
     }
+
+    // Dynamic tools ka process function nahi hota (componentCode se render hota hai)
+    if (tool.isDynamic || typeof tool.process !== 'function') return;
 
     setLoading(true);
     try {
@@ -404,19 +416,12 @@ const ToolPage: React.FC = () => {
 
   const theme = categoryThemes[tool.category] || categoryThemes.utility;
 
-  // Stats calculation
-  const stats = useMemo(() => ({
-    chars: input.length,
-    words: input.trim() ? input.trim().split(/\s+/).length : 0,
-    lines: input ? input.split(/\n/).length : 0
-  }), [input]);
-
   return (
     <main className="min-h-screen bg-slate-50/50 dark:bg-slate-950 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <SEO 
         title={toolSEO?.title || toolName}
         description={toolSEO?.metaDescription || t.toolDescriptions[tool.id] || t.tool.defaultHook}
-        canonical={`${BASE_URL}/tool/${tool.slug}`}
+        canonical={tool.isDynamic ? `${BASE_URL}/${tool.slug}` : `${BASE_URL}/tool/${tool.slug}`}
         keywords={[...(tool.keywords || []), ...(tool.secondaryKeywords || []), 'text tools', 'online tools', 'texly']}
       />
       
@@ -1127,7 +1132,9 @@ const ToolPage: React.FC = () => {
                 t.toolNames[tool.id] || tool.name, 
                 tool.primaryKeyword || tool.keywords[0] || tool.name.toLowerCase(),
                 t,
-                tool.secondaryKeywords
+                tool.secondaryKeywords,
+                tool.description || tool.shortDescription,
+                tool.category
               ) : ''
             }} 
           />

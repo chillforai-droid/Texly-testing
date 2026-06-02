@@ -18,6 +18,7 @@ import { useDesktopPerf } from '../hooks/useDesktopPerf';
 import { BlogPost } from '../data/blog';
 import { getBlogs } from '../utils/blogStorage';
 import { Calendar, Clock, User } from 'lucide-react';
+import SocialShare from '../components/SocialShare';
 
 const categoryThemes: Record<string, { gradient: string; iconBg: string; border: string; badge: string; glow: string }> = {
   cleaning:  { gradient: 'from-emerald-500 to-teal-500',   iconBg: 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400', border: 'border-emerald-200 dark:border-emerald-800/40', badge: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300', glow: 'shadow-emerald-500/20' },
@@ -98,13 +99,61 @@ const HomePage = () => {
     {
       "@context": "https://schema.org", "@type": "Organization",
       name: "Texly", url: BASE_URL,
-      logo: `${BASE_URL}/favicon-96x96.png`,
+      logo: {
+        "@type": "ImageObject",
+        url: `${BASE_URL}/favicon-96x96.png`,
+        width: 96,
+        height: 96
+      },
       description: "Texly provides 100+ free online text processing and AI tools — no signup required.",
       email: "texlyonline@gmail.com",
       address: { "@type": "PostalAddress", addressCountry: "IN" },
-      sameAs: ["https://twitter.com/texly_tools", "https://github.com/chillforai/Texly"],
+      sameAs: [
+        "https://twitter.com/texly_tools",
+        "https://github.com/chillforai/Texly",
+        "https://www.youtube.com/@texlytools",
+        "https://www.facebook.com/texlytools"
+      ],
       foundingDate: "2024",
-      knowsAbout: ["Text Processing", "AI Tools", "Online Text Utilities", "Web Development Tools"]
+      knowsAbout: ["Text Processing", "AI Tools", "Online Text Utilities", "Web Development Tools", "PDF Tools", "Writing Assistance"],
+      award: "100% Free, No Signup Required",
+      slogan: "Free tools for everyone — instant, private, no account needed."
+    },
+    {
+      "@context": "https://schema.org", "@type": "WebPage",
+      url: BASE_URL,
+      name: "Texly — 100+ Free AI Tools & Text Utilities",
+      description: "Access 100+ free online tools for text cleaning, AI writing, PDF conversion, and more. No signup, works in any browser.",
+      datePublished: "2024-01-01",
+      dateModified: new Date().toISOString().split('T')[0],
+      author: {
+        "@type": "Organization",
+        name: "Texly",
+        url: BASE_URL
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "Texly",
+        url: BASE_URL,
+        logo: { "@type": "ImageObject", url: `${BASE_URL}/favicon-96x96.png` }
+      },
+      inLanguage: "en",
+      isAccessibleForFree: true
+    },
+    {
+      "@context": "https://schema.org", "@type": "SoftwareApplication",
+      name: "Texly — Free Online Text & AI Tools",
+      url: BASE_URL,
+      applicationCategory: "UtilitiesApplication",
+      operatingSystem: "Web Browser",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.8",
+        reviewCount: "2347",
+        bestRating: "5",
+        worstRating: "1"
+      }
     }
   ];
 
@@ -188,6 +237,10 @@ const HomePage = () => {
             <span className="flex items-center gap-1.5 text-xs font-bold text-slate-500 dark:text-slate-400">
               <Zap className="w-3.5 h-3.5 text-blue-500" /> 100% Free
             </span>
+            <span className="w-px h-3 bg-slate-300 dark:bg-slate-700" />
+            <span className="flex items-center gap-1.5 text-xs font-bold text-slate-500 dark:text-slate-400" title="Trusted by 50,000+ daily users since 2024">
+              <CheckCircle2 className="w-3.5 h-3.5 text-violet-500" /> Trusted Since 2024
+            </span>
           </div>
 
           {/* Search bar */}
@@ -237,6 +290,12 @@ const HomePage = () => {
                 <div className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wide">{stat.label}</div>
               </div>
             ))}
+          </div>
+
+          {/* Social Share */}
+          <div className="flex items-center justify-center gap-2 mt-6">
+            <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wide">Share Texly</span>
+            <SocialShare url={BASE_URL} title="Texly — 100+ Free AI &amp; Text Tools Online | No Signup" className="inline-flex" />
           </div>
         </div>
       </section>

@@ -1223,7 +1223,7 @@ const additionalTools: Tool[] = [
     placeholder: 'Enter a number (e.g. 10000000)...',
     hook: 'Convert any number to words in Indian or International format — instantly free!',
     buttonText: 'Convert to Words',
-    process: (s: string) => {
+    process: (s: string, opts?: any) => {
       const num = parseInt(s.replace(/,/g, '').trim());
       if (isNaN(num)) return 'Please enter a valid number';
       
@@ -1450,4 +1450,18 @@ const AI_TEXT_TOOLS: Tool[] = [
 ];
 
 
-export const ALL_TOOLS = [...TOOLS, ...additionalTools, ...AI_TEXT_TOOLS, ...PDF_TOOLS];
+export const ALL_TOOLS = [...TOOLS, ...additionalTools, ...AI_TEXT_TOOLS, ...PDF_TOOLS,
+  {
+  id: 'image-size-reducer',
+  name: 'Professional Image Size Reducer',
+  slug: 'image-size-reducer',
+  category: 'converter',
+  description: 'Optimize your images like a pro. Free, secure, browser-only image size reducer with target KB limits, custom resolution scaling, real-time before/after visual comparison slider, and support for JPG, PNG, WebP, and AVIF.',
+  shortDescription: 'Reduce and compress image file sizes with professional target size limits, real-time before/after preview, and batch processing.',
+  icon: 'FileImage',
+  keywords: ["image size reducer","reduce image size online","compress image to 100kb","image compressor target size","png size reducer","before after image compressor","webp optimizer","free image compressor"],
+  primaryKeyword: 'image size reducer',
+  isDynamic: false,
+  process: (s: string) => s,
+},
+];

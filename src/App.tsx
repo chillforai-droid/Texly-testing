@@ -139,7 +139,7 @@ function NavigateWithParams() {
 
 function ToolRouteWrapper() {
   const { slug } = useParams();
-  // Hardcoded AI/generator tools — /tools/ par rehte hain
+  // Hardcoded special tools jo /tools/ path pe hain
   const HARDCODED_AI_SLUGS = new Set([
     'face-swap', 'bg-remover', 'enhancer', 'compressor', 'image-upscale',
     'image-generator', 'ai-text-suite', 'invisible-text-suite',
@@ -147,37 +147,14 @@ function ToolRouteWrapper() {
     'regex-explainer', 'cron-expression-generator', 'redirect-chain-checker',
   ]);
 
-  const [routeReady, setRouteReady] = useState(false);
-  const [isAiTool, setIsAiTool] = useState(false);
+  if (slug && HARDCODED_AI_SLUGS.has(slug)) {
+    return <ToolPage />;
+  }
 
-  useEffect(() => {
-    if (!slug) { setRouteReady(true); return; }
-
-    // Hardcoded mein hai toh seedha render karo
-    if (HARDCODED_AI_SLUGS.has(slug)) {
-      setIsAiTool(true);
-      setRouteReady(true);
-      return;
-    }
-
-    // Supabase se check karo — dynamic tool ka category kya hai?
-    import('./utils/toolStorage').then(({ getToolBySlug }) => {
-      getToolBySlug(slug).then((tool) => {
-        if (tool && (tool.category === 'ai' || tool.category === 'generator' || tool.isDynamic)) {
-          setIsAiTool(true);
-        } else {
-          setIsAiTool(false);
-        }
-        setRouteReady(true);
-      });
-    });
-  }, [slug]);
-
-  if (!routeReady) return null; // Brief loading — no flash
-
-  if (!isAiTool && slug) {
-    // Non-AI tool /tools/ se /tool/ redirect
-    return <Navigate to={`/tool/${slug}`} replace />;
+  // Dynamic tools ab /{slug} direct path se handle hote hain
+  // /tools/:slug se /{slug} redirect
+  if (slug) {
+    return <Navigate to={`/${slug}`} replace />;
   }
   return <ToolPage />;
 }
@@ -313,6 +290,7 @@ const MODAL_THEMES: Record<string, any> = {
 // Load TexlyAIAssistant only after the user has interacted with the page.
 // This prevents the 634 KB ai-image chunk from blocking initial render.
 const LazyTexlyAI = lazy(() => import('./components/TexlyAI'));
+const ImageSizeReducerPage = lazy(() => import('./pages/tools/generated/image-size-reducer'));
 
 function DeferredTexlyAI() {
   const [mounted, setMounted] = useState(false);
@@ -383,11 +361,37 @@ const SEO_SLUGS = new Set((pagesData as Array<{ slug: string }>).map(p => p.slug
 
 function SEOPageOrNotFound() {
   const { slug } = useParams<{ slug: string }>();
+  const [checking, setChecking] = useState(true);
+  const [isDynamicTool, setIsDynamicTool] = useState(false);
+
+  useEffect(() => {
+    if (!slug || SEO_SLUGS.has(slug)) {
+      setChecking(false);
+      return;
+    }
+    // SEO page nahi mila — Supabase mein dynamic tool dhundho
+    import('./utils/toolStorage').then(({ getToolBySlug }) => {
+      getToolBySlug(slug).then((tool) => {
+        setIsDynamicTool(!!tool);
+        setChecking(false);
+      });
+    });
+  }, [slug]);
+
+  if (checking) return <PageLoader />;
 
   if (slug && SEO_SLUGS.has(slug)) {
     return (
       <Suspense fallback={<PageLoader />}>
         <SEOPage />
+      </Suspense>
+    );
+  }
+
+  if (isDynamicTool) {
+    return (
+      <Suspense fallback={<PageLoader />}>
+        <ToolPage />
       </Suspense>
     );
   }
@@ -399,6 +403,23 @@ function SEOPageOrNotFound() {
   );
 }
 
+
+// /tool/:slug — hardcoded tools render karo, dynamic tools ko /{slug} redirect karo
+function ToolPageOrRedirect() {
+  const { slug } = useParams<{ slug: string }>();
+
+  // Hardcoded tool hai toh directly render karo (backward compat + SEO redirects)
+  if (slug && ALL_TOOLS.find((t) => t.slug === slug)) {
+    return <ToolPage />;
+  }
+
+  // Dynamic Supabase tool — canonical /{slug} path pe redirect
+  if (slug) {
+    return <Navigate to={`/${slug}`} replace />;
+  }
+
+  return <ToolPage />;
+}
 
 function AppContent() {
   const { t } = useLanguage();
@@ -656,7 +677,7 @@ function AppContent() {
               path="/tool/:slug"
               element={
                 <RouteErrorBoundary>
-                  <ToolPage />
+                  <ToolPageOrRedirect />
                 </RouteErrorBoundary>
               }
             />
@@ -730,6 +751,7 @@ function AppContent() {
             />
 
             {/* * wildcard हटाया — /:slug route ऊपर NotFound handle करता है */}
+          <Route path="/tool/image-size-reducer" element={<RouteErrorBoundary><ImageSizeReducerPage /></RouteErrorBoundary>} />
           </Routes>
         </Suspense>
       </main>
@@ -776,7 +798,9 @@ function AppContent() {
 
             <div className="relative max-w-md mx-auto group">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-blue-500 transition-colors" />
+              <label htmlFor="directory-search" className="sr-only">{t.directory.searchPlaceholder}</label>
               <input
+                id="directory-search"
                 type="text"
                 placeholder={t.directory.searchPlaceholder}
                 className="w-full pl-12 pr-4 py-3.5 sm:py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all dark:text-white min-h-[44px]"

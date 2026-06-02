@@ -308,42 +308,28 @@ export default ErrorBoundary;
 export function RouteErrorBoundary({ children }: { children: ReactNode }) {
   return (
     <ErrorBoundary
-      fallback={
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '60vh',
-            padding: '40px',
-            fontFamily: 'sans-serif',
-            textAlign: 'center',
-            gap: '16px',
-          }}
-        >
-          <div style={{ fontSize: '40px' }}>📄</div>
-          <p style={{ color: '#64748b', fontSize: '16px' }}>
-            This page could not be loaded.
-          </p>
-          <a
-            href="/"
-            style={{
-              background: '#2563eb',
-              color: 'white',
-              padding: '10px 24px',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              fontWeight: 700,
-              fontSize: '14px',
-            }}
-          >
-            Go Home
-          </a>
-        </div>
-      }
+      onError={(error) => {
+        try { (window as any).__lastRouteError = error.message + '\n' + (error.stack || ''); } catch(_) {}
+      }}
+      fallback={<RouteErrorFallback />}
     >
       {children}
     </ErrorBoundary>
+  );
+}
+
+function RouteErrorFallback() {
+  const errorMsg = typeof window !== 'undefined' ? ((window as any).__lastRouteError || '') : '';
+  return (
+    <div style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', minHeight:'60vh', padding:'20px', fontFamily:'sans-serif', textAlign:'center', gap:'12px' }}>
+      <div style={{ fontSize:'40px' }}>📄</div>
+      <p style={{ color:'#64748b', fontSize:'16px' }}>This page could not be loaded.</p>
+      {errorMsg ? (
+        <pre style={{ background:'#fef2f2', border:'1px solid #fca5a5', borderRadius:'8px', padding:'12px', fontSize:'11px', color:'#b91c1c', textAlign:'left', maxWidth:'100%', overflowX:'auto', whiteSpace:'pre-wrap', wordBreak:'break-all', maxHeight:'200px', overflowY:'auto' }}>
+          {errorMsg}
+        </pre>
+      ) : null}
+      <a href="/" style={{ background:'#2563eb', color:'white', padding:'10px 24px', borderRadius:'8px', textDecoration:'none', fontWeight:700, fontSize:'14px' }}>Go Home</a>
+    </div>
   );
 }

@@ -3653,32 +3653,97 @@ export const getSEOData = (toolId: string): ToolContent | null => {
   return toolSpecificDetails[toolId] || null;
 };
 
-export const getSEOContent = (toolId: string, toolName: string, primaryKeyword: string, t: Translations, secondaryKeywords: string[] = []) => {
+export const getSEOContent = (toolId: string, toolName: string, primaryKeyword: string, t: Translations, secondaryKeywords: string[] = [], toolDescription?: string, toolCategory?: string) => {
   const details = toolSpecificDetails[toolId] || {};
   const primary = primaryKeyword || toolName.toLowerCase();
-  
-  const howToUse = details.howToUse || [
+  const isDynamic = !toolSpecificDetails[toolId] && !!toolDescription;
+
+  // Dynamic tools ke liye tool-specific howToUse generate karo
+  const howToUse = details.howToUse || (isDynamic ? [
+    `Open the ${toolName} tool on Texly — no signup or installation required.`,
+    `Enter your input or upload your file as required by the ${toolName}.`,
+    `Click the action button and get instant results powered by client-side processing.`,
+    `Copy or download your result with one click and use it wherever you need.`
+  ] : [
     t.tool.defaultHook,
     t.home.useTool,
     t.tool.process,
     t.tool.copy
-  ];
+  ]);
 
-  const faqs = details.faqs || [
+  // Dynamic tools ke liye meaningful FAQs
+  const faqs = details.faqs || (isDynamic ? [
+    { q: `Is ${toolName} free to use?`, a: `Yes, ${toolName} is 100% free on Texly. No account, no subscription, no hidden charges — ever.` },
+    { q: `Does ${toolName} store my data?`, a: `No. All processing happens directly in your browser. Your data never leaves your device and is never stored on any server.` },
+    { q: `Can I use ${toolName} on my phone?`, a: `Absolutely. ${toolName} is fully responsive and works seamlessly on all devices including smartphones and tablets.` },
+    { q: `How accurate is ${toolName}?`, a: `${toolName} is built with precision in mind. Results are generated instantly using optimized browser-side algorithms for maximum accuracy.` },
+    { q: `Do I need to install anything to use ${toolName}?`, a: `No installation needed. ${toolName} runs entirely in your browser — just open the page and start using it immediately.` }
+  ] : [
     { q: t.seo.isFree.replace('{toolName}', toolName), a: t.seo.isFreeAns.replace('{toolName}', toolName) },
     { q: t.seo.isSafe, a: t.seo.isSafeAns },
     { q: t.seo.mobileFriendly.replace('{toolName}', toolName), a: t.seo.mobileFriendlyAns.replace('{toolName}', toolName) },
     { q: t.seo.limitTitle, a: t.seo.limitAns }
+  ]);
+
+  // Dynamic tools ke liye meaningful benefits
+  const categoryBenefitMap: Record<string, string[]> = {
+    converter: [`Converts content instantly without any server round-trip.`, `Handles large inputs with zero performance issues.`, `Supports all modern browsers and mobile devices.`, `Results are 100% accurate and ready to use immediately.`, `Completely free — no limits, no registration required.`],
+    cleaning: [`Removes unwanted characters and formatting in one click.`, `Works on texts of any size — from tweets to full documents.`, `Processes everything locally — your data stays private.`, `Saves hours of manual editing time.`, `Free forever with no usage restrictions.`],
+    analysis: [`Provides deep insights into your content instantly.`, `Processes large documents without any slowdown.`, `No data is ever sent to a server — fully private analysis.`, `Easy to understand results formatted for quick action.`, `100% free with unlimited usage.`],
+    generator: [`Generates high-quality output in seconds.`, `Powered by smart client-side algorithms.`, `No login or API key required.`, `Works offline once the page is loaded.`, `Completely free with no watermarks or limits.`],
+    ai: [`AI-powered precision for professional-grade results.`, `Processes requests instantly with modern ML models.`, `Your data remains private — no server uploads.`, `Built for speed and accuracy on all devices.`, `Free to use with no hidden charges.`],
+    utility: [`Instantly solves a common digital workflow problem.`, `Works entirely in your browser — no install needed.`, `Handles inputs of all sizes without lag.`, `Clean, simple interface — results in one click.`, `100% free with no registration required.`],
+    pdf: [`Processes PDF files instantly in your browser.`, `No file is uploaded to any server — fully private.`, `Supports all modern PDF formats and sizes.`, `Download results instantly after processing.`, `Free to use with no page or file size limits.`],
+  };
+  const benefits = details.benefits || categoryBenefitMap[toolCategory || 'utility'] || [
+    t.home.speedTitle, t.home.freeTitle, t.home.privacyTitle, t.tool.instantResult
   ];
 
-  const benefits = details.benefits || [
-    t.home.speedTitle,
-    t.home.freeTitle,
-    t.home.privacyTitle,
-    t.tool.instantResult
-  ];
-
-  const useCases = details.useCases || [
+  const categoryUseCaseMap: Record<string, string[]> = {
+    converter: [
+      `Converting content formats for use in different platforms or apps.`,
+      `Preparing data for import into spreadsheets, databases, or CMS systems.`,
+      `Transforming outputs from one tool or API into a compatible format.`,
+      `Quickly reformatting content for publishing on blogs, emails, or social media.`
+    ],
+    cleaning: [
+      `Cleaning up text copied from PDFs or Word documents with broken formatting.`,
+      `Preparing data for spreadsheets or databases that require clean strings.`,
+      `Removing unwanted characters before pasting into code editors or CMS.`,
+      `Sanitizing user-generated content before storing it in a database.`
+    ],
+    analysis: [
+      `Analyzing content for SEO optimization and keyword density checks.`,
+      `Reviewing document statistics before submitting reports or essays.`,
+      `Auditing large text files for patterns, errors, or anomalies.`,
+      `Evaluating readability and structure of professional writing.`
+    ],
+    generator: [
+      `Generating unique content for social media posts and marketing campaigns.`,
+      `Creating test data or placeholder content for development and design.`,
+      `Producing formatted outputs for presentations or documentation.`,
+      `Automating repetitive content creation tasks to save time.`
+    ],
+    ai: [
+      `Using AI to process and enhance content at scale.`,
+      `Automating complex transformations that would take hours manually.`,
+      `Improving content quality with intelligent suggestions and outputs.`,
+      `Integrating AI-powered results into professional workflows.`
+    ],
+    utility: [
+      `Solving common digital workflow problems quickly and accurately.`,
+      `Handling everyday tasks that require a reliable online tool.`,
+      `Saving time on repetitive tasks with an instant one-click solution.`,
+      `Supporting developers, writers, and creators in their daily work.`
+    ],
+    pdf: [
+      `Editing and processing PDF documents without installing desktop software.`,
+      `Converting PDF content for use in other applications or workflows.`,
+      `Extracting specific pages or content from large PDF files.`,
+      `Preparing PDF files for professional submission or distribution.`
+    ],
+  };
+  const useCases = details.useCases || categoryUseCaseMap[toolCategory || 'utility'] || [
     t.blog.recentArticles,
     t.categories.cleaning,
     t.categories.converter,
@@ -3686,7 +3751,9 @@ export const getSEOContent = (toolId: string, toolName: string, primaryKeyword: 
   ];
 
   // Dynamic content based on tool category or ID
-  const introText = details.intro || `${t.legal.aboutSubtitle} ${t.home.heroSubtitle}`;
+  const introText = details.intro || (isDynamic && toolDescription
+    ? toolDescription
+    : `${t.legal.aboutSubtitle} ${t.home.heroSubtitle}`);
 
   // Tool-specific dynamic descriptions — avoids duplicate content across pages
   const toolVerb = toolName.toLowerCase().includes('remov') ? 'removes' :
@@ -3702,7 +3769,9 @@ export const getSEOContent = (toolId: string, toolName: string, primaryKeyword: 
 
   const detailedDescription = details.intro
     ? `The ${toolName} ${toolVerb} your content instantly using advanced client-side algorithms.`
-    : `The ${toolName} ${toolVerb} your text directly in your browser — no server, no upload, no waiting. Built for speed and privacy, it handles large inputs without any performance issues.`;
+    : (isDynamic && toolDescription
+      ? `${toolDescription} The ${toolName} ${toolVerb} your content directly in your browser — no server, no upload, no waiting.`
+      : `The ${toolName} ${toolVerb} your text directly in your browser — no server, no upload, no waiting. Built for speed and privacy, it handles large inputs without any performance issues.`);
 
   const technicalInsight = `The ${toolName} runs entirely in your browser using modern JavaScript. Your data is never transmitted to any server — processing is instant, private, and works even offline once the page is loaded.`;
 
