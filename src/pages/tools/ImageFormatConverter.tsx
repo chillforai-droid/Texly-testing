@@ -26,7 +26,7 @@ import { useToolSuccess, useToolFailure } from '../../components/TexlyAI';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-type OutputFormat = 'image/jpeg' | 'image/png' | 'image/webp' | 'image/gif' | 'image/bmp' | 'image/avif' | 'image/tiff';
+type OutputFormat = 'image/jpeg' | 'image/png' | 'image/webp' | 'image/gif' | 'image/bmp' | 'image/avif' | 'image/tiff' | 'image/x-icon';
 
 interface FormatOption {
   label: string;
@@ -103,6 +103,24 @@ const FORMAT_OPTIONS: FormatOption[] = [
     supportsQuality: true,
     badge: 'Next-Gen',
   },
+  {
+    label: 'TIFF',
+    mime: 'image/tiff',
+    ext: 'tiff',
+    description: 'Lossless. Used in print & professional workflows.',
+    supportsTransparency: true,
+    supportsQuality: false,
+    badge: 'Print',
+  },
+  {
+    label: 'ICO',
+    mime: 'image/x-icon',
+    ext: 'ico',
+    description: 'Windows icon format. Perfect for favicons.',
+    supportsTransparency: true,
+    supportsQuality: false,
+    badge: 'Favicon',
+  },
 ];
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
@@ -124,9 +142,128 @@ function getInputFormatLabel(file: File): string {
     'image/bmp': 'BMP',
     'image/avif': 'AVIF',
     'image/tiff': 'TIFF',
+    'image/x-icon': 'ICO',
     'image/svg+xml': 'SVG',
   };
   return map[mime] || mime.split('/')[1]?.toUpperCase() || 'Unknown';
+}
+
+// ─── ICO Builder ─────────────────────────────────────────────────────────────
+// Builds a valid .ico binary from an ImageData (max 256×256, uses PNG inside ICO)
+function buildIcoFromCanvas(canvas: HTMLCanvasElement): Blob {
+  // ICO with a single PNG-compressed image entry
+  // Resize to 256×256 (standard favicon size) if larger
+  const SIZE = Math.min(256, Math.max(canvas.width, canvas.height));
+  const offscreen = document.createElement('canvas');
+  offscreen.width = SIZE;
+  offscreen.height = SIZE;
+  const ctx = offscreen.getContext('2d')!;
+  ctx.drawImage(canvas, 0, 0, SIZE, SIZE);
+
+  // Get PNG bytes from the resized canvas
+  const dataURL = offscreen.toDataURL('image/png');
+  const base64 = dataURL.split(',')[1];
+  const pngBytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+
+  // ICO header (6 bytes) + directory entry (16 bytes) + PNG data
+  const header = new DataView(new ArrayBuffer(6));
+  header.setUint16(0, 0, true);  // reserved
+  header.setUint16(2, 1, true);  // type: 1 = ICO
+  header.setUint16(4, 1, true);  // image count: 1
+
+  const dirEntry = new DataView(new ArrayBuffer(16));
+  dirEntry.setUint8(0, SIZE >= 256 ? 0 : SIZE);  // width (0 = 256)
+  dirEntry.setUint8(1, SIZE >= 256 ? 0 : SIZE);  // height (0 = 256)
+  dirEntry.setUint8(2, 0);   // color count (0 = no palette)
+  dirEntry.setUint8(3, 0);   // reserved
+  dirEntry.setUint16(4, 1, true);  // color planes
+  dirEntry.setUint16(6, 32, true); // bits per pixel
+  dirEntry.setUint32(8, pngBytes.length, true);  // image data size
+  dirEntry.setUint32(12, 22, true); // offset to image data (6+16=22)
+
+  const icoBuffer = new Uint8Array(22 + pngBytes.length);
+  icoBuffer.set(new Uint8Array(header.buffer), 0);
+  icoBuffer.set(new Uint8Array(dirEntry.buffer), 6);
+  icoBuffer.set(pngBytes, 22);
+
+  return new Blob([icoBuffer], { type: 'image/x-icon' });
+}
+
+// ─── TIFF Builder ─────────────────────────────────────────────────────────────
+// Builds a minimal uncompressed TIFF (RGB or RGBA) from canvas pixel data
+function buildTiffFromCanvas(canvas: HTMLCanvasElement): Blob {
+  const ctx = canvas.getContext('2d')!;
+  const { width, height } = canvas;
+  const imageData = ctx.getImageData(0, 0, width, height);
+  const pixels = imageData.data; // RGBA, 4 bytes per pixel
+
+  // We'll write as RGBA (samplesPerPixel=4, bitsPerSample=8 each)
+  const samplesPerPixel = 4;
+  const rowBytes = width * samplesPerPixel;
+  const imageDataSize = rowBytes * height;
+
+  // TIFF is little-endian here ('II' = 0x4949)
+  // IFD offset after header (8 bytes) + image data
+  const ifdOffset = 8 + imageDataSize;
+  const numDirEntries = 11;
+  // Each IFD entry: 12 bytes; IFD ends with 4-byte next-IFD offset
+  const ifdSize = 2 + numDirEntries * 12 + 4;
+  // BitsPerSample is 4 shorts (8,8,8,8) — stored after IFD
+  const bpsOffset = ifdOffset + ifdSize;
+  const totalSize = bpsOffset + 8; // 4 × uint16
+
+  const buffer = new ArrayBuffer(totalSize);
+  const view = new DataView(buffer);
+
+  const le = true; // little-endian
+  let o = 0;
+
+  // Header
+  view.setUint16(o, 0x4949, le); o += 2; // byte order: little-endian
+  view.setUint16(o, 42, le);     o += 2; // magic
+  view.setUint32(o, ifdOffset, le); o += 4; // offset to first IFD
+
+  // Image data (strip)
+  const pixelDest = new Uint8Array(buffer, 8, imageDataSize);
+  for (let i = 0; i < width * height; i++) {
+    pixelDest[i * 4 + 0] = pixels[i * 4 + 0]; // R
+    pixelDest[i * 4 + 1] = pixels[i * 4 + 1]; // G
+    pixelDest[i * 4 + 2] = pixels[i * 4 + 2]; // B
+    pixelDest[i * 4 + 3] = pixels[i * 4 + 3]; // A
+  }
+
+  // IFD
+  o = ifdOffset;
+  view.setUint16(o, numDirEntries, le); o += 2;
+
+  const writeEntry = (tag: number, type: number, count: number, value: number) => {
+    view.setUint16(o, tag, le);   o += 2;
+    view.setUint16(o, type, le);  o += 2;
+    view.setUint32(o, count, le); o += 4;
+    view.setUint32(o, value, le); o += 4;
+  };
+
+  // TIFF types: SHORT=3, LONG=4
+  writeEntry(256, 4, 1, width);             // ImageWidth
+  writeEntry(257, 4, 1, height);            // ImageLength
+  writeEntry(258, 3, 4, bpsOffset);         // BitsPerSample (offset to 4 shorts)
+  writeEntry(259, 3, 1, 1);                 // Compression: 1 = no compression
+  writeEntry(262, 3, 1, 2);                 // PhotometricInterpretation: 2 = RGB
+  writeEntry(273, 4, 1, 8);                 // StripOffsets: image starts at byte 8
+  writeEntry(277, 3, 1, samplesPerPixel);   // SamplesPerPixel: 4
+  writeEntry(278, 4, 1, height);            // RowsPerStrip: all rows in one strip
+  writeEntry(279, 4, 1, imageDataSize);     // StripByteCounts
+  writeEntry(282, 4, 1, 72);               // XResolution (simplified as integer 72)
+  writeEntry(338, 3, 1, 1);                // ExtraSamples: 1 = unassoc. alpha
+  view.setUint32(o, 0, le); // next IFD = 0 (no more IFDs)
+
+  // BitsPerSample values: 8,8,8,8
+  view.setUint16(bpsOffset,     8, le);
+  view.setUint16(bpsOffset + 2, 8, le);
+  view.setUint16(bpsOffset + 4, 8, le);
+  view.setUint16(bpsOffset + 6, 8, le);
+
+  return new Blob([buffer], { type: 'image/tiff' });
 }
 
 async function convertImage(
@@ -157,6 +294,24 @@ async function convertImage(
       ctx.drawImage(img, 0, 0);
       URL.revokeObjectURL(objectUrl);
 
+      // ── Special handling for TIFF and ICO ──
+      if (targetFormat.mime === 'image/tiff') {
+        const blob = buildTiffFromCanvas(canvas);
+        const reader = new FileReader();
+        reader.onload = (e) => resolve({ blob, dataUrl: e.target?.result as string });
+        reader.readAsDataURL(blob);
+        return;
+      }
+
+      if (targetFormat.mime === 'image/x-icon') {
+        const blob = buildIcoFromCanvas(canvas);
+        const reader = new FileReader();
+        reader.onload = (e) => resolve({ blob, dataUrl: e.target?.result as string });
+        reader.readAsDataURL(blob);
+        return;
+      }
+
+      // ── Standard canvas.toBlob for all other formats ──
       const q = targetFormat.supportsQuality ? quality : undefined;
 
       canvas.toBlob(
@@ -216,7 +371,7 @@ const ImageFormatConverter: React.FC = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'image/*': ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.bmp', '.avif', '.tiff', '.svg'],
+      'image/*': ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.bmp', '.avif', '.tiff', '.ico', '.svg'],
     },
     multiple: true,
     maxSize: 50 * 1024 * 1024, // 50MB
@@ -434,7 +589,7 @@ const ImageFormatConverter: React.FC = () => {
             Image Format Converter
           </h1>
           <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
-            Convert images between <strong>JPG, PNG, WebP, GIF, BMP, AVIF</strong> formats instantly.
+            Convert images between <strong>JPG, PNG, WebP, GIF, BMP, AVIF, TIFF, ICO</strong> formats instantly.
             Batch convert up to 10 images. 100% browser-based — your images never leave your device.
           </p>
 
@@ -480,7 +635,7 @@ const ImageFormatConverter: React.FC = () => {
                     {isDragActive ? 'Drop images here…' : 'Drop images or click to upload'}
                   </p>
                   <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                    JPG, PNG, WebP, GIF, BMP, AVIF, TIFF, SVG • Up to 10 files • Max 50MB each
+                    JPG, PNG, WebP, GIF, BMP, AVIF, TIFF, ICO, SVG • Up to 10 files • Max 50MB each
                   </p>
                 </div>
                 <button
@@ -773,6 +928,8 @@ const ImageFormatConverter: React.FC = () => {
                   { fmt: 'AVIF', best: 'Next-gen web, best compression', trans: '✓', size: 'Smallest' },
                   { fmt: 'GIF', best: 'Animations, simple graphics', trans: '✓', size: 'Medium' },
                   { fmt: 'BMP', best: 'Windows, uncompressed editing', trans: '✗', size: 'Very Large' },
+                  { fmt: 'TIFF', best: 'Print, professional editing', trans: '✓', size: 'Very Large' },
+                  { fmt: 'ICO', best: 'Favicons, Windows icons', trans: '✓', size: 'Tiny' },
                 ].map((row) => (
                   <tr key={row.fmt} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                     <td className="py-3 pr-4 font-bold text-slate-800 dark:text-white">{row.fmt}</td>
