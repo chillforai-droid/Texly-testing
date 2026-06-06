@@ -91,6 +91,7 @@ const RemoveSpecialCharacters = lazy(() => import('./pages/tools/RemoveSpecialCh
 const TopToolsLanding = lazy(() => import('./pages/TopToolsLanding'));
 const RemoveSpecialCharactersLanding = lazy(() => import('./pages/RemoveSpecialCharactersLanding'));
 const WordCounterPage = lazy(() => import('./pages/tools/WordCounterPage'));
+const DownloadApp = lazy(() => import('./pages/DownloadApp'));
 const DevStudioPage = lazy(() => import('./components/DevStudio'));
 const AIAutomation = lazy(() => import('./pages/AIAutomation'));
 // AI SEO Automation Panel द्वारा push किए गए programmatic landing pages
@@ -740,6 +741,16 @@ function AppContent() {
                 </RouteErrorBoundary>
               }
             />
+            {/* Download App Page */}
+            <Route
+              path="/download"
+              element={
+                <RouteErrorBoundary>
+                  <DownloadApp />
+                </RouteErrorBoundary>
+              }
+            />
+
             {/* /:slug — canonical URLs (pages.json में जो URLs हैं वो directly work करें) */}
             <Route
               path="/:slug"

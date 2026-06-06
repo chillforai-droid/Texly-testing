@@ -1024,96 +1024,476 @@ function InvisibleTextUI() {
   );
 }
 
-// ─── WhatsApp Text Formatter ──────────────────────────────────────────────────
-function WhatsAppFormatterUI({ example }: TextUtilityWorkspaceProps) {
-  const [input, setInput] = useState('');
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Apply format to selected text or entire input
-  const applyFormat = (symbol: string) => {
+// ─── WhatsApp Text Formatter — Fully Rewritten (Mobile-First + SEO) ──────────
+function WhatsAppFormatterUI({ example }: TextUtilityWorkspaceProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [input, setInput]         = useState('');
+  const [preview, setPreview]     = useState(false);
+  const [copied, setCopied]       = useState(false);
+  const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState<'format' | 'templates' | 'tips' | 'faq'>('format');
+  const [openFaq, setOpenFaq]     = useState<number | null>(null);
+
+  /* ── apply / toggle format symbol around selection or full text ── */
+  const applyFormat = useCallback((symbol: string) => {
     const ta = textareaRef.current;
     if (!ta) return;
-    const start = ta.selectionStart;
-    const end = ta.selectionEnd;
-    const selected = ta.value.substring(start, end);
-    if (selected) {
-      const newText = ta.value.substring(0, start) + `${symbol}${selected}${symbol}` + ta.value.substring(end);
-      setInput(newText);
-      // Restore selection
-      setTimeout(() => {
-        ta.focus();
-        ta.setSelectionRange(start + symbol.length, end + symbol.length);
-      }, 0);
-    } else if (input) {
-      setInput(`${symbol}${input}${symbol}`);
-    }
+    const s = ta.selectionStart, e = ta.selectionEnd;
+    const sel = ta.value.substring(s, e);
+    let newText = '', newStart = s, newEnd = e;
+    if (sel) {
+      // toggle: if already wrapped, unwrap
+      const pre = ta.value.substring(0, s), post = ta.value.substring(e);
+      if (pre.endsWith(symbol) && post.startsWith(symbol)) {
+        newText  = pre.slice(0, -symbol.length) + sel + post.slice(symbol.length);
+        newStart = s - symbol.length;
+        newEnd   = e - symbol.length;
+      } else {
+        newText  = pre + symbol + sel + symbol + post;
+        newStart = s + symbol.length;
+        newEnd   = e + symbol.length;
+      }
+    } else if (input.trim()) {
+      newText  = symbol + input + symbol;
+      newStart = symbol.length;
+      newEnd   = input.length + symbol.length;
+    } else return;
+    setInput(newText);
+    setTimeout(() => { ta.focus(); ta.setSelectionRange(newStart, newEnd); }, 0);
+  }, [input]);
+
+  /* ── copy full output ── */
+  const copyOutput = async () => {
+    if (!input) return;
+    await navigator.clipboard.writeText(input);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2200);
+  };
+
+  /* ── copy template ── */
+  const copyTemplate = async (text: string, idx: number) => {
+    await navigator.clipboard.writeText(text);
+    setCopiedIdx(idx);
+    setTimeout(() => setCopiedIdx(null), 2000);
+  };
+
+  /* ── WhatsApp-like HTML preview renderer ── */
+  const renderPreview = (raw: string) => {
+    const esc = (s: string) => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    let html = esc(raw);
+    html = html.replace(/```([\s\S]*?)```/g, '<code class="block font-mono bg-black/10 dark:bg-white/10 px-2 py-1 rounded text-[12px] whitespace-pre-wrap my-1">$1</code>');
+    html = html.replace(/`([^`\n]+)`/g,       '<code class="font-mono bg-black/10 dark:bg-white/10 px-1 rounded text-[12px]">$1</code>');
+    html = html.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+    html = html.replace(/\*(.*?)\*/g,          '<strong>$1</strong>');
+    html = html.replace(/_(.*?)_/g,             '<em class="italic">$1</em>');
+    html = html.replace(/~(.*?)~/g,             '<del>$1</del>');
+    html = html.replace(/\n/g,                  '<br/>');
+    return html;
   };
 
   const formats = [
-    { label: '*Bold*',      symbol: '*',   desc: 'Bold',          color: 'bg-blue-500 text-white',   idle: 'bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900/50' },
-    { label: '_Italic_',    symbol: '_',   desc: 'Italic',        color: 'bg-purple-500 text-white',  idle: 'bg-purple-50 dark:bg-purple-950/30 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-900/50' },
-    { label: '~Strike~',    symbol: '~',   desc: 'Strikethrough', color: 'bg-rose-500 text-white',    idle: 'bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900/50' },
-    { label: '`Mono`',      symbol: '`',   desc: 'Monospace',     color: 'bg-emerald-500 text-white', idle: 'bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/50' },
-    { label: '```Block```', symbol: '```', desc: 'Code Block',    color: 'bg-slate-700 text-white',   idle: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700' },
+    { label: 'B',    symbol: '*',    title: 'Bold',          kbd: '*text*',    color: 'bg-[#25D366] hover:bg-[#1ebe5c]',  textStyle: 'font-extrabold text-lg' },
+    { label: 'I',    symbol: '_',    title: 'Italic',        kbd: '_text_',    color: 'bg-violet-500 hover:bg-violet-600', textStyle: 'italic text-base' },
+    { label: 'S',    symbol: '~',    title: 'Strike',        kbd: '~text~',    color: 'bg-rose-500 hover:bg-rose-600',     textStyle: 'line-through text-base' },
+    { label: '</>',  symbol: '`',    title: 'Mono',          kbd: '`text`',    color: 'bg-amber-500 hover:bg-amber-600',   textStyle: 'font-mono text-sm' },
+    { label: '{ }',  symbol: '```',  title: 'Code',          kbd: '``` ```',   color: 'bg-slate-700 hover:bg-slate-800',   textStyle: 'font-mono text-sm' },
   ];
 
+  const quickActions = [
+    { label: '🧹 Clear',   action: () => setInput(''), disabled: !input },
+    { label: '📄 Example', action: () => setInput('Hello! *This is bold* and _this is italic_.\n~Old price: ₹999~ → *New: ₹499* 🎉\nUse code: `SAVE50`'), disabled: false },
+    { label: preview ? '🙈 Hide Preview' : '👁️ Preview', action: () => setPreview(p => !p), disabled: !input },
+  ];
+
+  const templates = [
+    { label: '📢 Announcement', text: '*📢 Important Announcement*\n\nDear all,\n\n_Please note that_ our office will be *closed on Monday*.\n\nWe will resume on *Tuesday at 9:00 AM*.\n\nThank you! 🙏' },
+    { label: '✅ Task Update',  text: '*✅ Task Update*\n\nHello team,\n\nHere is today\'s status:\n\n• Task 1 — *Done* ✅\n• Task 2 — _In Progress_ 🔄\n• Task 3 — ~Cancelled~ ❌\n\nLet me know if you need anything!' },
+    { label: '🎉 Celebration',  text: '🎉 *Congratulations!* 🎉\n\n_You did an amazing job!_\n\nWe are so proud of your achievement. Keep it up! 💪\n\n*Well done!* 🏆' },
+    { label: '📅 Meeting',      text: '*📅 Meeting Reminder*\n\nHi,\n\n*Date:* _Monday, 10 June_\n*Time:* _3:00 PM IST_\n*Platform:* _Google Meet_\n\nPlease join on time. Thank you!' },
+    { label: '🛒 Offer',        text: '🛒 *Special Offer Just for You!* 🛒\n\n_Don\'t miss out!_\n\nGet *50% OFF* today only.\n\n~₹999~  *₹499*\n\n👉 Use code: `SAVE50`\n\n⏰ Offer ends at midnight!' },
+    { label: '👋 Introduction', text: '👋 *Hello, I am [Your Name]*\n\n_Nice to meet you!_\n\nI am a *[profession]* based in *[city]*.\n\nI specialize in:\n• [Skill 1]\n• [Skill 2]\n\nFeel free to reach out! 😊' },
+    { label: '🚨 Urgent Alert', text: '🚨 *URGENT*\n\nHi [Name],\n\n_Action required immediately._\n\nPlease review and respond to this ASAP.\n\n*Deadline:* Today by *6:00 PM*.\n\nThank you!' },
+    { label: '📦 Order Update', text: '*📦 Order Update*\n\nHi [Name],\n\nYour order *#12345* has been _dispatched_ ✅\n\n*Expected Delivery:* _2–3 business days_\n\nTrack here: [link]\n\nThank you for shopping with us! 🛍️' },
+  ];
+
+  const tips = [
+    { sym: '*text*',    label: 'Bold',          preview: 'Hello World',  previewClass: 'font-bold', desc: 'Wrap with asterisks (*) on both sides. Works in messages on Android, iOS, and WhatsApp Web.' },
+    { sym: '_text_',    label: 'Italic',         preview: 'Important',    previewClass: 'italic',    desc: 'Wrap with underscores (_) on both sides. Use for emphasis or highlighting key information.' },
+    { sym: '~text~',    label: 'Strikethrough',  preview: 'Old Price',    previewClass: 'line-through', desc: 'Wrap with tildes (~) on both sides. Great for price comparisons or correcting old info.' },
+    { sym: '`text`',    label: 'Monospace',      preview: 'code here',    previewClass: 'font-mono text-sm', desc: 'Wrap with backticks (`) for monospace font. Use for codes, commands, or technical terms.' },
+    { sym: '```text```',label: 'Code Block',     preview: 'multi\nline',  previewClass: 'font-mono text-sm block', desc: 'Triple backticks create a fixed-width code block. Supports multi-line content.' },
+  ];
+
+  const faqs = [
+    { q: 'How do I bold text in WhatsApp?', a: 'To bold text in WhatsApp, put an asterisk (*) before and after the word — like *Hello*. In our tool, select the word and click the Bold (B) button. It works on Android, iPhone, and WhatsApp Web.' },
+    { q: 'How do I make text italic in WhatsApp?', a: 'Surround your text with underscores: _Hello_ shows as italic in WhatsApp. Select your text in our formatter and click the Italic (I) button to apply it automatically.' },
+    { q: 'How do I do strikethrough text in WhatsApp?', a: 'Use tilde (~) on both sides: ~Hello~ appears with a line through it. Our tool handles this automatically when you select text and click the Strikethrough (S) button.' },
+    { q: 'Does WhatsApp text formatting work on Android and iPhone?', a: 'Yes — Bold (*), Italic (_), Strikethrough (~), Monospace (`), and Code Block (```) formatting all work on WhatsApp for Android, iOS (iPhone), and WhatsApp Web on desktop.' },
+    { q: 'Can I combine bold and italic in WhatsApp?', a: 'Yes. Nest the symbols like this: *_bold italic_* to get bold italic text. You can also combine with strikethrough: *~bold strikethrough~*. Apply multiple formats using our tool.' },
+    { q: 'Why is my WhatsApp formatting not working?', a: 'Common reasons: (1) There is a space between the symbol and the first or last character — formatting symbols must touch the text directly. (2) You are trying to format a group/contact name — WhatsApp formatting only works in messages, not names. (3) You are using the wrong symbol — use * for bold, _ for italic, ~ for strikethrough, and ` for monospace.' },
+    { q: 'Can I format text in WhatsApp group names?', a: 'No. WhatsApp bold, italic, and strikethrough formatting only works in chat messages. It does not apply to group names, contact names, or WhatsApp status updates.' },
+    { q: 'Is there a limit to WhatsApp message length?', a: 'WhatsApp allows up to 65,536 characters per message. For most messages, this is more than enough. Our formatter shows a character counter so you can track your message length.' },
+    { q: 'Does this WhatsApp formatter work on mobile?', a: 'Yes — our WhatsApp Text Formatter is fully mobile-responsive and works on all smartphones and tablets. It is designed to be fast and easy to use on touchscreens.' },
+    { q: 'Is the WhatsApp Text Formatter free?', a: 'Yes, 100% free. No signup, no account, no limits. Format as many messages as you want — instantly, in your browser, for free.' },
+  ];
+
+  const wordCount = input.trim() ? input.trim().split(/\s+/).length : 0;
+  const charCount = input.length;
+  const waLimit   = 65536;
+  const limitPct  = Math.min(100, Math.round((charCount / waLimit) * 100));
+
   return (
-    <div className="space-y-4">
-      {/* Green/WhatsApp theme */}
-      <div className="p-3 bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900/50 rounded-xl flex items-start gap-3">
-        <Info className="w-4 h-4 shrink-0 mt-0.5 text-green-600 dark:text-green-400" />
-        <p className="text-xs text-green-700 dark:text-green-300 leading-relaxed">
-          <strong>Select text</strong> in the box below, then click a format button to wrap it. Or click without selection to format the whole message.
-        </p>
-      </div>
-      <div className="grid grid-cols-5 gap-2">
-        {formats.map(f => (
-          <button
-            key={f.symbol}
-            onClick={() => applyFormat(f.symbol)}
-            className={`p-3 rounded-xl text-center font-bold transition-all hover:scale-105 active:scale-95 ${f.idle}`}
-          >
-            <div className="text-sm mb-0.5 font-mono">{f.label}</div>
-            <div className="text-[9px] uppercase tracking-widest opacity-70">{f.desc}</div>
-          </button>
-        ))}
-      </div>
+    <div className="w-full space-y-3 sm:space-y-4">
 
-      {/* Input with ref */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Your Message</span>
-          <div className="flex items-center gap-3">
-            <button onClick={() => setInput(example || 'Hello! This is my WhatsApp message.')}
-              className="text-xs font-bold text-violet-600 dark:text-violet-400 hover:opacity-75 uppercase tracking-widest">
-              Load Example
+      {/* ── Tab bar (sticky on mobile) ── */}
+      <div className="sticky top-0 z-20 -mx-1 px-1 pt-1 pb-1 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm">
+        <div className="flex gap-1 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl overflow-x-auto no-scrollbar">
+          {(['format','templates','tips','faq'] as const).map(tab => (
+            <button key={tab} onClick={() => setActiveTab(tab)}
+              className={`flex-1 min-w-[70px] py-2.5 px-2 rounded-xl text-[11px] sm:text-xs font-black uppercase tracking-widest whitespace-nowrap transition-all ${
+                activeTab === tab
+                  ? 'bg-white dark:bg-slate-900 text-[#25D366] shadow-sm'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+              }`}>
+              {tab === 'format' ? '✏️ Format' : tab === 'templates' ? '📋 Templates' : tab === 'tips' ? '💡 Tips' : '❓ FAQ'}
             </button>
-            <button onClick={() => setInput('')}
-              className="inline-flex items-center gap-1 text-xs font-bold text-slate-400 hover:text-rose-500 transition-colors uppercase tracking-widest">
-              <Trash2 className="w-3 h-3" /> Clear
-            </button>
-          </div>
+          ))}
         </div>
-        <textarea
-          ref={textareaRef}
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          placeholder="Type your WhatsApp message here, then select text and click a format button above..."
-          className="w-full h-48 p-4 bg-green-50 dark:bg-green-950/20 border-2 border-green-100 dark:border-green-900/50 rounded-2xl resize-none font-mono text-sm text-slate-700 dark:text-slate-300 focus:border-green-400 focus:outline-none transition-colors leading-relaxed"
-        />
       </div>
 
-      {input && (
-        <div className="space-y-3 pt-3 border-t border-slate-100 dark:border-slate-800">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">Formatted Output (Copy to WhatsApp)</span>
-            <CopyBtn text={input} />
+      {/* ══════════════ FORMAT TAB ══════════════ */}
+      {activeTab === 'format' && (
+        <div className="space-y-3 sm:space-y-4">
+
+          {/* Mobile hint */}
+          <div className="flex items-start gap-2.5 p-3 bg-[#25D366]/10 border border-[#25D366]/25 rounded-xl">
+            <span className="text-lg flex-shrink-0 mt-0.5">💬</span>
+            <p className="text-xs text-emerald-800 dark:text-emerald-300 leading-relaxed">
+              <strong>Mobile:</strong> Tap &amp; hold to select text, then tap a button. <strong>Desktop:</strong> Select text with mouse, then click a button.
+            </p>
           </div>
-          <div className="p-4 bg-green-50 dark:bg-green-950/20 border-2 border-green-100 dark:border-green-900/50 rounded-2xl font-mono text-sm text-slate-800 dark:text-slate-200 whitespace-pre-wrap break-words">
-            {input}
+
+          {/* Format buttons — full row, big tap targets on mobile */}
+          <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
+            {formats.map(f => (
+              <button key={f.symbol} onClick={() => applyFormat(f.symbol)}
+                aria-label={`Apply ${f.title} formatting`}
+                title={`${f.title} — ${f.kbd}`}
+                className={`group flex flex-col items-center justify-center gap-0.5 sm:gap-1 py-3 sm:py-3.5 px-1 rounded-2xl text-white font-bold transition-all active:scale-95 touch-manipulation ${f.color}`}>
+                <span className={`text-base sm:text-lg leading-none ${f.textStyle}`}>{f.label}</span>
+                <span className="text-[9px] sm:text-[10px] uppercase tracking-widest opacity-90 font-black">{f.title}</span>
+                <span className="hidden sm:block text-[9px] font-mono opacity-60">{f.kbd}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Textarea + header + footer in one card */}
+          <div className="rounded-2xl border-2 border-[#25D366]/30 dark:border-[#25D366]/20 overflow-hidden bg-white dark:bg-slate-900 focus-within:border-[#25D366] transition-colors shadow-sm">
+            {/* Header */}
+            <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#075E54]">
+              <span className="text-xs font-black text-white/80 uppercase tracking-widest">✏️ Your Message</span>
+              <div className="flex items-center gap-2">
+                <button onClick={() => setInput(example || 'Hello! *This is bold* and _this is italic_.\n~Old: ₹999~ → *New: ₹499* 🎉\nUse code: `SAVE50`')}
+                  className="text-[10px] font-black text-white/60 hover:text-white transition-colors uppercase tracking-widest touch-manipulation">
+                  Example
+                </button>
+                {input && (
+                  <button onClick={() => setInput('')}
+                    className="text-[10px] font-black text-white/60 hover:text-rose-300 transition-colors uppercase tracking-widest flex items-center gap-1 touch-manipulation">
+                    <Trash2 className="w-3 h-3" /> Clear
+                  </button>
+                )}
+              </div>
+            </div>
+            {/* Textarea — min-height bigger on mobile for touch ease */}
+            <textarea
+              ref={textareaRef}
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              placeholder="Type or paste your WhatsApp message here... then select text &amp; tap a format button above."
+              rows={6}
+              inputMode="text"
+              className="w-full px-3 sm:px-4 py-3 bg-transparent resize-y font-mono text-sm sm:text-base text-slate-700 dark:text-slate-300 focus:outline-none leading-relaxed placeholder:text-slate-400 dark:placeholder:text-slate-600 min-h-[140px] sm:min-h-[160px]"
+            />
+            {/* Footer: counters + preview toggle */}
+            <div className="flex items-center justify-between px-3 sm:px-4 py-2 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 gap-2">
+              <div className="flex items-center gap-2 flex-wrap min-w-0">
+                <span className="text-[10px] text-slate-400 font-mono whitespace-nowrap">{charCount.toLocaleString()} chars</span>
+                <span className="text-[10px] text-slate-300 dark:text-slate-600">·</span>
+                <span className="text-[10px] text-slate-400 font-mono whitespace-nowrap">{wordCount} words</span>
+                {charCount > 0 && (
+                  <div className="flex items-center gap-1 min-w-0">
+                    <div className="w-16 sm:w-24 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                      <div className={`h-full rounded-full transition-all ${limitPct > 80 ? 'bg-rose-400' : 'bg-[#25D366]'}`} style={{ width: `${limitPct}%` }} />
+                    </div>
+                    <span className="text-[9px] text-slate-400 whitespace-nowrap">{limitPct}%</span>
+                  </div>
+                )}
+              </div>
+              <button onClick={() => setPreview(p => !p)}
+                disabled={!input}
+                className={`text-[10px] font-black uppercase tracking-widest flex items-center gap-1 transition-colors flex-shrink-0 touch-manipulation ${
+                  preview ? 'text-[#25D366]' : 'text-slate-400 hover:text-slate-600 disabled:opacity-40'
+                }`}>
+                {preview ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                <span className="hidden sm:inline">{preview ? 'Hide' : 'Preview'}</span>
+                <span className="sm:hidden">👁️</span>
+              </button>
+            </div>
+          </div>
+
+          {/* WhatsApp preview panel */}
+          {preview && input && (
+            <div className="rounded-2xl border-2 border-[#25D366]/30 overflow-hidden shadow-sm">
+              <div className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-[#075E54]">
+                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-[10px] font-black text-white/80 uppercase tracking-widest">WhatsApp Preview</span>
+                <span className="text-[9px] text-white/40 ml-1 hidden sm:inline">(How it looks in WhatsApp)</span>
+              </div>
+              {/* Simulated WhatsApp chat background */}
+              <div className="px-3 sm:px-4 py-4 sm:py-5"
+                style={{ background: '#E5DDD5', backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'300\' height=\'300\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h300v300H0z\' fill=\'%23E5DDD5\'/%3E%3C/svg%3E")' }}>
+                <div className="flex justify-end">
+                  <div className="max-w-[85%] sm:max-w-[75%] bg-[#DCF8C6] rounded-2xl rounded-tr-sm px-3 sm:px-4 py-2 sm:py-2.5 shadow-sm">
+                    <div className="text-sm sm:text-base text-slate-800 leading-relaxed break-words"
+                      dangerouslySetInnerHTML={{ __html: renderPreview(input) }} />
+                    <div className="text-right text-[10px] text-slate-500 mt-1 flex items-center justify-end gap-1">
+                      <span>12:00 PM</span>
+                      <svg className="w-4 h-3 text-blue-500" viewBox="0 0 16 11" fill="currentColor">
+                        <path d="M11.071.653a.75.75 0 0 1 .025 1.06l-6.79 7.25a.75.75 0 0 1-1.085 0L.693 6.086A.75.75 0 1 1 1.807 5.1l1.996 2.127 6.208-6.6a.75.75 0 0 1 1.06-.025z"/>
+                        <path d="M14.571.653a.75.75 0 0 1 .025 1.06l-6.79 7.25a.75.75 0 0 1-.282.194l.247-1.04 6.74-7.19a.75.75 0 0 1 1.06.026z"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Copy button — large, full-width, prominent on mobile */}
+          {input && (
+            <button onClick={copyOutput}
+              className={`w-full flex items-center justify-center gap-2.5 py-4 sm:py-4.5 rounded-2xl font-black text-base sm:text-lg transition-all active:scale-98 touch-manipulation shadow-lg ${
+                copied
+                  ? 'bg-emerald-500 text-white shadow-emerald-500/30'
+                  : 'bg-[#25D366] hover:bg-[#1ebe5c] text-white shadow-[#25D366]/30'
+              }`}>
+              {copied
+                ? <><Check className="w-5 h-5" /> Copied to Clipboard!</>
+                : <><Copy className="w-5 h-5" /> Copy &amp; Paste to WhatsApp</>
+              }
+            </button>
+          )}
+
+          {/* Formatted output (raw, for manual copy) */}
+          {input && (
+            <div className="rounded-2xl border-2 border-[#25D366]/20 overflow-hidden">
+              <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#128C7E]">
+                <span className="text-[10px] font-black text-white/80 uppercase tracking-widest">📋 Formatted Output</span>
+                <button onClick={copyOutput}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all touch-manipulation ${
+                    copied ? 'bg-emerald-400 text-white' : 'bg-white/20 text-white hover:bg-white/30'
+                  }`}>
+                  {copied ? <><Check className="w-3 h-3" /> Copied!</> : <><Copy className="w-3 h-3" /> Copy</>}
+                </button>
+              </div>
+              <div className="px-3 sm:px-4 py-3 bg-white dark:bg-slate-900">
+                <pre className="font-mono text-sm text-slate-800 dark:text-slate-200 whitespace-pre-wrap break-words leading-relaxed select-all">{input}</pre>
+              </div>
+            </div>
+          )}
+
+          {/* How to use steps */}
+          <div className="pt-2">
+            <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white mb-3">
+              How to Use WhatsApp Text Formatter
+            </h2>
+            <ol className="space-y-2">
+              {[
+                'Type or paste your WhatsApp message in the text box.',
+                'On mobile: tap &amp; hold to select the text you want to format. On desktop: click and drag to select.',
+                'Tap one of the 5 buttons above — Bold (B), Italic (I), Strikethrough (S), Monospace, or Code Block.',
+                'Toggle the Preview button to see exactly how it will look inside WhatsApp.',
+                'Tap the big green Copy button and paste directly into any WhatsApp chat.',
+              ].map((step, i) => (
+                <li key={i} className="flex items-start gap-3 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#25D366] text-white text-xs font-black flex items-center justify-center mt-0.5">{i+1}</span>
+                  <span dangerouslySetInnerHTML={{ __html: step }} />
+                </li>
+              ))}
+            </ol>
+          </div>
+
+        </div>
+      )}
+
+      {/* ══════════════ TEMPLATES TAB ══════════════ */}
+      {activeTab === 'templates' && (
+        <div className="space-y-3">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+            Tap any template to load it. Then customise the text and copy it to WhatsApp.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {templates.map((tpl, i) => (
+              <div key={tpl.label} className="bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-2xl overflow-hidden hover:border-[#25D366]/40 transition-all">
+                <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
+                  <span className="text-sm font-black text-slate-900 dark:text-white">{tpl.label}</span>
+                  <div className="flex items-center gap-2">
+                    <button onClick={() => copyTemplate(tpl.text, i)}
+                      className={`flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all touch-manipulation ${
+                        copiedIdx === i ? 'bg-emerald-500 text-white' : 'bg-[#25D366]/15 text-[#25D366] hover:bg-[#25D366]/25'
+                      }`}>
+                      {copiedIdx === i ? <><Check className="w-3 h-3" /> Copied</> : <><Copy className="w-3 h-3" /> Copy</>}
+                    </button>
+                    <button onClick={() => { setInput(tpl.text); setActiveTab('format'); }}
+                      className="px-2.5 py-1.5 rounded-xl text-[10px] font-black bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 transition-all touch-manipulation uppercase tracking-widest">
+                      Edit
+                    </button>
+                  </div>
+                </div>
+                <pre className="px-4 py-3 text-xs text-slate-500 dark:text-slate-400 font-mono whitespace-pre-wrap line-clamp-4 leading-relaxed">{tpl.text}</pre>
+              </div>
+            ))}
           </div>
         </div>
       )}
+
+      {/* ══════════════ TIPS TAB ══════════════ */}
+      {activeTab === 'tips' && (
+        <div className="space-y-3">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+            WhatsApp supports these 5 text formatting styles. They work on Android, iOS, and WhatsApp Web.
+          </p>
+          <div className="space-y-3">
+            {tips.map(tip => (
+              <div key={tip.sym} className="flex items-start gap-3 sm:gap-4 p-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 flex items-center justify-center bg-[#25D366]/10 rounded-xl">
+                  <code className="text-[10px] sm:text-xs font-mono text-[#25D366] font-black text-center break-all">{tip.sym}</code>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <span className="text-sm font-black text-slate-900 dark:text-white">{tip.label}</span>
+                    <span className={`text-xs sm:text-sm text-slate-700 dark:text-slate-200 ${tip.previewClass}`}>{tip.preview}</span>
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{tip.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/40 rounded-2xl">
+            <p className="text-xs text-amber-700 dark:text-amber-300 leading-relaxed">
+              ⚠️ <strong>Important:</strong> WhatsApp formatting only works in chat messages — <strong>not</strong> in group names, contact names, or status updates. The symbol must directly touch the first and last character with no space.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════ FAQ TAB ══════════════ */}
+      {activeTab === 'faq' && (
+        <div className="space-y-3">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+            Everything you need to know about WhatsApp text formatting — answered.
+          </p>
+          <div className="space-y-2">
+            {faqs.map((item, i) => (
+              <div key={i} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors touch-manipulation"
+                  aria-expanded={openFaq === i}>
+                  <span className="text-xs sm:text-sm font-black text-slate-900 dark:text-white leading-snug">{item.q}</span>
+                  <ChevronDown className={`w-4 h-4 text-slate-400 flex-shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
+                </button>
+                {openFaq === i && (
+                  <div className="px-4 pb-4 border-t border-slate-100 dark:border-slate-800">
+                    <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed pt-3">{item.a}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── SEO Content Block (below tool, above footer) ── */}
+      <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800/60 space-y-8">
+
+        {/* What is this tool */}
+        <div>
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-3">
+            What Is a WhatsApp Text Formatter?
+          </h2>
+          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
+            A <strong>WhatsApp Text Formatter</strong> is a free online tool that helps you add text formatting to your WhatsApp messages — including <strong>bold text</strong>, <strong>italic text</strong>, <strong>strikethrough</strong>, and <strong>monospace (code font)</strong> — without memorising symbols or typing them manually.
+          </p>
+          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            WhatsApp uses special Markdown-style symbols to format text. Instead of manually typing <code className="text-xs bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">*Hello*</code> to make it bold, our tool lets you select the word and click a button — making it instant, error-free, and accessible on any device including mobile phones.
+          </p>
+        </div>
+
+        {/* Format reference table */}
+        <div>
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-3">
+            WhatsApp Text Formatting Symbols — Complete Reference
+          </h2>
+          <div className="overflow-x-auto -mx-1">
+            <table className="w-full text-sm border-collapse">
+              <thead>
+                <tr className="bg-[#075E54] text-white">
+                  <th className="px-3 sm:px-4 py-2.5 text-left text-xs font-black uppercase tracking-widest rounded-tl-xl">Format</th>
+                  <th className="px-3 sm:px-4 py-2.5 text-left text-xs font-black uppercase tracking-widest">Symbol</th>
+                  <th className="px-3 sm:px-4 py-2.5 text-left text-xs font-black uppercase tracking-widest">Example</th>
+                  <th className="px-3 sm:px-4 py-2.5 text-left text-xs font-black uppercase tracking-widest rounded-tr-xl hidden sm:table-cell">Works On</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                {[
+                  { fmt: '**Bold**', sym: '*text*', ex: '*Hello*', result: <strong>Hello</strong>, works: 'Android, iOS, Web' },
+                  { fmt: '*Italic*', sym: '_text_', ex: '_Hello_', result: <em>Hello</em>, works: 'Android, iOS, Web' },
+                  { fmt: '~~Strikethrough~~', sym: '~text~', ex: '~Hello~', result: <del>Hello</del>, works: 'Android, iOS, Web' },
+                  { fmt: '`Monospace`', sym: '`text`', ex: '`Hello`', result: <code className="font-mono text-xs">Hello</code>, works: 'Android, iOS, Web' },
+                  { fmt: 'Code Block', sym: '```text```', ex: '```Hello```', result: <code className="font-mono text-xs block bg-black/5 px-1 rounded">Hello</code>, works: 'Android, iOS, Web' },
+                ].map(row => (
+                  <tr key={row.sym} className="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td className="px-3 sm:px-4 py-3 font-bold text-slate-900 dark:text-white text-xs">{row.fmt}</td>
+                    <td className="px-3 sm:px-4 py-3 font-mono text-[#25D366] text-xs font-bold">{row.sym}</td>
+                    <td className="px-3 sm:px-4 py-3 text-slate-600 dark:text-slate-300 text-xs sm:text-sm">{row.result}</td>
+                    <td className="px-3 sm:px-4 py-3 text-slate-400 text-[11px] hidden sm:table-cell">{row.works}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Key features */}
+        <div>
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mb-3">
+            Why Use Texly's WhatsApp Formatter?
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              { icon: '📱', title: 'Mobile Friendly', desc: 'Fully optimised for smartphones. Large tap targets, easy text selection, one-tap copy.' },
+              { icon: '🆓', title: '100% Free, No Signup', desc: 'Use it as many times as you want. No account, no email, no limits — ever.' },
+              { icon: '🔒', title: 'Completely Private', desc: 'Your messages are processed entirely in your browser. Nothing is sent to any server.' },
+              { icon: '⚡', title: 'Instant Results', desc: 'Format text and copy it in under 5 seconds. No waiting, no loading, no processing time.' },
+              { icon: '👁️', title: 'Live WhatsApp Preview', desc: 'See exactly how your formatted message will look inside WhatsApp before you send it.' },
+              { icon: '📋', title: '8 Ready Templates', desc: 'Pre-made message templates for announcements, celebrations, offers, meetings, and more.' },
+            ].map(item => (
+              <div key={item.title} className="flex items-start gap-3 p-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800">
+                <span className="text-2xl flex-shrink-0">{item.icon}</span>
+                <div>
+                  <h3 className="text-sm font-black text-slate-900 dark:text-white mb-1">{item.title}</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+
     </div>
   );
 }

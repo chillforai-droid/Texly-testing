@@ -15,7 +15,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { Language } from '../data/translations';
 import {
-  Zap, Languages, Check, Sun, Moon, Menu, X, Sparkles, Code2, Bot,
+  Zap, Languages, Check, Sun, Moon, Menu, X, Sparkles, Code2, Bot, Download,
 } from 'lucide-react';
 
 const Navbar: React.FC = () => {
@@ -83,6 +83,16 @@ const Navbar: React.FC = () => {
           <div className="h-6 w-px bg-slate-200 dark:bg-slate-700" />
 
           <div className="flex items-center gap-2">
+            {/* APK Download Button → /download page */}
+            <Link
+              to="/download"
+              className="flex items-center gap-1.5 px-3 py-2 text-sm font-bold text-white bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 rounded-xl transition-all shadow-sm hover:shadow-green-200 dark:hover:shadow-green-900 hover:-translate-y-0.5"
+              title="Download Texly Android App"
+            >
+              <Download className="w-4 h-4" />
+              <span>App Download</span>
+            </Link>
+
             {/* Language Selector */}
             <div className="relative">
               <button
@@ -179,6 +189,19 @@ const Navbar: React.FC = () => {
           >
             <Bot className="w-5 h-5" />
             GitHub Push
+          </Link>
+
+          {/* APK Download — Mobile → /download page */}
+          <Link
+            to="/download"
+            className="flex items-center gap-3 p-3 rounded-xl bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 font-bold"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <Download className="w-5 h-5" />
+            <div>
+              <div className="text-sm font-bold">📱 App Download</div>
+              <div className="text-xs font-normal opacity-70">Free Android APK</div>
+            </div>
           </Link>
 
           <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">

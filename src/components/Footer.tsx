@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { ALL_TOOLS } from '../data/tools';
-import { Zap, Twitter, Github, Mail, ArrowUpRight } from 'lucide-react';
+import { Zap, Twitter, Github, Mail, ArrowUpRight, Download, Smartphone } from 'lucide-react';
 
 // YouTube SVG icon
 const YouTubeIcon = () => (
@@ -99,6 +99,25 @@ const Footer: React.FC = () => {
                 <FacebookIcon aria-hidden="true" />
                 <span className="sr-only">Texly on Facebook</span>
               </a>
+            </div>
+
+            {/* 📱 APK Download Card → /download page */}
+            <div className="mt-6 p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/40 dark:to-emerald-950/30 border border-green-200 dark:border-green-800 rounded-2xl">
+              <div className="flex items-center gap-2 mb-2">
+                <Smartphone className="w-4 h-4 text-green-600 dark:text-green-400" />
+                <span className="text-sm font-bold text-green-700 dark:text-green-400">Android App</span>
+                <span className="text-xs bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 px-2 py-0.5 rounded-full font-semibold">Free</span>
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">
+                100+ tools in one app — faster, offline-ready!
+              </p>
+              <Link
+                to="/download"
+                className="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white text-sm font-bold rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-green-200 dark:hover:shadow-green-900"
+              >
+                <Download className="w-4 h-4" />
+                Download Free APK
+              </Link>
             </div>
           </div>
 

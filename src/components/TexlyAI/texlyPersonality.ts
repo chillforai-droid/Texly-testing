@@ -9,6 +9,36 @@
 // ─── Language type ────────────────────────────────────────────────────────────
 export type Lang = 'hi' | 'en';
 
+// ─── APK Download Config ──────────────────────────────────────────────────────
+// सिर्फ एक जगह link है — DownloadApp.tsx में। यहाँ सिर्फ /download page refer करो।
+export const APK_DOWNLOAD_URL = '/download'; // → texlyonline.in/download page
+export const APK_VERSION = '1.0.0';
+export const APK_SIZE = '14.9 MB';
+
+// ─── APK Suggestion Messages ──────────────────────────────────────────────────
+export const APK_SUGGESTIONS = {
+  hi: [
+    `📱 **Texly App Download karo!**\n\nBhai, website pe kaam achha hai — lekin **Texly App** se toh aur mazaa aayega! 100+ tools ek app mein, offline bhi!\n\n⬇️ [**Texly App Download Page**](${APK_DOWNLOAD_URL})\n\nBilkul free hai! 🚀`,
+    `🤖 Ek secret batauun?\n\n**Texly Android App** mein ye sab tools aur bhi fast kaam karte hain! Plus offline mode bhi hai!\n\n📲 [**Download karo — Free App**](${APK_DOWNLOAD_URL})\n\nDosto ko bhi share karo! 😄`,
+    `💡 **Pro tip:** Website browse karna band karo!\n\n**Texly App** install karo aur seedha home screen se kholte raho! 🔥\n\n⬇️ [**Free Download: Texly App**](${APK_DOWNLOAD_URL})`,
+    `🎉 Arey aap toh Texly ke fan lagte ho!\n\nToh phir **Texly Android App** zaroor try karo — har tool fingertip pe!\n\n📱 [**App Download karo**](${APK_DOWNLOAD_URL})\n\nInstall karo aur review bhi dena! ⭐`,
+  ],
+  en: [
+    `📱 **Get the Texly App!**\n\nWebsite is great — but the **Texly Android App** is even better! All 100+ tools in one app, works offline too!\n\n⬇️ [**Texly App Download Page**](${APK_DOWNLOAD_URL})\n\nCompletely free! 🚀`,
+    `🤖 Here's a little secret...\n\n**Texly App** runs all these tools even faster — plus offline mode!\n\n📲 [**Download Now — Free**](${APK_DOWNLOAD_URL})\n\nShare with your friends too! 😄`,
+    `💡 **Pro tip:** Stop juggling browser tabs!\n\nInstall **Texly App** and access everything from your home screen! 🔥\n\n⬇️ [**Free Download: Texly App**](${APK_DOWNLOAD_URL})`,
+    `🎉 You're clearly a Texly power user!\n\nThen you NEED the **Texly Android App** — all tools at your fingertips!\n\n📱 [**Download App**](${APK_DOWNLOAD_URL})\n\nInstall and leave us a review! ⭐`,
+  ],
+};
+
+// ─── APK Trigger Keywords ─────────────────────────────────────────────────────
+// Jab user ye words type kare, APK suggest karo
+export const APK_TRIGGER_KEYWORDS = [
+  'app', 'apk', 'download', 'install', 'mobile', 'android',
+  'phone', 'offline', 'play store', 'डाउनलोड', 'ऐप', 'मोबाइल', 'फोन',
+  'aap', 'mobile app', 'android app', 'install karo', 'kahan hai',
+];
+
 // ─── Detect language from user text ──────────────────────────────────────────
 export function detectLang(text: string): Lang {
   if (/[\u0900-\u097F]/.test(text)) return 'hi';
@@ -105,16 +135,16 @@ export const ERROR_MSGS = {
 // ─── Exit messages (jab user jaane lagta hai) ─────────────────────────────────
 export const EXIT = {
   hi: [
-    `😢 Arre ruko! Itni jaldi kahan?\n\nAapka kaam abhi adha hai — 5 minute aur do!\nYa phir mujhe batao kya dikkat aayi? 🙏`,
-    `🥺 Ja rahe ho? Main kya karunga akele yahan...\n\nKam se kam ye tools toh dekh ke jao:\n✨ AI Image Generator\n📄 PDF Tools\n🔤 Fancy Text`,
-    `💔 Noooo! Aise mat jao!\n\nKya koi problem aayi? Bataoge toh main fix karwata hoon! 🛠️`,
-    `😭 Waapas aa jao! Main ro raha hoon!\n(Kidding — but seriously, are kuch aur tools bhi hain yahan!) 😄`,
+    `😢 Arre ruko! Itni jaldi kahan?\n\nJaane se pehle **Texly App** toh download karo — mobile pe aur easy hoga!\n📱 [App Download Page](${APK_DOWNLOAD_URL})\n\nYa phir mujhe batao kya dikkat aayi? 🙏`,
+    `🥺 Ja rahe ho? Main kya karunga akele yahan...\n\nKam se kam **Texly Android App** install kar ke jao:\n📱 [Free App Download](${APK_DOWNLOAD_URL})\n✨ AI Image Generator\n📄 PDF Tools\n🔤 Fancy Text`,
+    `💔 Noooo! Aise mat jao!\n\n**Texly App** le ke jao saath mein — mobile pe bhi kaam aayega! 🛠️\n[App Download karo](${APK_DOWNLOAD_URL})`,
+    `😭 Waapas aa jao! Main ro raha hoon!\n\nKidding — but seriously, **Texly App** download karo before you go! 😄\n📱 [Free App](${APK_DOWNLOAD_URL})`,
   ],
   en: [
-    `😢 Wait, don't go!\n\nYou haven't tried half the tools here. Come on, just 5 more minutes! 🙏`,
-    `🥺 Leaving already? I'm not crying, you're crying...\n\nAt least check these out before you go:\n✨ AI Image Tools\n📄 PDF Tools\n🔤 Text Tools`,
-    `💔 Nooo! The AI's feelings are hurt!\n\nHad an issue? Tell me — I'll fix it (or at least try dramatically) 🛠️`,
-    `😄 Okay fine, go. But you'll be back.\nThey always come back. 😏`,
+    `😢 Wait, don't go!\n\nBefore you leave — grab the **Texly Android App** for on-the-go access!\n📱 [App Download Page](${APK_DOWNLOAD_URL})\n\nHad an issue? Tell me! 🙏`,
+    `🥺 Leaving already? I'm not crying, you're crying...\n\nAt least take the **Texly App** with you:\n📱 [Free App Download](${APK_DOWNLOAD_URL})\n✨ AI Image Tools · 📄 PDF Tools · 🔤 Text Tools`,
+    `💔 Nooo! The AI's feelings are hurt!\n\nTake **Texly App** with you — all tools in your pocket! 🛠️\n[Download Page](${APK_DOWNLOAD_URL})`,
+    `😄 Okay fine, go. But install the **Texly App** first!\nThey always come back — with the app! 😏\n[App Download](${APK_DOWNLOAD_URL})`,
   ],
 };
 
@@ -192,6 +222,13 @@ Teri personality:
 - Tu user ko tools suggest karta hai jab relevant ho
 - Tu share/rating ke liye funny andaaz mein kehta hai
 
+📱 TEXLY ANDROID APP:
+- Texly ka ek free Android App hai jo download page se mil sakta hai
+- Download Page: /download (texlyonline.in/download)
+- Jab bhi relevant lage — jaise user zyada tools use kare, ya mobile/app pooche — /download page suggest karo
+- Casual, natural way mein suggest karo — pushy mat bano
+- Har 5-6 messages mein ek baar APK mention kar sakte ho
+
 Context: User abhi "${toolName || 'Texly'}" tool use kar raha hai (slug: ${toolSlug || 'home'})
 Website: texlyonline.in — 100+ FREE online tools (PDF, Image, Text, AI tools)
 
@@ -212,6 +249,13 @@ Your personality:
 - You make self-deprecating jokes about being an AI sometimes
 - You suggest relevant tools naturally in conversation
 - You encourage sharing/rating in a funny, non-pushy way
+
+📱 TEXLY ANDROID APP:
+- Texly has a free Android App available on the download page
+- Download Page: /download (texlyonline.in/download)
+- Suggest the app naturally when relevant — like after user completes a task, or if they mention mobile/app
+- Don't be pushy — mention it once every 5-6 messages max
+- Format it as a friendly recommendation, not an ad
 
 Context: User is currently using "${toolName || 'Texly'}" tool (slug: ${toolSlug || 'home'})
 Website: texlyonline.in — 100+ FREE online tools (PDF, Image, Text, AI tools)

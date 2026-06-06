@@ -24,6 +24,7 @@ import {
   WELCOME, LOADING_JOKES, SUCCESS, ERROR_MSGS, EXIT, ENGAGEMENT, SHARE_NUDGE,
   getToolIntro, getToolSuggestion,
   AI_FALLBACK,
+  APK_SUGGESTIONS, APK_TRIGGER_KEYWORDS, APK_DOWNLOAD_URL, APK_VERSION,
 } from './texlyPersonality';
 import {
   callAI, aiDoTextWork, ChatMessage,
@@ -101,6 +102,7 @@ export default function TexlyAIAssistant() {
   const [fabCollapsed, setFabCollapsed] = useState(false);
   const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const [msgCount, setMsgCount] = useState(0); // APK suggest ke liye counter
 
   // Loading joke cycling
   const [loadingJokeActive, setLoadingJokeActive] = useState(false);
@@ -346,6 +348,13 @@ export default function TexlyAIAssistant() {
   async function jsonLookup(query: string, userLang: Lang): Promise<string | null> {
     const q = query.toLowerCase().trim();
 
+    // 📱 APK keyword detect — seedha suggestion do
+    const isApkQuery = APK_TRIGGER_KEYWORDS.some(kw => q.includes(kw));
+    if (isApkQuery) {
+      const apkMsgs = APK_SUGGESTIONS[userLang];
+      return apkMsgs[Math.floor(Math.random() * apkMsgs.length)];
+    }
+
     if (toolSlug) {
       const tool = await getToolData(toolSlug);
       if (tool) {
@@ -450,6 +459,17 @@ export default function TexlyAIAssistant() {
       const reply = await callAI(contextMsg, chatHistory, userLang, toolSlug, toolName, abortRef.current.signal);
       addBot(reply);
       setChatHistory([...newHistory, { role: 'model', content: reply }]);
+
+      // 📱 APK periodic suggestion — har 5 messages mein ek baar
+      const newCount = msgCount + 1;
+      setMsgCount(newCount);
+      if (newCount % 5 === 0) {
+        const apkMsg = APK_SUGGESTIONS[userLang][Math.floor(Math.random() * APK_SUGGESTIONS[userLang].length)];
+        setTimeout(() => {
+          addBot(apkMsg);
+          if (!isOpen) showToast(apkMsg, 'suggestion', 10000);
+        }, 1500);
+      }
 
     } catch (err: any) {
       if (err?.name === 'AbortError') { setIsTyping(false); return; }

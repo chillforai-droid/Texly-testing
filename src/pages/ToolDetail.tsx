@@ -430,6 +430,35 @@ const ToolPage: React.FC = () => {
         <script type="application/ld+json">
           {JSON.stringify(seoModule ? seoModule.getJSONLD(toolName, tool.slug, primaryKeyword, t, schemaRating) : {})}
         </script>
+        {tool.id === 'whatsapp-text-formatter' && (
+          <script type="application/ld+json">{JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              { "@type": "Question", "name": "How do I bold text in WhatsApp?", "acceptedAnswer": { "@type": "Answer", "text": "Surround the word with asterisks: *Hello* will appear as bold Hello in WhatsApp. Works on Android, iPhone, and WhatsApp Web." } },
+              { "@type": "Question", "name": "How do I make text italic in WhatsApp?", "acceptedAnswer": { "@type": "Answer", "text": "Use underscores on both sides: _Hello_ will appear in italic. Works on all WhatsApp platforms." } },
+              { "@type": "Question", "name": "How do I strikethrough text in WhatsApp?", "acceptedAnswer": { "@type": "Answer", "text": "Use tildes on both sides: ~Hello~ will show a strikethrough in WhatsApp." } },
+              { "@type": "Question", "name": "What is monospace text in WhatsApp?", "acceptedAnswer": { "@type": "Answer", "text": "Backticks create monospace font: `code` displays in a fixed-width typewriter font. Use triple backticks for a code block." } },
+              { "@type": "Question", "name": "Does WhatsApp formatting work on iPhone?", "acceptedAnswer": { "@type": "Answer", "text": "Yes! Bold, italic, strikethrough, and monospace formatting all work on WhatsApp for iPhone (iOS), Android, and WhatsApp Web." } },
+              { "@type": "Question", "name": "Why is WhatsApp text formatting not working?", "acceptedAnswer": { "@type": "Answer", "text": "Ensure there is no space between the formatting symbol and the first/last character of your text. The symbol must directly touch the text: *Hello* works, * Hello * does not." } },
+            ]
+          })}</script>
+        )}
+        {tool.id === 'whatsapp-text-formatter' && (
+          <script type="application/ld+json">{JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": "How to Bold, Italic and Format Text in WhatsApp",
+            "description": "Step-by-step guide to format WhatsApp messages with bold, italic, strikethrough and monospace text.",
+            "step": [
+              { "@type": "HowToStep", "position": 1, "name": "Type your message", "text": "Enter your WhatsApp message in the text box of the Texly WhatsApp Text Formatter." },
+              { "@type": "HowToStep", "position": 2, "name": "Select text to format", "text": "Highlight the specific word or phrase you want to bold, italicise, or strikethrough." },
+              { "@type": "HowToStep", "position": 3, "name": "Click a format button", "text": "Click Bold (*), Italic (_), Strikethrough (~), Monospace, or Code Block button above the text area." },
+              { "@type": "HowToStep", "position": 4, "name": "Preview your message", "text": "Toggle the Preview button to see how your message will look inside WhatsApp before copying." },
+              { "@type": "HowToStep", "position": 5, "name": "Copy and paste", "text": "Click the Copy button and paste the formatted message into your WhatsApp chat." },
+            ]
+          })}</script>
+        )}
       </Helmet>
 
       <div className="max-w-5xl mx-auto">
