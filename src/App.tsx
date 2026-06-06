@@ -80,6 +80,7 @@ const ImageEnhancer = lazy(() => import('./pages/tools/ImageEnhancer'));
 const ImageCompressor = lazy(() => import('./pages/tools/ImageCompressor'));
 const ImageUpscale = lazy(() => import('./pages/tools/ImageUpscale'));
 const ImageGenerator = lazy(() => import('./pages/tools/ImageGenerator'));
+const ImageFormatConverter = lazy(() => import('./pages/tools/ImageFormatConverter'));
 const SnapchatTagGenerator = lazy(
   () => import('./pages/tools/SnapchatTagGenerator')
 );
@@ -546,6 +547,14 @@ function AppContent() {
               element={
                 <RouteErrorBoundary>
                   <ImageGenerator />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/tools/image-format-converter"
+              element={
+                <RouteErrorBoundary>
+                  <ImageFormatConverter />
                 </RouteErrorBoundary>
               }
             />

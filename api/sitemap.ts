@@ -70,6 +70,7 @@ export default async function handler(req: any, res: any) {
       "compressor",
       "image-upscale",
       "image-generator",
+      "image-format-converter",
       "snapchat-tag-generator",
       // ── Dev Utility Tools ──
       "robots-txt-tester",
