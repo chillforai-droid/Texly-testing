@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dev-studio/
+
+Sitemap: https://www.texlyonline.in/sitemap.xml

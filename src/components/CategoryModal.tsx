@@ -3,6 +3,7 @@ import { X, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import DynamicIcon from './LucideIcon';
 import { useLanguage } from '../context/LanguageContext';
+import { getToolPath } from '../utils/toolPaths';
 
 interface CategoryModalProps {
   isOpen: boolean;
@@ -41,10 +42,7 @@ const CategoryModal: React.FC<CategoryModalProps> = ({ isOpen, onClose, category
 
   if (!isOpen || !category) return null;
 
-  const getToolPath = (tool: any) => {
-    if (tool.category === 'ai' || tool.category === 'generator') return `/tools/${tool.slug}`;
-    return `/tool/${tool.slug}`;
-  };
+
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">

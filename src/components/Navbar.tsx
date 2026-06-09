@@ -15,14 +15,62 @@ import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { Language } from '../data/translations';
 import {
-  Zap, Languages, Check, Sun, Moon, Menu, X, Sparkles, Code2, Bot, Download,
+  Zap, Languages, Check, Sun, Moon, Menu, X, Sparkles, Code2, Bot, Download, ChevronDown, BookOpen,
 } from 'lucide-react';
+
+const hubTranslations: Record<Language, {
+  trigger: string;
+  cleaning: string;
+  converter: string;
+  analysis: string;
+  utility: string;
+  pdf: string;
+  ai: string;
+  generator: string;
+}> = {
+  en: {
+    trigger: "Premium Hubs",
+    cleaning: "🧹 Text Cleaners Suite",
+    converter: "🔄 Text Converter Suite",
+    analysis: "📊 Text Analysis Suite",
+    utility: "🔧 Text Utility Suite",
+    pdf: "📄 PDF Tools Suite",
+    ai: "🌌 AI Text & Tools Hub",
+    generator: "⚡ Generators Suite"
+  },
+  hi: {
+    trigger: "प्रीमियम हब",
+    cleaning: "🧹 टेक्स्ट क्लीनर सूट",
+    converter: "🔄 टेक्स्ट कनवर्टर सूट",
+    analysis: "📊 टेक्स्ट एनालिसिस सूट",
+    utility: "🔧 टेक्स्ट यूटिलिटी सूट",
+    pdf: "📄 पीडीएफ टूल्स सूट",
+    ai: "🌌 एआई टेक्स्ट और टूल्स",
+    generator: "⚡ जनरेटर सूट"
+  },
+  hn: {
+    trigger: "Premium Hubs",
+    cleaning: "🧹 Text Cleaner Suite",
+    converter: "🔄 Text Converter Suite",
+    analysis: "📊 Text Analysis Suite",
+    utility: "🔧 Text Utility Suite",
+    pdf: "📄 PDF Tools Suite",
+    ai: "🌌 AI Text & Tools Hub",
+    generator: "⚡ Generators Suite"
+  }
+};
 
 const Navbar: React.FC = () => {
   const { t, language, setLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isHubsOpen, setIsHubsOpen] = useState(false);
+  const [isMobileHubsOpen, setIsMobileHubsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Safe fallback list in case language is none of the defined
+  const activeLang: Language = (language === 'hi' || language === 'hn') ? language : 'en';
+  const hubTrans = hubTranslations[activeLang];
 
   const languages: { code: Language; name: string }[] = [
     { code: 'en', name: 'English' },
@@ -56,6 +104,79 @@ const Navbar: React.FC = () => {
               <Sparkles className="w-4 h-4" />
               {t.navbar.aiTools}
             </Link>
+
+            {/* Premium Hubs Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setIsHubsOpen(!isHubsOpen)}
+                className="flex items-center gap-1.5 px-3 py-2 text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 rounded-xl transition-all select-none"
+                aria-expanded={isHubsOpen}
+                aria-haspopup="listbox"
+              >
+                <span>{hubTrans.trigger}</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isHubsOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {isHubsOpen && (
+                <>
+                  <div className="fixed inset-0 z-10" onClick={() => setIsHubsOpen(false)} />
+                  <div
+                    className="absolute left-0 mt-2 w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl z-20 overflow-hidden py-1.5 animate-in fade-in slide-in-from-top-1 duration-150"
+                  >
+                    <Link
+                      to="/tools/text-cleaning-hub"
+                      onClick={() => setIsHubsOpen(false)}
+                      className="flex items-center px-4 py-2.5 text-xs font-black text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      {hubTrans.cleaning}
+                    </Link>
+                    <Link
+                      to="/tools/text-converter-hub"
+                      onClick={() => setIsHubsOpen(false)}
+                      className="flex items-center px-4 py-2.5 text-xs font-black text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      {hubTrans.converter}
+                    </Link>
+                    <Link
+                      to="/tools/text-analysis-hub"
+                      onClick={() => setIsHubsOpen(false)}
+                      className="flex items-center px-4 py-2.5 text-xs font-black text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      {hubTrans.analysis}
+                    </Link>
+                    <Link
+                      to="/tools/text-utility-hub"
+                      onClick={() => setIsHubsOpen(false)}
+                      className="flex items-center px-4 py-2.5 text-xs font-black text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      {hubTrans.utility}
+                    </Link>
+                    <Link
+                      to="/tools/pdf-tools-hub"
+                      onClick={() => setIsHubsOpen(false)}
+                      className="flex items-center px-4 py-2.5 text-xs font-black text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      {hubTrans.pdf}
+                    </Link>
+                    <Link
+                      to="/tools/ai-tools-hub"
+                      onClick={() => setIsHubsOpen(false)}
+                      className="flex items-center px-4 py-2.5 text-xs font-black text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      {hubTrans.ai}
+                    </Link>
+                    <Link
+                      to="/tools/generators-hub"
+                      onClick={() => setIsHubsOpen(false)}
+                      className="flex items-center px-4 py-2.5 text-xs font-black text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      {hubTrans.generator}
+                    </Link>
+                  </div>
+                </>
+              )}
+            </div>
+
             <Link
               to="/blog"
               className="flex items-center gap-1.5 px-3 py-2 text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 rounded-xl transition-all"
@@ -110,7 +231,6 @@ const Navbar: React.FC = () => {
                   <div className="fixed inset-0 z-10" onClick={() => setIsLangOpen(false)} />
                   <div
                     className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl z-20 overflow-hidden"
-                    style={{ animation: 'texly-dropdown 0.15s ease-out' }}
                     role="listbox"
                   >
                     {languages.map((lang) => (
@@ -154,8 +274,8 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       <div
-        className="md:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden transition-all duration-200"
-        style={{ maxHeight: isMobileMenuOpen ? '400px' : '0px', opacity: isMobileMenuOpen ? 1 : 0 }}
+        className="md:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-y-auto transition-all duration-200"
+        style={{ maxHeight: isMobileMenuOpen ? '600px' : '0px', opacity: isMobileMenuOpen ? 1 : 0 }}
         aria-hidden={!isMobileMenuOpen}
       >
         <div className="p-4 space-y-2">
@@ -167,11 +287,81 @@ const Navbar: React.FC = () => {
             <Sparkles className="w-5 h-5" />
             {t.navbar.aiTools}
           </Link>
+
+          {/* Collapsible Mobile Hubs */}
+          <div className="rounded-xl overflow-hidden bg-slate-50 dark:bg-slate-800/50">
+            <button
+              onClick={() => setIsMobileHubsOpen(!isMobileHubsOpen)}
+              className="w-full flex items-center justify-between p-3 min-h-[48px] text-slate-700 dark:text-white font-bold text-left hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors select-none"
+            >
+              <div className="flex items-center gap-3 text-sm">
+                <Sparkles className="w-5 h-5 text-indigo-500" />
+                <span>{hubTrans.trigger}</span>
+              </div>
+              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isMobileHubsOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {isMobileHubsOpen && (
+              <div className="px-3 pb-3 space-y-1 bg-white/50 dark:bg-slate-900/30 border-t border-slate-100 dark:border-slate-800">
+                <Link
+                  to="/tools/text-cleaning-hub"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block p-2 text-xs font-black text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  {hubTrans.cleaning}
+                </Link>
+                <Link
+                  to="/tools/text-converter-hub"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block p-2 text-xs font-black text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  {hubTrans.converter}
+                </Link>
+                <Link
+                  to="/tools/text-analysis-hub"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block p-2 text-xs font-black text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  {hubTrans.analysis}
+                </Link>
+                <Link
+                  to="/tools/text-utility-hub"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block p-2 text-xs font-black text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  {hubTrans.utility}
+                </Link>
+                <Link
+                  to="/tools/pdf-tools-hub"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block p-2 text-xs font-black text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  {hubTrans.pdf}
+                </Link>
+                <Link
+                  to="/tools/ai-tools-hub"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block p-2 text-xs font-black text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  {hubTrans.ai}
+                </Link>
+                <Link
+                  to="/tools/generators-hub"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block p-2 text-xs font-black text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  {hubTrans.generator}
+                </Link>
+              </div>
+            )}
+          </div>
+
           <Link
             to="/blog"
             className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold"
             onClick={() => setIsMobileMenuOpen(false)}
           >
+            <BookOpen className="w-5 h-5 text-blue-500" />
             {t.navbar.blog}
           </Link>
           <Link
@@ -216,7 +406,7 @@ const Navbar: React.FC = () => {
               {languages.map((lang) => (
                 <button
                   key={lang.code}
-                  onClick={() => setLanguage(lang.code)}
+                  onClick={() => { setLanguage(lang.code); setIsMobileMenuOpen(false); }}
                   className={`px-3 py-1.5 rounded-lg text-xs font-black uppercase transition-all ${
                     language === lang.code
                       ? 'bg-blue-600 text-white'
@@ -230,13 +420,6 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes texly-dropdown {
-          from { opacity: 0; transform: translateY(8px) scale(0.97); }
-          to   { opacity: 1; transform: translateY(0)   scale(1);    }
-        }
-      `}</style>
     </nav>
   );
 };

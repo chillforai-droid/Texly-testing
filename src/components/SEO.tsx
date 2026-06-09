@@ -10,6 +10,7 @@ interface SEOProps {
   ogType?: string;
   ogImage?: string;
   keywords?: string[];
+  schema?: any;
 }
 
 const SEO: React.FC<SEOProps> = ({
@@ -18,7 +19,8 @@ const SEO: React.FC<SEOProps> = ({
   canonical,
   ogType = 'website',
   ogImage = `${BASE_URL}/og-image.png`,
-  keywords = ['text tools', 'online text cleaner', 'format text', 'seo tools', 'texly']
+  keywords = ['text tools', 'online text cleaner', 'format text', 'seo tools', 'texly'],
+  schema
 }) => {
   const location = useLocation();
   const siteUrl = BASE_URL;
@@ -75,6 +77,19 @@ const SEO: React.FC<SEOProps> = ({
       <meta httpEquiv="content-language" content="en" />
       <link rel="alternate" hrefLang="en" href={canonicalUrl} />
       <link rel="alternate" hrefLang="x-default" href={canonicalUrl} />
+
+      {/* Structured Schema markup */}
+      {schema && (Array.isArray(schema) ? (
+        schema.map((sch, i) => sch && (
+          <script key={i} type="application/ld+json">
+            {JSON.stringify(sch)}
+          </script>
+        ))
+      ) : (
+        <script type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
+      ))}
     </Helmet>
   );
 };

@@ -4,14 +4,13 @@
  * Target keywords: cron expression generator, cron builder, cron maker, cron parser
  */
 
-import React, { useState, useCallback, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import {
   Copy,
   Check,
   Clock,
-  RefreshCw,
   ChevronDown,
   ChevronUp,
   Zap,
@@ -29,8 +28,6 @@ interface CronField {
   dayOfWeek: string;
 }
 
-const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const MONTH_NAMES: Record<string, string> = {
   '1':'January','2':'February','3':'March','4':'April','5':'May','6':'June',
   '7':'July','8':'August','9':'September','10':'October','11':'November','12':'December',

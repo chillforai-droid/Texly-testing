@@ -108,10 +108,10 @@ export const MostUsedSEOTools = () => (
       {[
         { name: 'Redirect Chain Checker', slug: '/tools/redirect-chain-checker', desc: 'Instantly trace redirect chains, detect loops, and verify 301/302 HTTP status codes for SEO audits.', badge: 'Technical SEO' },
         { name: 'Robots.txt Tester', slug: '/tools/robots-txt-tester', desc: 'Test any URL against your robots.txt rules to verify Googlebot crawl access and indexability.', badge: 'Crawl Audit' },
-        { name: 'Slug Generator', slug: '/tool/slug-generator-online-free', desc: 'Generate clean, SEO-friendly URL slugs from any title or heading in one click.', badge: 'On-Page SEO' },
-        { name: 'Word Counter', slug: '/tool/word-counter-online-free', desc: 'Count words, characters, sentences, paragraphs and estimated reading time for SEO content planning.', badge: 'Content' },
-        { name: 'Find and Replace', slug: '/tool/find-and-replace-text-online', desc: 'Bulk find and replace text across large content — perfect for updating meta descriptions or anchor text.', badge: 'Content' },
-        { name: 'Remove HTML Tags', slug: '/tool/remove-html-tags-online', desc: 'Strip all HTML tags from content to get clean plain text — ideal for CMS migrations and audits.', badge: 'Technical' },
+        { name: 'Slug Generator', slug: '/tools/text-converter-hub?tool=slug-generator', desc: 'Generate clean, SEO-friendly URL slugs from any title or heading in one click.', badge: 'On-Page SEO' },
+        { name: 'Word Counter', slug: '/tools/text-analysis-hub?tool=word-counter', desc: 'Count words, characters, sentences, paragraphs and estimated reading time for SEO content planning.', badge: 'Content' },
+        { name: 'Find and Replace', slug: '/tools/text-converter-hub?tool=find-replace', desc: 'Bulk find and replace text across large content — perfect for updating meta descriptions or anchor text.', badge: 'Content' },
+        { name: 'Remove HTML Tags', slug: '/tools/text-cleaning-hub?tool=remove-html-tags', desc: 'Strip all HTML tags from content to get clean plain text — ideal for CMS migrations and audits.', badge: 'Technical' },
       ].map(tool => (
         <Link key={tool.slug} to={tool.slug}
           className="group flex flex-col p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700/60 hover:shadow-lg transition-all duration-200">
@@ -150,21 +150,21 @@ export const MostUsedTextTools = () => (
     </div>
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
       {[
-        { name: 'Remove Extra Spaces', slug: '/tool/remove-extra-spaces-online' },
-        { name: 'Remove Duplicate Lines', slug: '/tool/remove-duplicate-lines-tool' },
-        { name: 'Remove Line Breaks', slug: '/tool/remove-line-breaks-tool' },
-        { name: 'Upper Case Converter', slug: '/tool/upper-case-converter' },
-        { name: 'Lower Case Converter', slug: '/tool/lower-case-converter' },
-        { name: 'Title Case Converter', slug: '/tool/title-case-converter' },
-        { name: 'Word Counter', slug: '/tool/word-counter-online-free' },
-        { name: 'Character Counter', slug: '/tool/character-counter-tool' },
-        { name: 'Text Reverser', slug: '/tool/text-reverser-online' },
-        { name: 'Text Repeater', slug: '/tool/text-repeater-tool' },
-        { name: 'Sort Lines', slug: '/tool/sort-lines-alphabetically' },
-        { name: 'Remove Special Characters', slug: '/tool/remove-special-characters-online' },
-        { name: 'Remove HTML Tags', slug: '/tool/remove-html-tags-online' },
-        { name: 'Lorem Ipsum Generator', slug: '/tool/lorem-ipsum-generator-online' },
-        { name: 'Reading Time Calculator', slug: '/tool/reading-time-calculator-online' },
+        { name: 'Remove Extra Spaces', slug: '/tools/text-cleaning-hub?tool=remove-extra-spaces' },
+        { name: 'Remove Duplicate Lines', slug: '/tools/text-cleaning-hub?tool=remove-duplicate-lines' },
+        { name: 'Remove Line Breaks', slug: '/tools/text-cleaning-hub?tool=remove-line-breaks' },
+        { name: 'Upper Case Converter', slug: '/tools/text-converter-hub?tool=upper-case' },
+        { name: 'Lower Case Converter', slug: '/tools/text-converter-hub?tool=lower-case' },
+        { name: 'Title Case Converter', slug: '/tools/text-converter-hub?tool=title-case' },
+        { name: 'Word Counter', slug: '/tools/text-analysis-hub?tool=word-counter' },
+        { name: 'Character Counter', slug: '/tools/text-analysis-hub?tool=character-counter' },
+        { name: 'Text Reverser', slug: '/tools/text-utility-hub?tool=text-reverser' },
+        { name: 'Text Repeater', slug: '/tools/text-utility-hub?tool=text-repeater' },
+        { name: 'Sort Lines', slug: '/tools/text-utility-hub?tool=sort-lines' },
+        { name: 'Remove Special Characters', slug: '/tools/text-cleaning-hub?tool=remove-special-characters' },
+        { name: 'Remove HTML Tags', slug: '/tools/text-cleaning-hub?tool=remove-html-tags' },
+        { name: 'Lorem Ipsum Generator', slug: '/tools/generators-hub?tool=lorem-ipsum' },
+        { name: 'Reading Time Calculator', slug: '/tools/text-analysis-hub?tool=reading-time' },
       ].map(tool => (
         <Link key={tool.slug} to={tool.slug}
           className="group flex items-center gap-2 px-3.5 py-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 hover:border-amber-300 dark:hover:border-amber-700/60 hover:shadow-md transition-all text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-amber-700 dark:hover:text-amber-300">

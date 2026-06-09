@@ -24,6 +24,7 @@ import React, {
   lazy,
   Suspense,
 } from 'react';
+import { Helmet } from 'react-helmet-async';
 import JSZip from 'jszip';
 import {
   FileTree,
@@ -153,6 +154,17 @@ export default function DevStudioPage() {
   const [ghBranch, setGhBranch] = useState('main');
   const [gitChanges, setGitChanges] = useState<string[]>([]);
 
+  // ─── Mobile responsiveness state ──────────────────────────────────────────
+  const [isMobileScreen, setIsMobileScreen] = useState(false);
+  const [mobileActiveView, setMobileActiveView] = useState<'sidebar' | 'editor' | 'panel'>('editor');
+
+  useEffect(() => {
+    const handleResize = () => setIsMobileScreen(window.innerWidth < 1024);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<any>(null);
 
@@ -195,6 +207,7 @@ export default function DevStudioPage() {
       return [...prev, { path, name, content: files[path] ?? content, language, modified: false }];
     });
     setActiveTab(path);
+    setMobileActiveView('editor');
   }, [allFiles]);
 
   // ─── Editor content change ───────────────────────────────────────────────
@@ -337,6 +350,7 @@ export default function DevStudioPage() {
     const blob = new Blob([html], { type: 'text/html' });
     setPreviewUrl(URL.createObjectURL(blob));
     setRightPanel('preview');
+    setMobileActiveView('panel');
   }, [allFiles]);
 
   // ─── GitHub push ─────────────────────────────────────────────────────────
@@ -519,6 +533,31 @@ export default function DevStudioPage() {
       onDragLeave={() => setIsDragging(false)}
       onDrop={handleDrop}
     >
+      <Helmet>
+        <title>DevStudio Online IDE - Free Browser-Based Code Editor & Compiler | Texly</title>
+        <meta name="description" content="Texly DevStudio is a powerful, free online IDE & editor inside your web browser. Edit codes with Monaco Editor, upload ZIP files, experience live preview, synchronize commits directly with GitHub, and utilize LLaMA AI auto-generation. No installation required." />
+        <meta name="keywords" content="online ide, web-based code editor, free online compiler, monaco editor online, upload zip ide, web ide github compiler, online react editor, online python editor, git browser code commit tool" />
+        <link rel="canonical" href="https://www.texlyonline.in/devstudio" />
+
+        {/* Schema.org */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "DevStudio Online IDE",
+            "description": "Powerful web-based dynamic IDE featuring Monaco editor with syntax typing highlights, drag-and-drop zip project extraction, git integration panels, and live sandboxed preview frames.",
+            "url": "https://www.texlyonline.in/devstudio",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "All",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          })}
+        </script>
+      </Helmet>
+
       {/* ── Top bar ─────────────────────────────────────────────────── */}
       <TopBar
         projectName={projectName}
@@ -527,224 +566,265 @@ export default function DevStudioPage() {
         onSave={saveFile}
         hasProject={Object.keys(allFiles).length > 0}
         rightPanel={rightPanel}
-        setRightPanel={setRightPanel}
+        setRightPanel={(p) => {
+          setRightPanel(p);
+          setMobileActiveView('panel');
+        }}
       />
+
+      {/* ── Mobile responsive tab selectors ─────────────────────────── */}
+      {isMobileScreen && (
+        <div className="flex bg-[#252526] border-b border-[#3c3c3c] text-[11px] h-10 items-center justify-around flex-shrink-0">
+          <button
+            onClick={() => setMobileActiveView('sidebar')}
+            className={`flex-1 h-full text-center font-bold flex items-center justify-center gap-1 transition-all ${
+              mobileActiveView === 'sidebar' ? 'bg-[#1e1e1e] text-amber-500 border-b-2 border-amber-500' : 'text-[#aaa] hover:text-white'
+            }`}
+          >
+            <span>📁</span> Files ({Object.keys(allFiles).length})
+          </button>
+          <button
+            onClick={() => setMobileActiveView('editor')}
+            className={`flex-1 h-full text-center font-bold flex items-center justify-center gap-1 transition-all ${
+              mobileActiveView === 'editor' ? 'bg-[#1e1e1e] text-white border-b-2 border-[#007acc]' : 'text-[#aaa] hover:text-white'
+            }`}
+          >
+            <span>📝</span> Editor {activeTabData ? `(${activeTabData.name})` : ''}
+          </button>
+          <button
+            onClick={() => setMobileActiveView('panel')}
+            className={`flex-1 h-full text-center font-bold flex items-center justify-center gap-1 transition-all ${
+              mobileActiveView === 'panel' ? 'bg-[#1e1e1e] text-cyan-400 border-b-2 border-cyan-400' : 'text-[#aaa] hover:text-white'
+            }`}
+          >
+            <span>👁</span> {rightPanel.toUpperCase()} {gitChanges.length > 0 && `(${gitChanges.length})`}
+          </button>
+        </div>
+      )}
 
       {/* ── Body ────────────────────────────────────────────────────── */}
       <div className="flex flex-1 overflow-hidden">
         {/* ── Activity bar ─────────────────────────────────────────── */}
-        <ActivityBar
-          sidebarTab={sidebarTab}
-          setSidebarTab={setSidebarTab}
-          gitChanges={gitChanges.length}
-        />
+        {(!isMobileScreen || mobileActiveView === 'sidebar') && (
+          <ActivityBar
+            sidebarTab={sidebarTab}
+            setSidebarTab={setSidebarTab}
+            gitChanges={gitChanges.length}
+          />
+        )}
 
         {/* ── Sidebar ──────────────────────────────────────────────── */}
-        <div
-          className="flex flex-col border-r border-[#3c3c3c] overflow-hidden flex-shrink-0"
-          style={{ width: sidebarWidth, background: '#252526' }}
-        >
-          {/* Sidebar header */}
-          <div className="px-3 py-2 text-[10px] font-semibold text-[#bbb] uppercase tracking-widest border-b border-[#3c3c3c]">
-            {sidebarTab === 'files' && 'Explorer'}
-            {sidebarTab === 'search' && 'Search'}
-            {sidebarTab === 'git' && 'Source Control'}
-          </div>
+        {(!isMobileScreen || mobileActiveView === 'sidebar') && (
+          <div
+            className="flex flex-col border-r border-[#3c3c3c] overflow-hidden flex-shrink-0"
+            style={{ width: isMobileScreen ? 'calc(100% - 44px)' : sidebarWidth, background: '#252526' }}
+          >
+            {/* Sidebar header */}
+            <div className="px-3 py-2 text-[10px] font-semibold text-[#bbb] uppercase tracking-widest border-b border-[#3c3c3c]">
+              {sidebarTab === 'files' && 'Explorer'}
+              {sidebarTab === 'search' && 'Search'}
+              {sidebarTab === 'git' && 'Source Control'}
+            </div>
 
-          <div className="flex-1 overflow-y-auto">
-            {sidebarTab === 'files' && (
-              <>
-                {fileTree.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center h-full gap-3 px-4 text-center">
-                    <div className="text-4xl">📁</div>
-                    <p className="text-[#888] text-xs">ZIP project upload करें</p>
-                    <button
-                      onClick={() => fileInputRef.current?.click()}
-                      className="px-3 py-1.5 text-xs bg-[#0e639c] hover:bg-[#1177bb] text-white rounded transition-colors"
-                    >
-                      Upload ZIP
-                    </button>
-                  </div>
-                ) : (
-                  <div className="py-1">
-                    <div className="px-2 py-1 text-[11px] font-semibold text-[#bbb] flex items-center gap-1">
-                      <span>📂</span>
-                      <span className="truncate">{projectName.toUpperCase()}</span>
+            <div className="flex-1 overflow-y-auto">
+              {sidebarTab === 'files' && (
+                <>
+                  {fileTree.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-full gap-3 px-4 text-center">
+                      <div className="text-4xl">📁</div>
+                      <p className="text-[#888] text-xs">ZIP project upload करें</p>
+                      <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="px-3 py-1.5 text-xs bg-[#0e639c] hover:bg-[#1177bb] text-white rounded transition-colors"
+                      >
+                        Upload ZIP
+                      </button>
                     </div>
-                    <FileTree
-                      nodes={fileTree}
-                      activeFile={activeTab ?? ''}
-                      onFileClick={(node) => {
-                        if (node.type === 'file') {
-                          openFile(node.path, allFiles[node.path] ?? '');
-                        }
-                      }}
-                    />
-                  </div>
-                )}
-              </>
-            )}
-
-            {sidebarTab === 'search' && (
-              <div className="p-2">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Files में search करें..."
-                  className="w-full px-2 py-1.5 text-[12px] bg-[#3c3c3c] text-[#ccc] border border-[#555] rounded outline-none focus:border-[#007acc] placeholder-[#666]"
-                  style={{ fontFamily: 'inherit' }}
-                />
-                <div className="mt-2">
-                  {searchResults.length === 0 && searchQuery.length > 1 && (
-                    <p className="text-[#666] text-xs text-center py-4">No results</p>
+                  ) : (
+                    <div className="py-1">
+                      <div className="px-2 py-1 text-[11px] font-semibold text-[#bbb] flex items-center gap-1">
+                        <span>📂</span>
+                        <span className="truncate">{projectName.toUpperCase()}</span>
+                      </div>
+                      <FileTree
+                        nodes={fileTree}
+                        activeFile={activeTab ?? ''}
+                        onFileClick={(node) => {
+                          if (node.type === 'file') {
+                            openFile(node.path, allFiles[node.path] ?? '');
+                          }
+                        }}
+                      />
+                    </div>
                   )}
-                  {searchResults.map(([path]) => (
-                    <div
-                      key={path}
-                      onClick={() => openFile(path, allFiles[path] ?? '')}
-                      className="flex items-center gap-1.5 px-1 py-1 rounded hover:bg-[#2a2d2e] cursor-pointer"
-                    >
-                      <span className="text-[11px]">{getFileIcon(path.split('/').pop() ?? '')}</span>
-                      <span className="text-[11px] text-[#ccc] truncate">{path.split('/').pop()}</span>
-                      <span className="text-[10px] text-[#666] truncate ml-auto">{path.split('/').slice(-2, -1)[0]}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+                </>
+              )}
 
-            {sidebarTab === 'git' && (
-              <div className="p-2">
-                <p className="text-[11px] text-[#888] mb-2">Changed Files ({gitChanges.length})</p>
-                {gitChanges.length === 0 ? (
-                  <p className="text-[#555] text-xs text-center py-4">No changes</p>
-                ) : (
-                  gitChanges.map((path) => (
-                    <div
-                      key={path}
-                      onClick={() => openFile(path, allFiles[path] ?? '')}
-                      className="flex items-center gap-1.5 px-1 py-1 rounded hover:bg-[#2a2d2e] cursor-pointer"
-                    >
-                      <span className="text-[11px]">{getFileIcon(path.split('/').pop() ?? '')}</span>
-                      <span className="text-[11px] text-[#ccc] truncate flex-1">{path.split('/').pop()}</span>
-                      <span className="text-[10px] text-[#4ec9b0] font-semibold">M</span>
-                    </div>
-                  ))
-                )}
-              </div>
-            )}
+              {sidebarTab === 'search' && (
+                <div className="p-2">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Files में search करें..."
+                    className="w-full px-2 py-1.5 text-[12px] bg-[#3c3c3c] text-[#ccc] border border-[#555] rounded outline-none focus:border-[#007acc] placeholder-[#666]"
+                    style={{ fontFamily: 'inherit' }}
+                  />
+                  <div className="mt-2">
+                    {searchResults.length === 0 && searchQuery.length > 1 && (
+                      <p className="text-[#666] text-xs text-center py-4">No results</p>
+                    )}
+                    {searchResults.map(([path]) => (
+                      <div
+                        key={path}
+                        onClick={() => openFile(path, allFiles[path] ?? '')}
+                        className="flex items-center gap-1.5 px-1 py-1 rounded hover:bg-[#2a2d2e] cursor-pointer"
+                      >
+                        <span className="text-[11px]">{getFileIcon(path.split('/').pop() ?? '')}</span>
+                        <span className="text-[11px] text-[#ccc] truncate">{path.split('/').pop()}</span>
+                        <span className="text-[10px] text-[#666] truncate ml-auto">{path.split('/').slice(-2, -1)[0]}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {sidebarTab === 'git' && (
+                <div className="p-2">
+                  <p className="text-[11px] text-[#888] mb-2">Changed Files ({gitChanges.length})</p>
+                  {gitChanges.length === 0 ? (
+                    <p className="text-[#555] text-xs text-center py-4">No changes</p>
+                  ) : (
+                    gitChanges.map((path) => (
+                      <div
+                        key={path}
+                        onClick={() => openFile(path, allFiles[path] ?? '')}
+                        className="flex items-center gap-1.5 px-1 py-1 rounded hover:bg-[#2a2d2e] cursor-pointer"
+                      >
+                        <span className="text-[11px]">{getFileIcon(path.split('/').pop() ?? '')}</span>
+                        <span className="text-[11px] text-[#ccc] truncate flex-1">{path.split('/').pop()}</span>
+                        <span className="text-[10px] text-[#4ec9b0] font-semibold">M</span>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* ── Editor area ──────────────────────────────────────────── */}
-        <div className="flex flex-col flex-1 overflow-hidden min-w-0">
-          {/* Editor tabs */}
-          <EditorTabs
-            tabs={openTabs}
-            activeTab={activeTab ?? ''}
-            onTabClick={setActiveTab}
-            onTabClose={closeTab}
-          />
+        {(!isMobileScreen || mobileActiveView === 'editor') && (
+          <div className="flex flex-col flex-1 overflow-hidden min-w-0">
+            {/* Editor tabs */}
+            <EditorTabs
+              tabs={openTabs}
+              activeTab={activeTab ?? ''}
+              onTabClick={setActiveTab}
+              onTabClose={closeTab}
+            />
 
-          {/* Monaco Editor */}
-          <div className="flex-1 overflow-hidden relative">
-            {openTabs.length === 0 ? (
-              <WelcomeScreen onUpload={() => fileInputRef.current?.click()} />
-            ) : (
-              <Suspense fallback={<EditorLoader />}>
-                <MonacoEditor
-                  height="100%"
-                  language={activeTabData?.language ?? 'plaintext'}
-                  value={activeTabData?.content ?? ''}
-                  theme="vs-dark"
-                  options={monacoOptions}
-                  onChange={handleEditorChange}
-                  onMount={(editor) => { editorRef.current = editor; }}
-                />
-              </Suspense>
-            )}
+            {/* Monaco Editor */}
+            <div className="flex-1 overflow-hidden relative">
+              {openTabs.length === 0 ? (
+                <WelcomeScreen onUpload={() => fileInputRef.current?.click()} />
+              ) : (
+                <Suspense fallback={<EditorLoader />}>
+                  <MonacoEditor
+                    height="100%"
+                    language={activeTabData?.language ?? 'plaintext'}
+                    value={activeTabData?.content ?? ''}
+                    theme="vs-dark"
+                    options={monacoOptions}
+                    onChange={handleEditorChange}
+                    onMount={(editor) => { editorRef.current = editor; }}
+                  />
+                </Suspense>
+              )}
+            </div>
+
+            {/* AI bar */}
+            <AiBar
+              onModify={handleAiModify}
+              loading={aiLoading}
+              status={aiStatus}
+              disabled={!activeTab}
+            />
           </div>
-
-          {/* AI bar */}
-          <AiBar
-            onModify={handleAiModify}
-            loading={aiLoading}
-            status={aiStatus}
-            disabled={!activeTab}
-          />
-        </div>
+        )}
 
         {/* ── Right panel ──────────────────────────────────────────── */}
-        <div
-          className="flex flex-col border-l border-[#3c3c3c] flex-shrink-0 overflow-hidden"
-          style={{ width: rightWidth, background: '#1e1e1e' }}
-        >
-          {/* Right panel tab bar */}
-          <div className="flex border-b border-[#3c3c3c] bg-[#252526]">
-            {(['preview', 'terminal', 'github', 'info'] as RightPanel[]).map((panel) => {
-              const labels: Record<RightPanel, string> = {
-                preview: '👁 Preview', terminal: '> Terminal',
-                github: '⎇ GitHub', info: 'ℹ Info',
-              };
-              return (
-                <button
-                  key={panel}
-                  onClick={() => setRightPanel(panel)}
-                  className={`flex-1 py-1.5 text-[10px] transition-colors ${
-                    rightPanel === panel
-                      ? 'text-white border-b-2 border-[#007acc] bg-[#1e1e1e]'
-                      : 'text-[#888] hover:text-[#ccc]'
-                  }`}
-                  style={{ minHeight: 'unset', minWidth: 'unset' }}
-                >
-                  {labels[panel]}
-                </button>
-              );
-            })}
-          </div>
+        {(!isMobileScreen || mobileActiveView === 'panel') && (
+          <div
+            className="flex flex-col border-l border-[#3c3c3c] flex-shrink-0 overflow-hidden"
+            style={{ width: isMobileScreen ? '100%' : rightWidth, background: '#1e1e1e' }}
+          >
+            {/* Right panel tab bar */}
+            <div className="flex border-b border-[#3c3c3c] bg-[#252526]">
+              {(['preview', 'terminal', 'github', 'info'] as RightPanel[]).map((panel) => {
+                const labels: Record<RightPanel, string> = {
+                  preview: '👁 Preview', terminal: '> Terminal',
+                  github: '⎇ GitHub', info: 'ℹ Info',
+                };
+                return (
+                  <button
+                    key={panel}
+                    onClick={() => setRightPanel(panel)}
+                    className={`flex-1 py-1.5 text-[10px] transition-colors ${
+                      rightPanel === panel
+                        ? 'text-white border-b-2 border-[#007acc] bg-[#1e1e1e]'
+                        : 'text-[#888] hover:text-[#ccc]'
+                    }`}
+                    style={{ minHeight: 'unset', minWidth: 'unset' }}
+                  >
+                    {labels[panel]}
+                  </button>
+                );
+              })}
+            </div>
 
-          <div className="flex-1 overflow-hidden">
-            {rightPanel === 'preview' && (
-              <PreviewPanel
-                previewUrl={previewUrl}
-                onBuild={buildPreview}
-                allFiles={allFiles}
-                onUpload={() => fileInputRef.current?.click()}
-              />
-            )}
-            {rightPanel === 'terminal' && (
-              <TerminalPanel
-                log={terminalLog}
-                onCommand={(cmd) => {
-                  setTerminalLog((p) => [...p, `$ ${cmd}`, '⚡ Connect Render backend to execute']);
-                }}
-              />
-            )}
-            {rightPanel === 'github' && (
-              <GitHubPanel
-                token={ghToken}
-                repo={ghRepo}
-                branch={ghBranch}
-                onTokenChange={setGhToken}
-                onRepoChange={setGhRepo}
-                onBranchChange={setGhBranch}
-                onPush={handleGithubPush}
-                changes={gitChanges}
-                allFiles={allFiles}
-                onFileClick={(path) => openFile(path, allFiles[path] ?? '')}
-              />
-            )}
-            {rightPanel === 'info' && (
-              <InfoPanel
-                projectName={projectName}
-                fileCount={Object.keys(allFiles).length}
-                tabCount={openTabs.length}
-                changes={gitChanges.length}
-              />
-            )}
+            <div className="flex-1 overflow-hidden">
+              {rightPanel === 'preview' && (
+                <PreviewPanel
+                  previewUrl={previewUrl}
+                  onBuild={buildPreview}
+                  allFiles={allFiles}
+                  onUpload={() => fileInputRef.current?.click()}
+                />
+              )}
+              {rightPanel === 'terminal' && (
+                <TerminalPanel
+                  log={terminalLog}
+                  onCommand={(cmd) => {
+                    setTerminalLog((p) => [...p, `$ ${cmd}`, '⚡ Connect Render backend to execute']);
+                  }}
+                />
+              )}
+              {rightPanel === 'github' && (
+                <GitHubPanel
+                  token={ghToken}
+                  repo={ghRepo}
+                  branch={ghBranch}
+                  onTokenChange={setGhToken}
+                  onRepoChange={setGhRepo}
+                  onBranchChange={setGhBranch}
+                  onPush={handleGithubPush}
+                  changes={gitChanges}
+                  allFiles={allFiles}
+                  onFileClick={(path) => openFile(path, allFiles[path] ?? '')}
+                />
+              )}
+              {rightPanel === 'info' && (
+                <InfoPanel
+                  projectName={projectName}
+                  fileCount={Object.keys(allFiles).length}
+                  tabCount={openTabs.length}
+                  changes={gitChanges.length}
+                />
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* ── Status bar ───────────────────────────────────────────────── */}
@@ -791,29 +871,29 @@ function TopBar({
   hasProject: boolean; rightPanel: string; setRightPanel: (p: RightPanel) => void;
 }) {
   return (
-    <div className="flex items-center h-9 bg-[#323233] border-b border-[#3c3c3c] px-3 gap-2 flex-shrink-0">
-      <div className="flex items-center gap-1.5 mr-2">
+    <div className="flex items-center h-9 bg-[#323233] border-b border-[#3c3c3c] px-3 gap-2 flex-shrink-0 justify-between sm:justify-start">
+      <div className="flex items-center gap-1.5 mr-2 flex-shrink-0">
         <span className="text-[#4ec9b0] font-bold text-sm">⟨/⟩</span>
         <span className="text-[#ccc] text-xs font-semibold">DevStudio</span>
         {projectName && (
-          <span className="text-[#666] text-xs">— {projectName}</span>
+          <span className="hidden md:inline text-[#666] text-xs truncate max-w-[120px]">— {projectName}</span>
         )}
       </div>
 
-      <div className="flex items-center gap-1 text-[11px]">
-        <TbBtn onClick={onUploadClick} title="Upload ZIP">📦 Upload</TbBtn>
+      <div className="flex items-center gap-1 text-[11px] flex-shrink-0">
+        <TbBtn onClick={onUploadClick} title="Upload ZIP">📦 <span className="hidden sm:inline">Upload</span></TbBtn>
         {hasProject && <>
-          <TbBtn onClick={onSave} title="Save (Ctrl+S)">💾 Save</TbBtn>
-          <TbBtn onClick={onPreview} title="Live Preview">▶ Preview</TbBtn>
+          <TbBtn onClick={onSave} title="Save (Ctrl+S)">💾 <span className="hidden sm:inline">Save</span></TbBtn>
+          <TbBtn onClick={onPreview} title="Live Preview">▶ <span className="hidden sm:inline">Preview</span></TbBtn>
         </>}
       </div>
 
-      <div className="flex-1" />
+      <div className="hidden sm:block flex-1" />
 
-      <div className="flex items-center gap-1 text-[11px]">
-        <TbBtn onClick={() => setRightPanel('terminal')} active={rightPanel === 'terminal'}>⌨ Terminal</TbBtn>
-        <TbBtn onClick={() => setRightPanel('github')} active={rightPanel === 'github'}>⎇ GitHub</TbBtn>
-        <a href="/" className="text-[#888] hover:text-[#ccc] text-[11px] px-2" style={{ minHeight: 'unset', minWidth: 'unset' }}>← Texly</a>
+      <div className="flex items-center gap-1 text-[11px] flex-shrink-0">
+        <TbBtn onClick={() => setRightPanel('terminal')} active={rightPanel === 'terminal'} title="Open Terminal">⌨ <span className="hidden sm:inline">Terminal</span></TbBtn>
+        <TbBtn onClick={() => setRightPanel('github')} active={rightPanel === 'github'} title="Push to GitHub">⎇ <span className="hidden sm:inline">GitHub</span></TbBtn>
+        <a href="/" className="text-[#888] hover:text-[#ccc] text-[11px] px-1.5 transition-colors" title="Go to Texly Home" style={{ minHeight: 'unset', minWidth: 'unset' }}>← <span className="hidden sm:inline">Texly</span></a>
       </div>
     </div>
   );

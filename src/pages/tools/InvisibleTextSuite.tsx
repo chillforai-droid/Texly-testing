@@ -10,11 +10,11 @@
  *  5. Fancy Font Generator
  */
 
-import React, { useState, useCallback, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   Copy, Check, EyeOff, MessageSquare, Hash,
-  Type, Sparkles, Zap, ChevronDown, ArrowRight,
+  Type, Sparkles, Zap, ChevronDown,
   Shield, Clock, Star
 } from 'lucide-react';
 
@@ -334,24 +334,12 @@ function WhatsAppTab() {
 
 // ─── Tab: Discord Invisible Name ───────────────────────────────────────────────
 function DiscordTab() {
-  const [input, setInput] = useState('');
-  const invisibleName = '\u3164'; // Single Hangul Filler — most reliable for Discord
-  const [nameCopied, setNameCopied] = useState(false);
-  const [tagCopied, setTagCopied] = useState(false);
-
   const DISCORD_TIPS = [
     { title: 'Invisible Username', value: '\u3164\u3164\u3164', desc: 'Triple Hangul Filler for blank Discord username' },
     { title: 'Invisible Nickname', value: '\u3164', desc: 'Single char for server nickname' },
     { title: 'Blank Status', value: '\u200B', desc: 'Empty custom status message' },
     { title: 'Invisible Bio', value: '\u3164\u200B\u3164', desc: 'Clear Discord About Me section' },
   ];
-
-  const copyText = (text: string, setter: React.Dispatch<React.SetStateAction<boolean>>) => {
-    navigator.clipboard.writeText(text).then(() => {
-      setter(true);
-      setTimeout(() => setter(false), 2000);
-    });
-  };
 
   return (
     <div className="space-y-6">

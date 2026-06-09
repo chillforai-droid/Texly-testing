@@ -45,6 +45,7 @@ import CategoryModal from './components/CategoryModal';
 import CookieBanner from './components/CookieBanner';
 import ErrorBoundary, { RouteErrorBoundary } from './components/ErrorBoundary';
 import { shouldReduceAnimations, isSamsungTV } from './utils/browserCompat';
+import { getToolPath } from './utils/toolPaths';
 import { useMobilePerf } from './hooks/useMobilePerf';
 import { useDesktopPerf, shouldPrefetch } from './hooks/useDesktopPerf';
 import pagesData from './data/pages.json';
@@ -98,6 +99,15 @@ const AIAutomation = lazy(() => import('./pages/AIAutomation'));
 // AI SEO Automation Panel द्वारा push किए गए programmatic landing pages
 const SEOPage = lazy(() => import('./pages/SEOPage'));
 
+// ─── Hub Pages (7 hubs) ─────────────────────────────────────────────────────────
+const TextCleaningHub = lazy(() => import('./pages/tools/TextCleaningHub'));
+const TextConverterHub = lazy(() => import('./pages/tools/TextConverterHub'));
+const TextUtilityHub = lazy(() => import('./pages/tools/TextUtilityHub'));
+const PDFToolsHub = lazy(() => import('./pages/tools/PDFToolsHub'));
+const AIToolsHub = lazy(() => import('./pages/tools/AIToolsHub'));
+const GeneratorsHub = lazy(() => import('./pages/tools/GeneratorsHub'));
+const TextAnalysisHub = lazy(() => import('./pages/tools/TextAnalysisHub'));
+
 // ─── Dev Utility Tools (5 new) ────────────────────────────────────────────────
 const RobotsTxtTester         = lazy(() => import('./pages/tools/RobotsTxtTester'));
 const JsonPathFinder          = lazy(() => import('./pages/tools/JsonPathFinder'));
@@ -147,6 +157,8 @@ function ToolRouteWrapper() {
     'image-generator', 'ai-text-suite', 'invisible-text-suite',
     'snapchat-tag-generator', 'robots-txt-tester', 'json-path-finder',
     'regex-explainer', 'cron-expression-generator', 'redirect-chain-checker',
+    'text-cleaning-hub', 'text-converter-hub', 'text-analysis-hub', 
+    'text-utility-hub', 'pdf-tools-hub', 'ai-tools-hub', 'generators-hub'
   ]);
 
   if (slug && HARDCODED_AI_SLUGS.has(slug)) {
@@ -174,10 +186,6 @@ function ScrollToTop() {
   return null;
 }
 
-const getToolPath = (tool: any) =>
-  tool.category === 'ai' || tool.category === 'generator'
-    ? `/tools/${tool.slug}`
-    : `/tool/${tool.slug}`;
 
 // ─── Category themes (extracted so it's not recreated on every render) ────────
 const CATEGORY_THEMES: Record<
@@ -502,6 +510,64 @@ function AppContent() {
                 </RouteErrorBoundary>
               }
             />
+
+            {/* Premium Hub Suites routes */}
+            <Route
+              path="/tools/text-cleaning-hub"
+              element={
+                <RouteErrorBoundary>
+                  <TextCleaningHub />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/tools/text-converter-hub"
+              element={
+                <RouteErrorBoundary>
+                  <TextConverterHub />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/tools/text-analysis-hub"
+              element={
+                <RouteErrorBoundary>
+                  <TextAnalysisHub />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/tools/text-utility-hub"
+              element={
+                <RouteErrorBoundary>
+                  <TextUtilityHub />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/tools/pdf-tools-hub"
+              element={
+                <RouteErrorBoundary>
+                  <PDFToolsHub />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/tools/ai-tools-hub"
+              element={
+                <RouteErrorBoundary>
+                  <AIToolsHub />
+                </RouteErrorBoundary>
+              }
+            />
+            <Route
+              path="/tools/generators-hub"
+              element={
+                <RouteErrorBoundary>
+                  <GeneratorsHub />
+                </RouteErrorBoundary>
+              }
+            />
             <Route
               path="/tools/face-swap"
               element={
@@ -760,6 +826,17 @@ function AppContent() {
               }
             />
 
+            {/* ── Generated Tool Pages — /:slug से पहले रखना जरूरी है ── */}
+            {/* image-size-reducer को /:slug से पहले रखो — वरना /:slug पहले match होगा और page कभी load नहीं होगा (dead route bug) */}
+            <Route
+              path="/tool/image-size-reducer"
+              element={
+                <RouteErrorBoundary>
+                  <ImageSizeReducerPage />
+                </RouteErrorBoundary>
+              }
+            />
+
             {/* /:slug — canonical URLs (pages.json में जो URLs हैं वो directly work करें) */}
             <Route
               path="/:slug"
@@ -769,9 +846,6 @@ function AppContent() {
                 </RouteErrorBoundary>
               }
             />
-
-            {/* * wildcard हटाया — /:slug route ऊपर NotFound handle करता है */}
-          <Route path="/tool/image-size-reducer" element={<RouteErrorBoundary><ImageSizeReducerPage /></RouteErrorBoundary>} />
           </Routes>
         </Suspense>
       </main>
@@ -1010,6 +1084,17 @@ function App() {
   // reducedMotion=true होने पर framer-motion सभी animations instantly complete करेगा
   // यह large screen blank fix करता है जहाँ whileInView viewport से बाहर था
   const reducedMotion = shouldReduceAnimations();
+
+  useEffect(() => {
+    const loader = document.getElementById('texly-boot-loader');
+    if (loader) {
+      loader.style.opacity = '0';
+      const timer = setTimeout(() => {
+        loader.remove();
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   return (
     <ErrorBoundary>

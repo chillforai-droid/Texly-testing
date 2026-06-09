@@ -1,0 +1,318 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build:client",
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/api/auto-index",
+      "destination": "/api/auto-index"
+    },
+    {
+      "source": "/api/ai/:path*",
+      "destination": "/api/ai"
+    },
+    {
+      "source": "/api/login",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/register",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/verify-auth",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/pages",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/pages/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/sitemap/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/links/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/logs",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/logs/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/config",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/config/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/gap-analyzer/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/generate-content",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/automation/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/github/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/android/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/database/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/models/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/keywords/:path*",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/api/robots"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    },
+    {
+      "source": "/api/seo-page",
+      "destination": "/api/seo-page"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/((?!api/|sitemap.xml|llms.txt|_next/|static/|assets/|favicon.ico).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "redirects": [
+    { "source": "/tool/json-formatter",              "destination": "/tool/json-formatter-online",           "permanent": true },
+    { "source": "/tool/word-counter",                "destination": "/tool/word-counter-online-free",        "permanent": true },
+    { "source": "/tool/word-counter-tool",           "destination": "/tool/word-counter-online-free",        "permanent": true },
+    { "source": "/tool/upper-case",                  "destination": "/tool/upper-case-converter",            "permanent": true },
+    { "source": "/tool/lower-case",                  "destination": "/tool/lower-case-converter",            "permanent": true },
+    { "source": "/tool/title-case",                  "destination": "/tool/title-case-converter",            "permanent": true },
+    { "source": "/tool/sentence-case",               "destination": "/tool/sentence-case-converter",         "permanent": true },
+    { "source": "/tool/camel-case",                  "destination": "/tool/camel-case-converter",            "permanent": true },
+    { "source": "/tool/snake-case",                  "destination": "/tool/snake-case-converter",            "permanent": true },
+    { "source": "/tool/kebab-case",                  "destination": "/tool/kebab-case-converter",            "permanent": true },
+    { "source": "/tool/pascal-case",                 "destination": "/tool/pascal-case-converter",           "permanent": true },
+    { "source": "/tool/alternating-case",            "destination": "/tool/alternating-case-converter",      "permanent": true },
+    { "source": "/tool/inverse-case",                "destination": "/tool/inverse-case-converter",          "permanent": true },
+    { "source": "/tool/image-to-text",               "destination": "/tool/image-to-text-extractor",         "permanent": true },
+    { "source": "/tool/remove-line-breaks",          "destination": "/tool/remove-line-breaks-tool",         "permanent": true },
+    { "source": "/tool/remove-duplicate-lines",      "destination": "/tool/remove-duplicate-lines-tool",     "permanent": true },
+    { "source": "/tool/remove-extra-spaces",         "destination": "/tool/remove-extra-spaces-online",      "permanent": true },
+    { "source": "/tool/remove-empty-lines",          "destination": "/tool/remove-empty-lines-online",       "permanent": true },
+    { "source": "/tool/remove-numbers",              "destination": "/tool/remove-numbers-from-text",        "permanent": true },
+    { "source": "/tool/remove-special-characters",   "destination": "/tool/remove-special-characters-online","permanent": true },
+    { "source": "/tool/remove-html-tags",            "destination": "/tool/remove-html-tags-online",         "permanent": true },
+    { "source": "/tool/remove-emojis",               "destination": "/tool/remove-emojis-online",            "permanent": true },
+    { "source": "/tool/remove-punctuation",          "destination": "/tool/remove-punctuation-tool",         "permanent": true },
+    { "source": "/tool/remove-accents",              "destination": "/tool/remove-accents-from-text",        "permanent": true },
+    { "source": "/tool/remove-duplicate-words",      "destination": "/tool/remove-duplicate-words-online",   "permanent": true },
+    { "source": "/tool/remove-whitespace",           "destination": "/tool/remove-all-whitespace-online",    "permanent": true },
+    { "source": "/tool/clean-text",                  "destination": "/tool/clean-text-online-free",          "permanent": true },
+    { "source": "/tool/trim-text",                   "destination": "/tool/trim-text-online",                "permanent": true },
+    { "source": "/tool/character-counter",           "destination": "/tool/character-counter-tool",          "permanent": true },
+    { "source": "/tool/letter-counter",              "destination": "/tool/letter-counter-online-free",      "permanent": true },
+    { "source": "/tool/line-counter",                "destination": "/tool/line-counter-online",             "permanent": true },
+    { "source": "/tool/sentence-counter",            "destination": "/tool/sentence-counter-online",         "permanent": true },
+    { "source": "/tool/paragraph-counter",           "destination": "/tool/paragraph-counter-online",        "permanent": true },
+    { "source": "/tool/reading-time",                "destination": "/tool/reading-time-calculator-online",  "permanent": true },
+    { "source": "/tool/base64-encode",               "destination": "/tool/base64-encode-online",            "permanent": true },
+    { "source": "/tool/base64-decode",               "destination": "/tool/base64-decode-online",            "permanent": true },
+    { "source": "/tool/url-encode",                  "destination": "/tool/url-encode-online",               "permanent": true },
+    { "source": "/tool/url-decode",                  "destination": "/tool/url-decode-online",               "permanent": true },
+    { "source": "/tool/binary-to-text",              "destination": "/tool/binary-to-text-converter",        "permanent": true },
+    { "source": "/tool/text-to-binary",              "destination": "/tool/text-to-binary-converter",        "permanent": true },
+    { "source": "/tool/morse-code",                  "destination": "/tool/morse-code-translator",           "permanent": true },
+    { "source": "/tool/rot13",                       "destination": "/tool/rot13-cipher-online",             "permanent": true },
+    { "source": "/tool/slug-generator",              "destination": "/tool/slug-generator-online-free",      "permanent": true },
+    { "source": "/tool/military-alphabet",           "destination": "/tool/military-alphabet-converter",     "permanent": true },
+    { "source": "/tool/nato-alphabet",               "destination": "/tool/nato-phonetic-alphabet-translator","permanent": true },
+    { "source": "/tool/upside-down-text",            "destination": "/tool/upside-down-text-generator",      "permanent": true },
+    { "source": "/tool/mirror-text",                 "destination": "/tool/mirror-text-generator",           "permanent": true },
+    { "source": "/tool/fancy-text",                  "destination": "/tool/fancy-text-generator-online",     "permanent": true },
+    { "source": "/tool/zalgo-text",                  "destination": "/tool/zalgo-text-generator",            "permanent": true },
+    { "source": "/tool/ascii-banner",                "destination": "/tool/ascii-banner-generator",          "permanent": true },
+    { "source": "/tool/braille-translator",          "destination": "/tool/braille-translator-online",       "permanent": true },
+    { "source": "/tool/invisible-text",              "destination": "/tool/invisible-text-generator",        "permanent": true },
+    { "source": "/tool/qr-code-generator",           "destination": "/tool/qr-code-generator-online",        "permanent": true },
+    { "source": "/tool/lorem-ipsum-generator",       "destination": "/tool/lorem-ipsum-generator-online",    "permanent": true },
+    { "source": "/tool/lorem-ipsum",                 "destination": "/tool/lorem-ipsum-generator-online",    "permanent": true },
+    { "source": "/tool/random-string-generator",     "destination": "/tool/random-string-generator-online",  "permanent": true },
+    { "source": "/tool/random-string",               "destination": "/tool/random-string-generator-online",  "permanent": true },
+    { "source": "/tool/password-generator",          "destination": "/tool/password-generator-strength-meter","permanent": true },
+    { "source": "/tool/unit-converter",              "destination": "/tool/unit-converter-online",           "permanent": true },
+    { "source": "/tool/age-calculator",              "destination": "/tool/age-calculator-online",           "permanent": true },
+    { "source": "/tool/color-palette",               "destination": "/tool/color-palette-generator-online",  "permanent": true },
+    { "source": "/tool/sort-lines",                  "destination": "/tool/sort-lines-alphabetically",       "permanent": true },
+    { "source": "/tool/find-and-replace",            "destination": "/tool/find-and-replace-text-online",    "permanent": true },
+    { "source": "/tool/add-prefix-suffix",           "destination": "/tool/add-prefix-suffix-to-lines",      "permanent": true },
+    { "source": "/tool/text-to-list",                "destination": "/tool/text-to-list-converter",          "permanent": true },
+    { "source": "/tool/text-reverser",               "destination": "/tool/text-reverser-online",            "permanent": true },
+    { "source": "/tool/text-repeater",               "destination": "/tool/text-repeater-tool",              "permanent": true },
+    { "source": "/tool/markdown-to-text",            "destination": "/tool/markdown-to-plain-text",          "permanent": true },
+    { "source": "/tool/text-diff",                   "destination": "/tool/text-diff-checker-online",        "permanent": true },
+    { "source": "/tool/text-to-json",                "destination": "/tool/text-to-json-converter-online",   "permanent": true },
+    { "source": "/tool/json-to-text",                "destination": "/tool/json-to-text-converter",          "permanent": true },
+    { "source": "/tool/csv-to-json",                 "destination": "/tool/csv-to-json-converter",           "permanent": true },
+    { "source": "/tool/json-to-csv",                 "destination": "/tool/json-to-csv-converter-online",    "permanent": true },
+    { "source": "/tool/extract-emails",              "destination": "/tool/extract-emails-from-text",        "permanent": true },
+    { "source": "/tool/extract-urls",                "destination": "/tool/extract-urls-from-text",          "permanent": true },
+    { "source": "/tool/html-entity-encode",          "destination": "/tool/html-entity-encoder",             "permanent": true },
+    { "source": "/tool/html-entity-decode",          "destination": "/tool/html-entity-decoder",             "permanent": true },
+    { "source": "/tool/jwt-decoder",                 "destination": "/tool/jwt-decoder-online",              "permanent": true },
+    { "source": "/tool/sql-formatter",               "destination": "/tool/sql-formatter-online",            "permanent": true },
+    { "source": "/tool/whatsapp-formatter",          "destination": "/tool/whatsapp-text-formatter",         "permanent": true },
+    { "source": "/tool/number-to-words",             "destination": "/tool/number-to-words-converter",       "permanent": true },
+    { "source": "/tool/youtube-timestamp",           "destination": "/tool/youtube-timestamp-generator",     "permanent": true },
+    { "source": "/tool/pdf-to-word",                 "destination": "/tool/pdf-to-word-converter",           "permanent": true },
+    { "source": "/tool/word-to-pdf",                 "destination": "/tool/word-to-pdf-converter",           "permanent": true },
+    { "source": "/tool/pdf-to-image",                "destination": "/tool/pdf-to-image-converter",          "permanent": true },
+    { "source": "/tool/image-to-pdf",                "destination": "/tool/image-to-pdf-converter",          "permanent": true },
+    { "source": "/tool/merge-pdf",                   "destination": "/tool/merge-pdf-online",                "permanent": true },
+    { "source": "/tool/split-pdf",                   "destination": "/tool/split-pdf-online",                "permanent": true },
+    { "source": "/tool/compress-pdf",                "destination": "/tool/compress-pdf-online",             "permanent": true },
+    { "source": "/tool/rotate-pdf",                  "destination": "/tool/rotate-pdf-online",               "permanent": true },
+    { "source": "/tool/remove-pdf-password",         "destination": "/tool/remove-pdf-password-online",      "permanent": true },
+    { "source": "/tool/pdf-to-excel",                "destination": "/tool/pdf-to-excel-converter",          "permanent": true },
+    { "source": "/tool/excel-to-pdf",                "destination": "/tool/excel-to-pdf-converter",          "permanent": true },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "texlyonline.in" }],
+      "destination": "https://www.texlyonline.in/:path*",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "ALLOWALL"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors *"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Vary",
+          "value": "Accept-Encoding"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.png",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.ico",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/ads.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/llms.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/api/seo-page",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, s-maxage=3600, stale-while-revalidate=300"
+        }
+      ]
+    }
+  ]
+}

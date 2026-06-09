@@ -1,25 +1,22 @@
-import React, { useState, useRef, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { 
   Upload, 
   UserCircle2, 
-  ArrowRight, 
   Download, 
   RefreshCw, 
   AlertCircle,
   CheckCircle2,
   Sparkles,
-  Info,
   ImageIcon,
   X
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { Client, handle_file } from "@gradio/client";
+import { Client } from "@gradio/client";
 import { addWatermarkToImage } from '../../utils/watermark';
 import AIToolSEOContent from '../../components/AIToolSEOContent';
 import BeforeAfterSlider from '../../components/BeforeAfterSlider';
 import SocialShare from '../../components/SocialShare';
-import RatingSystem from '../../components/RatingSystem';
 import { useToolSuccess, useToolFailure } from '../../components/TexlyAI';
 
 const FaceSwap = () => {
@@ -85,20 +82,6 @@ const FaceSwap = () => {
     setProgress(10);
 
     try {
-      const imgbbKey = import.meta.env.VITE_IMGBB_API_KEY || "YOUR_IMGBB_API_KEY";
-      
-      const uploadToImgBB = async (file: File) => {
-        const formData = new FormData();
-        formData.append("image", file);
-        const res = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbKey}`, {
-          method: "POST",
-          body: formData
-        });
-        const data = await res.json();
-        if (!data.success) throw new Error("ImgBB upload failed: " + (data.error?.message || "Unknown error"));
-        return data.data.url;
-      };
-
       setProgress(20);
       
       const client = await Client.connect("Mahendra0160/TextlyOnline");
@@ -113,8 +96,9 @@ const FaceSwap = () => {
 
       setProgress(90);
 
-      if (result.data && result.data[0]) {
-        const output = result.data[0];
+      const resultData = result.data as any;
+      if (resultData && resultData[0]) {
+        const output = resultData[0];
         const finalImageUrl = typeof output === 'string' ? output : (output as any).url;
         
         if (finalImageUrl) {
@@ -382,7 +366,7 @@ const FaceSwap = () => {
                       <div className="w-64 h-2 bg-slate-800 rounded-full overflow-hidden">
                         <div 
                           className="h-full bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]"
-                          animate={{ width: `${progress}%` }}
+                          style={{ width: `${progress}%` }}
                         />
                       </div>
                     </div>

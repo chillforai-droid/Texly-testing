@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import imageCompression from 'browser-image-compression';
 import { 
@@ -17,7 +17,6 @@ import { Helmet } from 'react-helmet-async';
 import { addWatermarkToImage } from '../../utils/watermark';
 import AIToolSEOContent from '../../components/AIToolSEOContent';
 import SocialShare from '../../components/SocialShare';
-import RatingSystem from '../../components/RatingSystem';
 import { useToolSuccess, useToolFailure } from '../../components/TexlyAI';
 
 const ImageCompressor = () => {

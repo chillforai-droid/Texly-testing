@@ -28,9 +28,12 @@ const AboutUs = () => {
               We believe powerful tools should be accessible to everyone — for free, without sign-ups, 
               without subscriptions, and without your data ever leaving your browser. Texly was built 
               for students, writers, developers, designers, content creators, and anyone who works 
-              with text and images on a daily basis.
+              with text and images on a daily basis. 
             </p>
-            <p className="text-slate-600 dark:text-slate-300">
+            <p className="text-slate-600 dark:text-slate-300 mt-3">
+              By designing a client-first React &amp; TypeScript environment, our platform avoids heavy server-side processing queues. Over 90% of our calculation tasks run within volatile local browser memory threads, ensuring instant output renders with 100% data residency inside your personal machine.
+            </p>
+            <p className="text-slate-600 dark:text-slate-300 mt-3">
               With over <strong>50+ free tools</strong> covering everything from basic text formatting 
               to AI-powered content enhancement and PDF management, Texly is your one-stop platform 
               for everyday productivity.

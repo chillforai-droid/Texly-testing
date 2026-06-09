@@ -14,6 +14,40 @@ export interface ToolContent {
 }
 
 const toolSpecificDetails: Record<string, ToolContent> = {
+  'whatsapp-text-formatter': {
+    title: 'WhatsApp Text Formatter — Style *Bold*, _Italic_, ~Strikethrough~ & `Mono` Text',
+    metaDescription: 'Free online WhatsApp text formatting tool. Instantly format text as bold (*), italic (_), strikethrough (~), or monospace (``) for WhatsApp. Just copy & paste!',
+    h1: 'WhatsApp Text Formatter — Style Your Chat Text Instantly',
+    intro: 'Want to make your WhatsApp messages stand out? Whether you are writing a marketing message, a professional update, or a structured list for friends, standard plain text is easy to ignore. Our WhatsApp Text Formatter lets you easily style your strings in real-time. Craft attention-grabbing headlines in *Bold*, express emphasis in _Italics_, mark resolved actions in ~Strikethrough~, or present coding snippets/coupons in professional `Monospace` formatting. Simply type your text, select the words you want to emphasize, and click copy. We wrap everything in proper WhatsApp syntax so your message renders perfectly styled when pasted into any WhatsApp conversation.',
+    howToUse: [
+      'Type or paste your message into the rich formatting input box.',
+      'Use the intuitive toolbar buttons to add Bold, Italic, Strikethrough, or Code monospace wrappers to your selection.',
+      'Alternatively, type WhatsApp shortcuts directly (e.g., place asterisks around *bold text*).',
+      'Look at the live preview box to verify exactly how your styled text will look when received.',
+      'Click "Copy Styled Text" to grab the formatted output, paste it into WhatsApp, and send!'
+    ],
+    faqs: [
+      { q: 'How does WhatsApp text formatting work?', a: 'WhatsApp uses specific markdown characters to apply formatting styles: *bold* for bold text, _italics_ for italic text, ~strikethrough~ for strikethrough, and ```monospace``` for monospace code styles. Our tool automates wrapping so you don\'t have to remember these codes.' },
+      { q: 'Will these formatting styles work on WhatsApp Web and mobile?', a: 'Yes! All styles formatted using our tool are 100% compliant with standard official WhatsApp syntax and will render perfectly across Android, iOS, WhatsApp Web, desktop clients, and tablets alike.' },
+      { q: 'Can I combine multiple styles (e.g., bold and italic)?', a: 'Yes, WhatsApp supports combined formatting styles (for example, *_bold-italic_*). Simply apply both styles to the same word block and copy.' },
+      { q: 'Is there any limit to the message size?', a: 'None at all. You can format short greetings, mid-sized product launches, or extremely long updates without any character length restrictions.' },
+      { q: 'Is it free and personal-data safe?', a: 'Yes! The WhatsApp Text Formatter runs fully offline inside your local browser. Your private chat content is never sent to our servers, ensuring absolute privacy.' }
+    ],
+    benefits: [
+      'Increases message open rates and CTR with structured, attention-grabbing titles.',
+      'Creates beautiful visual hierarchy in long announcements and marketing templates.',
+      'Eliminates the need to memorize complex markup symbols.',
+      'Saves time with instant one-click copy and formatting adjustments.',
+      '100% Free with zero registration, ads, or usage caps.'
+    ],
+    useCases: [
+      'Structuring WhatsApp marketing campaigns, broadcast messages, and announcements.',
+      'Highlighting discounts, promo codes, and pricing tiers in business chats.',
+      'Drafting tidy lists, structured recipe instructions, or contact directories.',
+      'Emphasizing key dates, times, and meeting locations in group updates.'
+    ],
+    relatedTools: ['text-utility-hub', 'fancy-text', 'word-counter']
+  },
   'remove-extra-spaces': {
     title: 'Remove Extra Spaces Online - 1 Click Instant Text Cleaner',
     metaDescription: 'Messy text with double spaces? Fix it instantly! Our free tool removes all extra whitespace in 1 click. No login, 100% private. Clean your text now!',

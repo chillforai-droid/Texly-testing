@@ -44,7 +44,8 @@ app.use(helmet({
 // Gzip Compression
 app.use(compression());
 
-app.use(express.json());
+app.use(express.json({ limit: "25mb" }));
+app.use(express.urlencoded({ limit: "25mb", extended: true }));
 
 // Helper for email validation
 const isValidEmail = (email: string) => {
@@ -613,6 +614,4 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 });
 
 // Vercel Serverless Function handler
-export default function handler(req: any, res: any) {
-  return app(req, res);
-}
+export default app;

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { ALL_TOOLS } from '../data/tools';
+import { getToolPath } from '../utils/toolPaths';
 import { Zap, Twitter, Github, Mail, ArrowUpRight, Download, Smartphone } from 'lucide-react';
 
 // YouTube SVG icon
@@ -20,11 +21,6 @@ const FacebookIcon = () => (
 
 const Footer: React.FC = () => {
   const { t } = useLanguage();
-
-  const getToolPath = (tool: any) => {
-    if (tool.category === 'ai' || tool.category === 'generator') return `/tools/${tool.slug}`;
-    return `/tool/${tool.slug}`;
-  };
 
   const cleaningTools = ALL_TOOLS.filter(t => t.category === 'cleaning').slice(0, 5);
   const converterTools = ALL_TOOLS.filter(t => t.category === 'converter').slice(0, 5);

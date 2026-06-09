@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { 
   Upload, 
@@ -18,7 +18,6 @@ import { addWatermarkToImage } from '../../utils/watermark';
 import AIToolSEOContent from '../../components/AIToolSEOContent';
 import BeforeAfterSlider from '../../components/BeforeAfterSlider';
 import SocialShare from '../../components/SocialShare';
-import RatingSystem from '../../components/RatingSystem';
 import { useToolSuccess, useToolFailure } from '../../components/TexlyAI';
 
 const ImageEnhancer = () => {
@@ -75,8 +74,9 @@ const ImageEnhancer = () => {
       setProgress(90);
 
       // The API returns [original, enhanced]
-      if (result.data && result.data[1]) {
-        const output = result.data[1];
+      const resultData = result.data as any[];
+      if (resultData && resultData[1]) {
+        const output = resultData[1];
         const finalImageUrl = typeof output === 'string' ? output : (output as any).url;
         
         if (finalImageUrl) {
@@ -302,7 +302,7 @@ const ImageEnhancer = () => {
                       <div className="w-64 h-2 bg-slate-800 rounded-full overflow-hidden">
                         <div 
                           className="h-full bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]"
-                          animate={{ width: `${progress}%` }}
+                          style={{ width: `${progress}%` }}
                         />
                       </div>
                     </div>

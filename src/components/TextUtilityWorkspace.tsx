@@ -1028,12 +1028,96 @@ function InvisibleTextUI() {
 // ─── WhatsApp Text Formatter — Fully Rewritten (Mobile-First + SEO) ──────────
 function WhatsAppFormatterUI({ example }: TextUtilityWorkspaceProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [input, setInput]         = useState('');
-  const [preview, setPreview]     = useState(false);
-  const [copied, setCopied]       = useState(false);
-  const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
-  const [activeTab, setActiveTab] = useState<'format' | 'templates' | 'tips' | 'faq'>('format');
-  const [openFaq, setOpenFaq]     = useState<number | null>(null);
+  const [input, setInput]                 = useState('');
+  const [preview, setPreview]             = useState(false);
+  const [copied, setCopied]               = useState(false);
+  const [copiedIdx, setCopiedIdx]         = useState<number | null>(null);
+  const [activeTab, setActiveTab]         = useState<'format' | 'templates' | 'tips' | 'faq'>('format');
+  const [openFaq, setOpenFaq]             = useState<number | null>(null);
+
+  // Advanced States
+  const [phoneNumber, setPhoneNumber]     = useState('');
+  const [phoneCountry, setPhoneCountry]   = useState('91');
+  const [copiedLink, setCopiedLink]       = useState(false);
+  const [copiedFontKey, setCopiedFontKey] = useState<string | null>(null);
+  const [activeSubSection, setActiveSubSection] = useState<'fonts' | 'decorations' | 'emojis' | 'direct'>('fonts');
+
+  /* ── helper: map text to Unicode fancy alphanumeric styles ── */
+  const convertToFancy = (txt: string, fontType: string) => {
+    if (!txt) return '';
+    const normal = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const fonts: Record<string, string> = {
+      boldSans: "𝗮𝗯𝗰𝗱𝗲𝗳𝗴𝗵𝗶𝗷𝗸𝗹𝗺𝗻𝗼𝗽𝗾𝗿𝘀𝘁𝘂𝘃𝘄𝘅𝘆𝘇𝗔𝗕𝗖𝗗𝗘𝗙𝗚𝗛𝗜𝗝𝗞𝗟𝗠𝗡𝗢𝗣𝗤𝗥𝗦𝗧𝗨𝗩𝗪𝗫𝗬𝗭𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴𝟵",
+      doubleStruck: "𝕒𝕓𝕔𝕕𝕖𝕗𝕘𝕙𝕚𝕛𝕜𝕝𝕞𝕟𝕠𝕡𝕢𝕣𝕤𝕥𝕦𝕧𝕨𝕩𝕪𝕫𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡",
+      cursive: "𝒶𝒷𝒸𝒹𝑒𝒻𝑔𝒽𝒾𝒿𝓀𝓁𝓂𝓃𝑜𝓅𝓆𝓇𝓈𝓉𝓊𝓋𝓌𝓍𝓎𝓏𝒜ℬ𝒞𝒟ℰℱ𝒢ℋℐ𝒥𝒦ℒℳ𝒩𝒪𝒫𝒬ℛ𝒮𝒯𝒰𝒱𝒲𝒳𝒴𝒵𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡",
+      circled: "ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩⒶⒷⒸⒹⒺⒻ𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝒯𝕌𝒱𝒲𝕏𝕐ℤ⓪①②③④⑤⑥⑦⑧⑨",
+      gothic: "𝔞𝔟𝔠𝔡𝔢𝔣𝔤𝔥𝔦𝔧𝔨𝔩𝔪𝔫𝔬𝔭𝔮𝔯𝔰𝔱𝔲𝔳𝔴𝔵𝔶𝔷𝔄𝔅ℭ𝔇𝔈𝔉𝔊𝔋𝔌𝔍𝔎𝔏𝔐𝔑𝔒𝔓𝔔ℜ𝔖𝔗𝔘𝔙𝔚𝔛𝔜𝔩𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡",
+      smallCaps: "ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ0123456789",
+      typewriter: "𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝚝𝚞𝚟𝚠𝚡𝚢𝚣𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿",
+    };
+    const replacement = fonts[fontType];
+    if (!replacement) return txt;
+
+    const replaceArr = Array.from(replacement);
+    return Array.from(txt).map(char => {
+      const idx = normal.indexOf(char);
+      if (idx !== -1) {
+        return replaceArr[idx] || char;
+      }
+      return char;
+    }).join('');
+  };
+
+  /* ── Advanced: Insert text / emojis / border at current selection cursor ── */
+  const insertTextAtCursor = useCallback((textToInsert: string) => {
+    const ta = textareaRef.current;
+    if (!ta) {
+      setInput(p => p + textToInsert);
+      return;
+    }
+    const s = ta.selectionStart;
+    const e = ta.selectionEnd;
+    const textVal = ta.value;
+    const newText = textVal.substring(0, s) + textToInsert + textVal.substring(e);
+    setInput(newText);
+    const newPos = s + textToInsert.length;
+    setTimeout(() => {
+      ta.focus();
+      ta.setSelectionRange(newPos, newPos);
+    }, 0);
+  }, []);
+
+  /* ── Advanced: Case Transformations & Stems ── */
+  const applyTransform = useCallback((type: 'upper' | 'lower' | 'title' | 'sentence' | 'strip') => {
+    const ta = textareaRef.current;
+    if (!ta) return;
+    const s = ta.selectionStart, e = ta.selectionEnd;
+    const sel = ta.value.substring(s, e);
+    const targetText = sel || input;
+    if (!targetText) return;
+
+    let transformed = '';
+    if (type === 'upper') {
+      transformed = targetText.toUpperCase();
+    } else if (type === 'lower') {
+      transformed = targetText.toLowerCase();
+    } else if (type === 'title') {
+      transformed = targetText.replace(/\b\w/g, c => c.toUpperCase());
+    } else if (type === 'sentence') {
+      const trimmed = targetText.trim();
+      transformed = trimmed.charAt(0).toUpperCase() + trimmed.slice(1).toLowerCase();
+    } else if (type === 'strip') {
+      transformed = targetText.replace(/(\*\*\*|\*|_|~|```|`)/g, '');
+    }
+
+    if (sel) {
+      const pre = ta.value.substring(0, s), post = ta.value.substring(e);
+      setInput(pre + transformed + post);
+      setTimeout(() => { ta.focus(); ta.setSelectionRange(s, s + transformed.length); }, 0);
+    } else {
+      setInput(transformed);
+    }
+  }, [input]);
 
   /* ── apply / toggle format symbol around selection or full text ── */
   const applyFormat = useCallback((symbol: string) => {
@@ -1100,21 +1184,15 @@ function WhatsAppFormatterUI({ example }: TextUtilityWorkspaceProps) {
     { label: '{ }',  symbol: '```',  title: 'Code',          kbd: '``` ```',   color: 'bg-slate-700 hover:bg-slate-800',   textStyle: 'font-mono text-sm' },
   ];
 
-  const quickActions = [
-    { label: '🧹 Clear',   action: () => setInput(''), disabled: !input },
-    { label: '📄 Example', action: () => setInput('Hello! *This is bold* and _this is italic_.\n~Old price: ₹999~ → *New: ₹499* 🎉\nUse code: `SAVE50`'), disabled: false },
-    { label: preview ? '🙈 Hide Preview' : '👁️ Preview', action: () => setPreview(p => !p), disabled: !input },
-  ];
-
   const templates = [
     { label: '📢 Announcement', text: '*📢 Important Announcement*\n\nDear all,\n\n_Please note that_ our office will be *closed on Monday*.\n\nWe will resume on *Tuesday at 9:00 AM*.\n\nThank you! 🙏' },
-    { label: '✅ Task Update',  text: '*✅ Task Update*\n\nHello team,\n\nHere is today\'s status:\n\n• Task 1 — *Done* ✅\n• Task 2 — _In Progress_ 🔄\n• Task 3 — ~Cancelled~ ❌\n\nLet me know if you need anything!' },
-    { label: '🎉 Celebration',  text: '🎉 *Congratulations!* 🎉\n\n_You did an amazing job!_\n\nWe are so proud of your achievement. Keep it up! 💪\n\n*Well done!* 🏆' },
-    { label: '📅 Meeting',      text: '*📅 Meeting Reminder*\n\nHi,\n\n*Date:* _Monday, 10 June_\n*Time:* _3:00 PM IST_\n*Platform:* _Google Meet_\n\nPlease join on time. Thank you!' },
-    { label: '🛒 Offer',        text: '🛒 *Special Offer Just for You!* 🛒\n\n_Don\'t miss out!_\n\nGet *50% OFF* today only.\n\n~₹999~  *₹499*\n\n👉 Use code: `SAVE50`\n\n⏰ Offer ends at midnight!' },
-    { label: '👋 Introduction', text: '👋 *Hello, I am [Your Name]*\n\n_Nice to meet you!_\n\nI am a *[profession]* based in *[city]*.\n\nI specialize in:\n• [Skill 1]\n• [Skill 2]\n\nFeel free to reach out! 😊' },
-    { label: '🚨 Urgent Alert', text: '🚨 *URGENT*\n\nHi [Name],\n\n_Action required immediately._\n\nPlease review and respond to this ASAP.\n\n*Deadline:* Today by *6:00 PM*.\n\nThank you!' },
-    { label: '📦 Order Update', text: '*📦 Order Update*\n\nHi [Name],\n\nYour order *#12345* has been _dispatched_ ✅\n\n*Expected Delivery:* _2–3 business days_\n\nTrack here: [link]\n\nThank you for shopping with us! 🛍️' },
+    { label: '✅ Task Update',  text: '*✅ Task Status List*\n\nHello team,\n\nHere is today\'s update guidelines:\n\n• Task 1 — *Completed* ✅\n• Task 2 — _In Verification_ 🔄\n• Task 3 — ~Postponed~ ❌\n\nLet me know if you face queries! 😊' },
+    { label: '🎉 Celebration',  text: '🎉 *Happy Anniversary!*  🎉\n\n_You did an outstanding job this quarter!_\n\nWe are immensely grateful. Keep shining! 💪\n\n*Best regards!* 🏆' },
+    { label: '📅 Meeting',      text: '*📅 Work Meeting Notice*\n\nHi everyone,\n\n*Topic:* _Project Progress Review_\n*Time:* _Tomorrow at 11:30 AM IST_\n*Location:* _Google Meet Room_\n\nPlease make sure to arrive on schedule! 🙏' },
+    { label: '🛒 Brand Offer',  text: '🛒 *EXCLUSIVE CRASH DEALS!* 🛒\n\n_Today Only!_\n\nGet an absolute *40% FLAT DISCOUNT* on checkout.\n\n~₹1,999~  *₹1,199*\n\n👉 Use Voucher coupon: `TEXLY50`\n\n⏰ Hurry, supply lines are limited!' },
+    { label: '👋 Greetings',     text: '👋 *Hi, My name is [Your Name]!*\n\n_Pleased to connect with you._\n\nI am a professional developers based in *India*.\n\nMy primary technology stack:\n• React & Next.js\n• Python Rest API\n\nLet\'s chat! 😊' },
+    { label: '🚨 High Priority', text: '🚨 *URGENT COMPLIANCE NOTICE*\n\nAttention [Name],\n\n_Critical actions are required immediately._\n\n*Submission Deadline:* Tonight before *7:00 PM IST*.\n\nThank you!' },
+    { label: '📦 Dispatch Update', text: '*📦 Your Order is on the Way!*\n\nHi [Name],\n\nWe are happy to share that package *#TX-9482* is now _shipped_ ✅\n\n*ETA:* _Expected in 1-2 days_\n\nKeep track here: [link]\n\nThank you for choosing us! 🛍️' },
   ];
 
   const tips = [
@@ -1137,6 +1215,35 @@ function WhatsAppFormatterUI({ example }: TextUtilityWorkspaceProps) {
     { q: 'Does this WhatsApp formatter work on mobile?', a: 'Yes — our WhatsApp Text Formatter is fully mobile-responsive and works on all smartphones and tablets. It is designed to be fast and easy to use on touchscreens.' },
     { q: 'Is the WhatsApp Text Formatter free?', a: 'Yes, 100% free. No signup, no account, no limits. Format as many messages as you want — instantly, in your browser, for free.' },
   ];
+
+  const fancyFontOptions = [
+    { name: 'Bold Sans', key: 'boldSans' },
+    { name: 'Double Struck', key: 'doubleStruck' },
+    { name: 'Cursive', key: 'cursive' },
+    { name: 'Circled Rings', key: 'circled' },
+    { name: 'Gothic Medieval', key: 'gothic' },
+    { name: 'Small Caps', key: 'smallCaps' },
+    { name: 'Typewriter Mono', key: 'typewriter' }
+  ];
+
+  const decorations = [
+    { title: 'Stars Header', value: '★━━━━━━━━━━━━━━━━━━━━★\n' },
+    { title: 'Ribbon Hearts', value: '♥♥ ━━━━━━━━━━━━━━ ♥♥\n' },
+    { title: 'Sparkle Box', value: '✨ ────────────────── ✨\n' },
+    { title: 'Diamond Arrow', value: '✦ ──── ❖ ──── ✦\n' },
+    { title: 'Zig Zag Line', value: '﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏\n' },
+    { title: 'Ornamental wings', value: '꧁ ❃ ' },
+    { title: 'Golden Crown', value: '👑 ─── [ ' },
+    { title: 'Thick waves', value: '▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀\n' },
+  ];
+
+  const emojiGroups = {
+    '💬 Quick Expression': ['😊', '👍', '😂', '❤️', '🙏', '👀', '🔥', '🤔', '📌', '💡'],
+    '📢 Alerts & Points': ['⚠️', '🚨', '🛑', '💯', 'ℹ️', '📣', '💎', '⏳', '📌', '⚡'],
+    '🎉 Festive & Party': ['🎉', '✨', '🎁', '🎂', '🎈', '🥳', '🏆', '⭐', '👑', '🚀'],
+    '💼 Status & Logistics': ['✅', '❌', '📅', '⏰', '📦', '🛒', '🏢', '💻', '📊', '📞'],
+    '🌸 Decor Accents': ['👉', '•', '➜', '🌟', '🌸', '⚡', '🍀', '💥', '🌀', '💠']
+  };
 
   const wordCount = input.trim() ? input.trim().split(/\s+/).length : 0;
   const charCount = input.length;
@@ -1164,14 +1271,16 @@ function WhatsAppFormatterUI({ example }: TextUtilityWorkspaceProps) {
 
       {/* ══════════════ FORMAT TAB ══════════════ */}
       {activeTab === 'format' && (
-        <div className="space-y-3 sm:space-y-4">
+        <div className="space-y-4 sm:space-y-5">
 
-          {/* Mobile hint */}
-          <div className="flex items-start gap-2.5 p-3 bg-[#25D366]/10 border border-[#25D366]/25 rounded-xl">
-            <span className="text-lg flex-shrink-0 mt-0.5">💬</span>
-            <p className="text-xs text-emerald-800 dark:text-emerald-300 leading-relaxed">
-              <strong>Mobile:</strong> Tap &amp; hold to select text, then tap a button. <strong>Desktop:</strong> Select text with mouse, then click a button.
-            </p>
+          {/* Quick transforms toolbar */}
+          <div className="flex flex-wrap gap-1.5 items-center bg-slate-100/80 dark:bg-slate-800/30 p-2 rounded-2xl border border-slate-200/50 dark:border-slate-800/50">
+            <span className="text-[10px] uppercase font-black tracking-widest text-[#25D366] px-1.5 font-sans">🔠 CASE ACTIONS:</span>
+            <button onClick={() => applyTransform('upper')} className="px-2.5 py-1 text-[11px] font-bold uppercase rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">A-Z</button>
+            <button onClick={() => applyTransform('lower')} className="px-2.5 py-1 text-[11px] font-bold lowercase rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">a-z</button>
+            <button onClick={() => applyTransform('title')} className="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">Title</button>
+            <button onClick={() => applyTransform('sentence')} className="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">Sentence</button>
+            <button onClick={() => applyTransform('strip')} className="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-900/40 hover:bg-rose-100 transition-colors" title="Remove bold, italics, strikes symbols">🚫 Stripped</button>
           </div>
 
           {/* Format buttons — full row, big tap targets on mobile */}
@@ -1192,26 +1301,26 @@ function WhatsAppFormatterUI({ example }: TextUtilityWorkspaceProps) {
           <div className="rounded-2xl border-2 border-[#25D366]/30 dark:border-[#25D366]/20 overflow-hidden bg-white dark:bg-slate-900 focus-within:border-[#25D366] transition-colors shadow-sm">
             {/* Header */}
             <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-[#075E54]">
-              <span className="text-xs font-black text-white/80 uppercase tracking-widest">✏️ Your Message</span>
+              <span className="text-xs font-black text-white/90 uppercase tracking-widest">✏️ Composition Console</span>
               <div className="flex items-center gap-2">
-                <button onClick={() => setInput(example || 'Hello! *This is bold* and _this is italic_.\n~Old: ₹999~ → *New: ₹499* 🎉\nUse code: `SAVE50`')}
-                  className="text-[10px] font-black text-white/60 hover:text-white transition-colors uppercase tracking-widest touch-manipulation">
+                <button onClick={() => setInput('Hello! *This is bold* and _this is italic_.\n~Old: ₹999~ → *New: ₹499* 🎉\nUse code: `SAVE50`')}
+                  className="text-[10px] font-black text-white/70 hover:text-white transition-colors uppercase tracking-widest touch-manipulation">
                   Example
                 </button>
                 {input && (
                   <button onClick={() => setInput('')}
-                    className="text-[10px] font-black text-white/60 hover:text-rose-300 transition-colors uppercase tracking-widest flex items-center gap-1 touch-manipulation">
+                    className="text-[10px] font-black text-white/70 hover:text-rose-300 transition-colors uppercase tracking-widest flex items-center gap-1 touch-manipulation">
                     <Trash2 className="w-3 h-3" /> Clear
                   </button>
                 )}
               </div>
             </div>
-            {/* Textarea — min-height bigger on mobile for touch ease */}
+            {/* Textarea */}
             <textarea
               ref={textareaRef}
               value={input}
               onChange={e => setInput(e.target.value)}
-              placeholder="Type or paste your WhatsApp message here... then select text &amp; tap a format button above."
+              placeholder="Type or paste your WhatsApp message here... Highlight text to apply formatting using buttons above."
               rows={6}
               inputMode="text"
               className="w-full px-3 sm:px-4 py-3 bg-transparent resize-y font-mono text-sm sm:text-base text-slate-700 dark:text-slate-300 focus:outline-none leading-relaxed placeholder:text-slate-400 dark:placeholder:text-slate-600 min-h-[140px] sm:min-h-[160px]"
@@ -1243,19 +1352,237 @@ function WhatsAppFormatterUI({ example }: TextUtilityWorkspaceProps) {
             </div>
           </div>
 
+          {/* 🪄 WhatsApp Text Enhancers Sub-Tabbed Sections */}
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 rounded-2xl p-4 shadow-sm space-y-4">
+            <div className="flex border-b border-slate-100 dark:border-slate-800/80 pb-2 overflow-x-auto no-scrollbar gap-1">
+              <button
+                type="button"
+                onClick={() => setActiveSubSection('fonts')}
+                className={`py-1.5 px-3 rounded-xl text-[11px] font-black uppercase tracking-wider transition-all whitespace-nowrap ${
+                  activeSubSection === 'fonts'
+                    ? 'bg-[#25D366]/10 text-[#25D366]'
+                    : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                }`}
+              >
+                🌟 Fancy Fonts
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveSubSection('decorations')}
+                className={`py-1.5 px-3 rounded-xl text-[11px] font-black uppercase tracking-wider transition-all whitespace-nowrap ${
+                  activeSubSection === 'decorations'
+                    ? 'bg-[#25D366]/10 text-[#25D366]'
+                    : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                }`}
+              >
+                🎨 Borders & Decors
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveSubSection('emojis')}
+                className={`py-1.5 px-3 rounded-xl text-[11px] font-black uppercase tracking-wider transition-all whitespace-nowrap ${
+                  activeSubSection === 'emojis'
+                    ? 'bg-[#25D366]/10 text-[#25D366]'
+                    : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                }`}
+              >
+                😊 Emojis Board
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveSubSection('direct')}
+                className={`py-1.5 px-3 rounded-xl text-[11px] font-black uppercase tracking-wider transition-all whitespace-nowrap ${
+                  activeSubSection === 'direct'
+                    ? 'bg-[#25D366]/10 text-[#25D366]'
+                    : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
+                }`}
+              >
+                📲 Direct Link Send
+              </button>
+            </div>
+
+            {/* ── SUBSECTION: FANCY FONTS ── */}
+            {activeSubSection === 'fonts' && (
+              <div className="space-y-3">
+                <p className="text-[11px] text-slate-400 leading-normal">
+                  Our advanced unicode generator outputs 7 alternative styles for your message! Tap to apply back to composer or duplicate.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                  {fancyFontOptions.map((opt) => {
+                    const sampleText = input || 'Type text to format...';
+                    const formatted = convertToFancy(sampleText, opt.key);
+                    return (
+                      <div key={opt.key} className="p-3 bg-slate-50/50 dark:bg-slate-800/20 border border-slate-100 dark:border-slate-800 rounded-xl flex flex-col justify-between gap-2.5">
+                        <div className="space-y-1">
+                          <span className="text-[9px] uppercase font-bold tracking-widest text-[#25D366]">{opt.name}</span>
+                          <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 break-words select-all line-clamp-3 leading-relaxed">
+                            {formatted}
+                          </p>
+                        </div>
+                        <div className="flex gap-1.5 pt-1 border-t border-slate-100/50 dark:border-slate-800/50">
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              await navigator.clipboard.writeText(formatted);
+                              setCopiedFontKey(opt.key);
+                              setTimeout(() => setCopiedFontKey(null), 1500);
+                            }}
+                            className={`flex-1 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all flex items-center justify-center gap-1 border border-slate-200 dark:border-slate-850 ${
+                              copiedFontKey === opt.key
+                                ? 'bg-emerald-500 text-white border-emerald-500'
+                                : 'bg-white dark:bg-slate-800 hover:bg-slate-50 text-slate-600 dark:text-slate-300'
+                            }`}
+                          >
+                            {copiedFontKey === opt.key ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                            {copiedFontKey === opt.key ? 'Copied' : 'Copy'}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setInput(formatted);
+                            }}
+                            className="px-3 py-1 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#25D366] rounded-lg text-[10px] font-black uppercase tracking-wider transition-all"
+                          >
+                            Use Text
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* ── SUBSECTION: DECORATIONS ── */}
+            {activeSubSection === 'decorations' && (
+              <div className="space-y-3">
+                <p className="text-[11px] text-slate-400">
+                  Click any ornament key below to insert structured divider boundaries at your cursor position!
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 pt-1">
+                  {decorations.map((decor, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => insertTextAtCursor(decor.value)}
+                      className="p-2 border border-slate-200 dark:border-slate-805 rounded-xl bg-slate-50/50 hover:bg-emerald-50/15 dark:bg-slate-800/10 dark:hover:bg-slate-800/30 transition-all font-mono text-[11px] text-slate-700 dark:text-slate-300 text-left hover:border-[#25D366]"
+                    >
+                      <div className="font-sans font-black text-[8px] text-[#25D366] uppercase tracking-wider mb-0.5 truncate">{decor.title}</div>
+                      <div className="truncate text-[10px]">{decor.value.trim() || 'Insert Wings'}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── SUBSECTION: EMOJIS ── */}
+            {activeSubSection === 'emojis' && (
+              <div className="space-y-3.5">
+                <p className="text-[11px] text-slate-400">
+                  Tap any curated emoji to add it. Extremely useful for formatting message hooks without shifting keyboards.
+                </p>
+                <div className="space-y-3">
+                  {Object.entries(emojiGroups).map(([groupName, emojis]) => (
+                    <div key={groupName} className="space-y-1">
+                      <div className="text-[9px] uppercase font-bold tracking-widest text-[#25D366]">{groupName}</div>
+                      <div className="flex flex-wrap gap-1">
+                        {emojis.map((emoji) => (
+                          <button
+                            key={emoji}
+                            type="button"
+                            onClick={() => insertTextAtCursor(emoji)}
+                            className="w-8 h-8 flex items-center justify-center text-lg bg-slate-50 dark:bg-slate-800/30 border border-slate-200/20 rounded-lg hover:border-[#25D366] hover:bg-emerald-50 dark:hover:bg-[#25D366]/5 transition-all text-center"
+                          >
+                            {emoji}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── SUBSECTION: DIRECT LINK SEND ── */}
+            {activeSubSection === 'direct' && (
+              <div className="space-y-3">
+                <div className="bg-[#25D366]/5 rounded-xl border border-[#25D366]/15 p-3 sm:p-4 space-y-3">
+                  <h4 className="text-xs font-black text-emerald-800 dark:text-emerald-300 flex items-center gap-1">
+                    <span>📲</span> Reach Unsaved Contacts & Share Links
+                  </h4>
+                  <p className="text-[11px] text-slate-500 leading-normal">
+                    WhatsApp restricts messaging unsaved contacts. Provide any target mobile phone number below to instantly connect or package a shareable bio URL containing the formatted output.
+                  </p>
+                  
+                  <div className="flex gap-2">
+                    <div className="w-16 sm:w-20">
+                      <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Prefix</label>
+                      <input
+                        type="text"
+                        placeholder="91"
+                        value={phoneCountry}
+                        onChange={(e) => setPhoneCountry(e.target.value.replace(/\D/g, ''))}
+                        className="w-full px-2 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:border-[#25D366]"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <label className="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Mobile Number</label>
+                      <input
+                        type="text"
+                        placeholder="9876543210"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ''))}
+                        className="w-full px-2.5 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-lg outline-none focus:border-[#25D366]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-2 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!phoneNumber) return;
+                        const fullNum = phoneCountry + phoneNumber;
+                        const url = `https://wa.me/${fullNum}?text=${encodeURIComponent(input)}`;
+                        window.open(url, '_blank', 'noreferrer,noopener');
+                      }}
+                      disabled={!phoneNumber}
+                      className="flex-1 py-1.5 px-4 bg-[#25D366] hover:bg-[#1ebe5c] disabled:opacity-40 text-white font-bold text-[11px] rounded-lg flex items-center justify-center gap-1 transition-all active:scale-95 uppercase tracking-wider"
+                    >
+                      🚀 Open Direct Chat
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const fullNum = phoneCountry + phoneNumber;
+                        const generatedUrl = `https://wa.me/${fullNum || 'YourNumber'}?text=${encodeURIComponent(input)}`;
+                        navigator.clipboard.writeText(generatedUrl);
+                        setCopiedLink(true);
+                        setTimeout(() => setCopiedLink(false), 2000);
+                      }}
+                      className="flex-1 py-1.5 px-4 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-[11px] rounded-lg flex items-center justify-center gap-1 transition-all active:scale-95 uppercase tracking-wider"
+                    >
+                      {copiedLink ? 'Copied URL!' : '🔗 Copy Share URL'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* WhatsApp preview panel */}
           {preview && input && (
             <div className="rounded-2xl border-2 border-[#25D366]/30 overflow-hidden shadow-sm">
               <div className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-[#075E54]">
                 <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-[10px] font-black text-white/80 uppercase tracking-widest">WhatsApp Preview</span>
-                <span className="text-[9px] text-white/40 ml-1 hidden sm:inline">(How it looks in WhatsApp)</span>
+                <span className="text-[10px] font-black text-white/80 uppercase tracking-widest">WhatsApp Live Preview</span>
+                <span className="text-[9px] text-white/40 ml-1 hidden sm:inline">(Simulated Chat Screen)</span>
               </div>
               {/* Simulated WhatsApp chat background */}
-              <div className="px-3 sm:px-4 py-4 sm:py-5"
+              <div className="px-3 sm:px-4 py-4"
                 style={{ background: '#E5DDD5', backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'300\' height=\'300\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M0 0h300v300H0z\' fill=\'%23E5DDD5\'/%3E%3C/svg%3E")' }}>
                 <div className="flex justify-end">
-                  <div className="max-w-[85%] sm:max-w-[75%] bg-[#DCF8C6] rounded-2xl rounded-tr-sm px-3 sm:px-4 py-2 sm:py-2.5 shadow-sm">
+                  <div className="max-w-[85%] sm:max-w-[75%] bg-[#DCF8C6] rounded-2xl rounded-tr-sm px-3 sm:px-4 py-2 shadow-sm">
                     <div className="text-sm sm:text-base text-slate-800 leading-relaxed break-words"
                       dangerouslySetInnerHTML={{ __html: renderPreview(input) }} />
                     <div className="text-right text-[10px] text-slate-500 mt-1 flex items-center justify-end gap-1">
@@ -1312,10 +1639,10 @@ function WhatsAppFormatterUI({ example }: TextUtilityWorkspaceProps) {
             <ol className="space-y-2">
               {[
                 'Type or paste your WhatsApp message in the text box.',
-                'On mobile: tap &amp; hold to select the text you want to format. On desktop: click and drag to select.',
-                'Tap one of the 5 buttons above — Bold (B), Italic (I), Strikethrough (S), Monospace, or Code Block.',
-                'Toggle the Preview button to see exactly how it will look inside WhatsApp.',
-                'Tap the big green Copy button and paste directly into any WhatsApp chat.',
+                'Use the Case modifiers buttons to convert cases or strip markers.',
+                'Highlight text to apply formatting using bold, italic, or strike buttons.',
+                'Browse <strong>Fancy Fonts</strong> to convert your message using beautiful Unicode symbols.',
+                'Copy and paste with one-tap or use the <strong>Direct Link Send</strong> to initiate unsaved contacts chats instantly.',
               ].map((step, i) => (
                 <li key={i} className="flex items-start gap-3 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
                   <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#25D366] text-white text-xs font-black flex items-center justify-center mt-0.5">{i+1}</span>

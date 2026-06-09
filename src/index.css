@@ -174,9 +174,9 @@
   .dark .absolute {
     will-change: auto !important;
   }
-  /* Gradient cards — clean compositing */
-  .dark .rounded-2xl,
-  .dark .rounded-3xl {
+  /* Gradient cards — clean compositing if explicitly flagged */
+  .dark .force-gpu,
+  .dark .tool-card {
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
     backface-visibility: hidden;
@@ -200,8 +200,8 @@
     will-change: auto !important;
   }
 
-  .dark .rounded-2xl,
-  .dark .rounded-3xl {
+  .dark .force-gpu,
+  .dark .tool-card {
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
     backface-visibility: hidden;

@@ -8,14 +8,30 @@ import {
   Star,
   ChevronRight
 } from 'lucide-react';
-import { getSEOData } from '../data/seo';
+import { getSEOData, getSEOContent } from '../data/seo';
+import { ALL_TOOLS } from '../data/tools';
+import { useLanguage } from '../context/LanguageContext';
 
 interface AIToolSEOContentProps {
   toolId: string;
 }
 
 const AIToolSEOContent: React.FC<AIToolSEOContentProps> = ({ toolId }) => {
-  const seoData = getSEOData(toolId);
+  const { t } = useLanguage();
+  const tool = ALL_TOOLS.find((item) => item.id === toolId);
+  let seoData = getSEOData(toolId);
+
+  if (!seoData && tool) {
+    seoData = getSEOContent(
+      tool.id,
+      tool.name,
+      tool.primaryKeyword || tool.name.toLowerCase(),
+      t,
+      tool.secondaryKeywords || [],
+      tool.description,
+      tool.category
+    );
+  }
 
   if (!seoData) return null;
 

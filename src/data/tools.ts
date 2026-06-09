@@ -2,7 +2,7 @@ export interface Tool {
   id: string;
   name: string;
   slug: string;
-  category: 'cleaning' | 'converter' | 'analysis' | 'utility' | 'pdf' | 'generator' | 'ai';
+  category: 'cleaning' | 'converter' | 'analysis' | 'utility' | 'pdf' | 'generator' | 'ai' | (string & {});
   description: string;
   shortDescription: string;
   icon: string;
@@ -24,13 +24,13 @@ export interface Tool {
 }
 
 export const CATEGORIES = [
-  { id: 'pdf', name: 'PDF Tools', icon: 'FileText', description: 'Edit, convert, and manage your PDF documents online.' },
-  { id: 'ai', name: 'AI Tools', icon: 'Sparkles', description: 'Powerful AI-powered image processing and generation tools.' },
-  { id: 'cleaning', name: 'Text Cleaning', icon: 'Trash2', description: 'Remove unwanted characters, spaces, and formatting.' },
-  { id: 'converter', name: 'Text Converter', icon: 'RefreshCw', description: 'Change text case and format instantly.' },
-  { id: 'analysis', name: 'Text Analysis', icon: 'BarChart3', description: 'Get detailed statistics and insights about your text.' },
-  { id: 'utility', name: 'Text Utility', icon: 'Wrench', description: 'Useful tools for everyday text manipulation.' },
-  { id: 'generator', name: 'Generators', icon: 'Layout', description: 'Create custom assets like QR codes and color palettes.' },
+  { id: 'pdf', name: 'PDF Tools', icon: 'FileText', description: 'Edit, convert, and manage your PDF documents online.', hubUrl: '/tools/pdf-tools-hub' },
+  { id: 'ai', name: 'AI Tools', icon: 'Sparkles', description: 'Powerful AI-powered image processing and generation tools.', hubUrl: '/tools/ai-tools-hub' },
+  { id: 'cleaning', name: 'Text Cleaning', icon: 'Trash2', description: 'Remove unwanted characters, spaces, and formatting.', hubUrl: '/tools/text-cleaning-hub' },
+  { id: 'converter', name: 'Text Converter', icon: 'RefreshCw', description: 'Change text case and format instantly.', hubUrl: '/tools/text-converter-hub' },
+  { id: 'analysis', name: 'Text Analysis', icon: 'BarChart3', description: 'Get detailed statistics and insights about your text.', hubUrl: '/tools/text-analysis-hub' },
+  { id: 'utility', name: 'Text Utility', icon: 'Wrench', description: 'Useful tools for everyday text manipulation.', hubUrl: '/tools/text-utility-hub' },
+  { id: 'generator', name: 'Generators', icon: 'Layout', description: 'Create custom assets like QR codes and color palettes.', hubUrl: '/tools/generators-hub' },
 ];
 
 export const TOOLS: Tool[] = [

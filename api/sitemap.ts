@@ -46,6 +46,13 @@ export default async function handler(req: any, res: any) {
     // Static Pages
     const staticPages = [
       { path: "/", priority: "1.0", changefreq: "daily" },
+      { path: "/tools/text-cleaning-hub", priority: "1.0", changefreq: "daily" },
+      { path: "/tools/text-converter-hub", priority: "1.0", changefreq: "daily" },
+      { path: "/tools/text-analysis-hub", priority: "1.0", changefreq: "daily" },
+      { path: "/tools/text-utility-hub", priority: "1.0", changefreq: "daily" },
+      { path: "/tools/pdf-tools-hub", priority: "1.0", changefreq: "daily" },
+      { path: "/tools/ai-tools-hub", priority: "1.0", changefreq: "daily" },
+      { path: "/tools/generators-hub", priority: "1.0", changefreq: "daily" },
       { path: "/ai-automation", priority: "0.7", changefreq: "monthly" },
       { path: "/blog", priority: "0.8", changefreq: "daily" },
       { path: "/remove-special-characters-online", priority: "0.95", changefreq: "weekly" },

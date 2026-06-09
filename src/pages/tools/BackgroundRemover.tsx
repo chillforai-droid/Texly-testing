@@ -16,7 +16,6 @@ import { addWatermarkToImage } from '../../utils/watermark';
 import AIToolSEOContent from '../../components/AIToolSEOContent';
 import BeforeAfterSlider from '../../components/BeforeAfterSlider';
 import SocialShare from '../../components/SocialShare';
-import RatingSystem from '../../components/RatingSystem';
 import { useToolSuccess, useToolFailure } from '../../components/TexlyAI';
 
 const BackgroundRemover = () => {
@@ -71,8 +70,9 @@ const BackgroundRemover = () => {
 
       setProgress(90);
 
-      if (result.data && result.data[0]) {
-        const output = result.data[0];
+      const resultData = result.data as any;
+      if (resultData && resultData[0]) {
+        const output = resultData[0];
         const finalImageUrl = typeof output === 'string' ? output : (output as any).url;
         
         if (finalImageUrl) {
@@ -293,7 +293,7 @@ const BackgroundRemover = () => {
                       <div className="w-48 h-2 bg-slate-800 rounded-full overflow-hidden">
                         <div 
                           className="h-full bg-blue-500"
-                          animate={{ width: `${progress}%` }}
+                          style={{ width: `${progress}%` }}
                         />
                       </div>
                     </div>
